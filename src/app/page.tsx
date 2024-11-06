@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react'
 import { useScroll } from '@/hooks/useScroll'
+import MountainScene from '@/components/scenes/Mountain'
 
 // Page metadata for dynamic routes
 export const dynamic = 'force-dynamic'
@@ -45,7 +46,7 @@ export default function Home() {
 
       {/* Mountain Scene Section */}
       <section className="relative h-screen">
-        {/* Mountain scene component will be added here */}
+        <MountainScene />
       </section>
 
       {/* About Section */}
