@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Custom CSS Variables */
+    --scroll-mt-header: 5rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-black text-white;
+    overflow-x: hidden;
+    /* Prevent scroll chaining */
+    overscroll-behavior-y: none;
+  }
+}
+
+@layer components {
+  .parallax-container {
+    @apply fixed top-0 left-0 w-full h-full pointer-events-none;
+    will-change: transform;
+  }
+
+  .scene-wrapper {
+    @apply relative min-h-screen w-full overflow-hidden;
+  }
+
+  .content-section {
+    @apply relative z-10 min-h-screen w-full px-4 md:px-8 py-24;
+  }
+}
+
+@layer utilities {
+  /* Custom scrollbar styling */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.gray.600') theme('colors.black');
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: theme('colors.black');
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: theme('colors.gray.600');
+    border-radius: 3px;
+  }
+
+  /* Smooth fade transitions */
+  .fade-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  /* Prevent animation during window resize */
+  .resize-animation-stopper * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Ensure smooth parallax performance */
+* {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Reduce motion if user prefers */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
