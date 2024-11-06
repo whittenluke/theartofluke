@@ -1,38 +1,30 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import Link from 'next/link'
+import { useScroll } from '@/hooks/useScroll'
 
 const Navigation = () => {
-  const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const { y, direction } = useScroll({
+    threshold: 50,
+    delay: 50
+  })
 
-  const controlNavbar = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      // Hide nav when scrolling down, show when scrolling up
-      const currentScrollY = window.scrollY
-      setIsVisible(currentScrollY < lastScrollY || currentScrollY < 100)
-      setLastScrollY(currentScrollY)
-    }
-  }, [lastScrollY])
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', controlNavbar)
-
-      // Cleanup
-      return () => {
-        window.removeEventListener('scroll', controlNavbar)
-      }
-    }
-  }, [controlNavbar])
+  // Simplified visibility logic
+  const isVisible = useCallback(() => {
+    // Always show at top
+    if (y < 100) return true
+    // Show when scrolling up
+    return direction === 'up'
+  }, [y, direction])
 
   return (
     <nav 
       className={`
         fixed top-0 left-0 w-full z-50 
-        transition-all duration-300 ease-in-out
-        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}
+        transition-all duration-500 ease-out
+        ${isVisible() ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}
+        ${y > 50 ? 'bg-black/75 backdrop-blur-sm' : 'bg-transparent'}
       `}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
