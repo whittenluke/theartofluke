@@ -44,20 +44,23 @@ export default function Home() {
         </Suspense>
       </section>
 
-      {/* Mountain Scene Section */}
+      {/* Mountain Scene Section - Now it can breathe! */}
       <section className="relative h-screen">
         <MountainScene />
       </section>
 
-      {/* About Section */}
-      <section className="relative min-h-screen bg-gradient-to-b from-mountain-base to-beach-water py-24">
-        {/* About content will be added here */}
-      </section>
+      {/* Moved the transition section AFTER the mountain scene's full height */}
+      <div className="relative">
+        {/* About Section with transition gradient */}
+        <section className="relative h-[20vh] bg-gradient-to-b from-mountain-base/80 to-beach-water/80 py-6">
+          {/* About content will be added here */}
+        </section>
 
-      {/* Beach Scene Section */}
-      <section className="relative h-screen">
-        {/* Beach scene component will be added here */}
-      </section>
+        {/* Beach Scene Section */}
+        <section className="relative h-screen">
+          {/* Beach scene component will be added here */}
+        </section>
+      </div>
 
       {/* Gallery Section */}
       <section className="relative min-h-screen bg-gradient-to-b from-beach-deep to-space-dark py-24">

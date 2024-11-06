@@ -7,40 +7,49 @@ const FarMountains = () => (
     preserveAspectRatio="xMidYMax slice"
   >
     <defs>
-      <linearGradient id="mountainGradient1" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#2B3544" />
-        <stop offset="100%" stopColor="#1F2937" />
+      <linearGradient id="farMountainGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#4A5568" />
+        <stop offset="100%" stopColor="#2D3748" />
+      </linearGradient>
+      
+      <linearGradient id="atmosphericGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#718096" />
+        <stop offset="100%" stopColor="#4A5568" />
       </linearGradient>
     </defs>
 
-    {/* Left mountain mass */}
+    {/* Furthest range - with MUCH taller, steeper left peak */}
     <path
-      d="M-100,800 
-         Q100,600 200,580
-         Q300,560 400,450
-         Q450,400 500,420
-         Q600,450 640,800 Z"
-      fill="url(#mountainGradient1)"
+      d="M-100 800
+         L 100 300
+         C 150 50, 200 50, 400 400
+         C 600 450, 800 400, 1000 350
+         C 1200 280, 1400 320, 1600 350
+         L 1600 800 L -100 800 Z"
+      fill="url(#atmosphericGradient)"
+      opacity="0.8"
     />
 
-    {/* Center dominant mountain */}
+    {/* Middle range - unchanged */}
     <path
-      d="M400,800
-         Q500,600 600,550
-         T750,350
-         Q850,300 900,350
-         Q950,400 1000,800 Z"
-      fill="#1F2937"
+      d="M-200 800
+         L -100 600
+         C 100 400, 300 450, 500 420
+         C 700 450, 900 400, 1100 450
+         C 1300 380, 1450 350, 1600 400
+         L 1600 800 L -200 800 Z"
+      fill="url(#farMountainGradient)"
+      opacity="0.9"
     />
 
-    {/* Right mountain mass */}
+    {/* Closest range - unchanged */}
     <path
-      d="M800,800
-         Q900,600 1000,550
-         Q1100,500 1200,450
-         Q1300,400 1350,450
-         Q1400,500 1440,800 Z"
-      fill="#374151"
+      d="M-150 800
+         C 0 600, 100 450, 300 500
+         C 500 550, 700 500, 900 520
+         C 1100 480, 1300 400, 1500 450
+         L 1600 500 L 1600 800 L -150 800 Z"
+      fill="#2D3748"
     />
   </svg>
 )
