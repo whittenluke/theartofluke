@@ -9,7 +9,11 @@ export default function Home() {
       {/* Initial landing section */}
       <section className="relative h-screen flex items-center justify-center bg-black">
         <Suspense fallback={<div className="text-white">Loading...</div>}>
-          <h1 className="text-6xl md:text-8xl text-white font-bold opacity-0 animate-fade-in">
+          <h1 
+            className="text-6xl md:text-8xl text-white font-bold 
+                       opacity-0 animate-fade-in [animation-duration:2s] 
+                       [animation-fill-mode:forwards]"
+          >
             The Art of Luke
           </h1>
         </Suspense>
