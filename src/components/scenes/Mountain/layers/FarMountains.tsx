@@ -7,49 +7,50 @@ const FarMountains = () => (
     preserveAspectRatio="xMidYMax slice"
   >
     <defs>
-      <linearGradient id="farMountainGradient" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#4A5568" />
-        <stop offset="100%" stopColor="#2D3748" />
+      <linearGradient id="mountainGradient1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#A3ADFF" />
+        <stop offset="100%" stopColor="#8E96FF" />
       </linearGradient>
       
-      <linearGradient id="atmosphericGradient" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#718096" />
-        <stop offset="100%" stopColor="#4A5568" />
+      <linearGradient id="mountainGradient2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#8E96FF" />
+        <stop offset="100%" stopColor="#7D84FF" />
+      </linearGradient>
+
+      <linearGradient id="mountainGradient3" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#7D84FF" />
+        <stop offset="100%" stopColor="#6B71FF" />
       </linearGradient>
     </defs>
 
-    {/* Furthest range - with MUCH taller, steeper left peak */}
+    {/* Back section: big mountains with high peaks */}
     <path
-      d="M-100 800
-         L 100 300
-         C 150 50, 200 50, 400 400
-         C 600 450, 800 400, 1000 350
-         C 1200 280, 1400 320, 1600 350
-         L 1600 800 L -100 800 Z"
-      fill="url(#atmosphericGradient)"
-      opacity="0.8"
-    />
-
-    {/* Middle range - unchanged */}
-    <path
-      d="M-200 800
-         L -100 600
-         C 100 400, 300 450, 500 420
-         C 700 450, 900 400, 1100 450
-         C 1300 380, 1450 350, 1600 400
-         L 1600 800 L -200 800 Z"
-      fill="url(#farMountainGradient)"
+      d="M-200 800 L-100 500 L0 300 L100 500 L200 200 L300 400 L400 100 
+         L500 300 L600 500 L1200 100 L1100 300 
+         L1200 50 L1300 200 L1400 100 L1500 300 L1600 200 L1700 400 L1800 300 
+         L1800 800 Z"
+      fill="url(#mountainGradient1)"
       opacity="0.9"
     />
 
-    {/* Closest range - unchanged */}
+    {/* Middle section: less high, different pattern */}
     <path
-      d="M-150 800
-         C 0 600, 100 450, 300 500
-         C 500 550, 700 500, 900 520
-         C 1100 480, 1300 400, 1500 450
-         L 1600 500 L 1600 800 L -150 800 Z"
-      fill="#2D3748"
+      d="M-200 800 L-100 600 L0 500 L100 650 L200 450 L300 600 L400 500 
+         L500 650 L800 500 L900 600 L1000 450 L1100 550 
+         L1200 500 L1300 600 L1400 550 L1500 650 L1600 550 L1700 600 L1800 500 
+         L1800 800 Z"
+      fill="url(#mountainGradient2)"
+      opacity="0.95"
+    />
+
+    {/* Closest section: different pattern, darker */}
+    <path
+      d="M-200 800 L-150 700 L-50 750 L50 650 L150 750 L250 700 L350 750 
+         L450 650 L550 700 L650 750 L750 650 L850 750 L950 700 L1050 750 
+         L1150 650 L1250 700 L1350 750 L1450 700 L1550 750 L1650 700 L1800 750 
+         L1800 800 Z"
+      fill="url(#mountainGradient3)"
+      opacity="1"
     />
   </svg>
 )
