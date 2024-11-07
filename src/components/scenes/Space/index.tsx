@@ -11,12 +11,12 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
   const { y } = useScroll()
 
   return (
-    <div className={`relative min-h-[300vh] overflow-hidden ${className}`}>
+    <div className={`relative min-h-[800vh] overflow-hidden ${className}`}>
       {/* Scene Container */}
-      <div className="sticky top-0 h-screen">
+      <div className="sticky top-0 h-screen w-full">
         {/* Stars Layer */}
         <div 
-          className="absolute inset-0"
+          className="absolute inset-0 w-full h-full"
           style={{
             transform: `translateY(${y * 0.1}px)`
           }}

@@ -15,14 +15,14 @@ export default function Home() {
   
   return (
     <div className="relative min-h-screen bg-black">
-      {/* Debug display - Only show after hydration */}
+      {/* Debug display */}
       <Suspense fallback={null}>
         <div className="fixed top-4 right-4 bg-black/50 text-white p-2 z-50">
           Scroll: {Math.round(y)}px
         </div>
       </Suspense>
 
-      {/* Initial landing section */}
+      {/* Title Section */}
       <section className="relative h-screen flex items-center justify-center">
         <Suspense fallback={<div className="text-white">Loading...</div>}>
           <div 
@@ -43,28 +43,31 @@ export default function Home() {
         </Suspense>
       </section>
 
-      {/* Space Journey Section */}
-      <section className="relative">
-        <SpaceScene />
+      {/* Main Content with Space Background */}
+      <div className="relative">
+        {/* Space Scene as fixed background */}
+        <div className="fixed top-0 left-0 w-full h-full">
+          <SpaceScene />
+        </div>
         
-        {/* Content Sections will be integrated within the space scene */}
-        <div className="relative z-10">
+        {/* Content Sections */}
+        <div className="relative">
           {/* About Section */}
-          <div className="h-screen flex items-center justify-center">
-            {/* About content will be integrated here */}
-          </div>
+          <section className="h-screen flex items-center justify-center">
+            {/* About content */}
+          </section>
 
           {/* Gallery Section */}
-          <div className="h-screen flex items-center justify-center">
-            {/* Gallery content will be integrated here */}
-          </div>
+          <section className="h-screen flex items-center justify-center">
+            {/* Gallery content */}
+          </section>
 
           {/* Contact Section */}
-          <div className="h-screen flex items-center justify-center">
-            {/* Contact content will be integrated here */}
-          </div>
+          <section className="h-screen flex items-center justify-center">
+            {/* Contact content */}
+          </section>
         </div>
-      </section>
+      </div>
     </div>
   )
 }
