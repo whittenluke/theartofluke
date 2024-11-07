@@ -11,7 +11,6 @@ interface NebulaCloud {
   color: typeof NEBULA_COLORS[number]
 }
 
-// Use the exact hex values from our Tailwind config
 const NEBULA_COLORS = [
   '#6B46C1',  // space-nebula
   '#805AD5',  // space-nebula-light
@@ -20,23 +19,19 @@ const NEBULA_COLORS = [
 
 const Nebula = () => {
   const clouds: NebulaCloud[] = useMemo(() => {
-    // Increase number of clouds and use better distribution
-    const cloudCount = 8
+    const cloudCount = 20
     
     return Array.from({ length: cloudCount }, (_, i) => {
-      // Calculate position using sine waves for more natural distribution
-      const angle = (i / cloudCount) * Math.PI * 2
-      const radius = 200 + Math.sin(angle * 2) * 100
+      const column = i % 3
+      const x = (column * 480) + 240
       
       return {
         id: `nebula-${i}`,
-        // Distribute in a more circular pattern across viewport
-        x: 720 + Math.cos(angle) * radius * 2,
-        y: 2400 + Math.sin(angle) * radius * 3,
-        // Larger scale range
-        scale: 40 + Math.sin(angle * 3) * 20,
-        rotation: angle * (180 / Math.PI),
-        color: NEBULA_COLORS[i % NEBULA_COLORS.length]
+        x: x + (Math.random() * 300 - 150),
+        y: ((i * 300) + Math.random() * 200),
+        scale: 10 + Math.random() * 25,
+        rotation: Math.random() * 360,
+        color: NEBULA_COLORS[Math.floor(Math.random() * NEBULA_COLORS.length)]
       }
     })
   }, [])
@@ -52,7 +47,7 @@ const Nebula = () => {
     >
       <defs>
         <filter id="nebula-blur">
-          <feGaussianBlur stdDeviation="20" />
+          <feGaussianBlur stdDeviation="35" />
         </filter>
         {NEBULA_COLORS.map((color, i) => (
           <radialGradient
@@ -62,7 +57,9 @@ const Nebula = () => {
             cy="50%"
             r="50%"
           >
-            <stop offset="0%" stopColor={color} stopOpacity="0.8" />
+            <stop offset="0%" stopColor={color} stopOpacity="0.5" />
+            <stop offset="40%" stopColor={color} stopOpacity="0.3" />
+            <stop offset="70%" stopColor={color} stopOpacity="0.1" />
             <stop offset="100%" stopColor={color} stopOpacity="0" />
           </radialGradient>
         ))}
@@ -75,9 +72,9 @@ const Nebula = () => {
             transform={`translate(${cloud.x}, ${cloud.y}) rotate(${cloud.rotation}) scale(${cloud.scale})`}
           >
             <path
-              d="M0 0C30 15 60 0 90 15C120 30 150 15 180 0C150 -15 120 0 90 -15C60 -30 30 -15 0 0Z"
+              d="M0 0C20 10 40 5 60 15S100 0 120 10S160 5 180 0S140 -5 120 -10S80 0 60 -15S20 -10 0 0Z"
               fill={`url(#nebula-gradient-${index % NEBULA_COLORS.length})`}
-              className="opacity-70 mix-blend-screen"
+              className="opacity-60 mix-blend-screen"
             />
           </g>
         ))}
