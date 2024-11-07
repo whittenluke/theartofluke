@@ -28,7 +28,7 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
 
         {/* Stars Layer */}
         <div 
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full mix-blend-screen"
           style={{
             transform: `translateY(${y * 0.1}px)`,
             zIndex: 1

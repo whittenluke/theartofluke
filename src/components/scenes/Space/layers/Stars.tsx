@@ -9,6 +9,7 @@ interface Star {
   opacity: number
   color: typeof STAR_COLORS[number]
   twinkleSpeed: number
+  shouldTwinkle: boolean
 }
 
 const STAR_COLORS = [
@@ -26,17 +27,17 @@ const Stars = () => {
   const stars: Star[] = useMemo(() => {
     if (!mounted) return []
     
-    const starCount = 1000 // Increased for more coverage
-    const seed = 123 // Using a fixed seed for consistency
-    const totalHeight = 6400 // 8 screens worth of height (800 * 8)
+    const starCount = 1000
+    const seed = 123 // Fixed seed for consistency
 
     return Array.from({ length: starCount }, (_, i) => ({
       x: (seed * (i + 1)) % 1440,
-      y: (seed * (i + 2)) % totalHeight, // Use full height
+      y: (seed * (i + 2)) % 6400,
       size: ((seed * (i + 3)) % 15) / 10 + 0.5,
       opacity: ((seed * (i + 4)) % 3) / 10 + 0.2,
       color: STAR_COLORS[Math.floor((seed * (i + 5)) % STAR_COLORS.length)],
       twinkleSpeed: ((seed * (i + 6)) % 2000) + 1000,
+      shouldTwinkle: ((seed * (i + 7)) % 100) < 15 // Deterministic twinkle selection
     }))
   }, [mounted])
 
@@ -44,14 +45,14 @@ const Stars = () => {
     setMounted(true)
   }, [])
 
-  // Enhanced twinkling effect with reduced frequency
+  // Twinkling effect
   useEffect(() => {
     if (!mounted) return
 
     const twinkleIntervals: NodeJS.Timeout[] = []
 
-    stars.forEach((_, index) => {
-      if (Math.random() < 0.15) { // Reduced from 0.3 to 0.15 (only 15% of stars twinkle)
+    stars.forEach((star, index) => {
+      if (star.shouldTwinkle) {  // Use pre-determined value instead of Math.random()
         const interval = setInterval(() => {
           setTwinklingStars(prev => {
             const next = new Set(prev)
@@ -62,7 +63,7 @@ const Stars = () => {
             }
             return next
           })
-        }, stars[index].twinkleSpeed * 1.5) // Slowed down the twinkle speed by 50%
+        }, star.twinkleSpeed)
         
         twinkleIntervals.push(interval)
       }
@@ -75,7 +76,7 @@ const Stars = () => {
 
   return (
     <svg
-      viewBox={`0 0 1440 6400`} // Match the height we're generating stars for
+      viewBox={`0 0 1440 6400`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-full"
