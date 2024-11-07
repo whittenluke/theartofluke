@@ -46,12 +46,12 @@ export default function Home() {
       {/* Main Content with Space Background */}
       <div className="relative">
         {/* Space Scene as fixed background */}
-        <div className="fixed top-0 left-0 w-full h-full">
+        <div className="fixed top-0 left-0 w-full h-full z-0">
           <SpaceScene />
         </div>
         
         {/* Content Sections */}
-        <div className="relative">
+        <div className="relative z-10 pointer-events-none">
           {/* About Section */}
           <section className="h-screen flex items-center justify-center">
             {/* About content */}
