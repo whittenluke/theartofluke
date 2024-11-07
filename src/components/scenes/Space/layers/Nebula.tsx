@@ -20,17 +20,25 @@ const NEBULA_COLORS = [
 
 const Nebula = () => {
   const clouds: NebulaCloud[] = useMemo(() => {
-    const cloudCount = 5
-    const seed = 456
+    // Increase number of clouds and use better distribution
+    const cloudCount = 8
     
-    return Array.from({ length: cloudCount }, (_, i) => ({
-      id: `nebula-${i}`,
-      x: (seed * (i + 1)) % 1440,
-      y: ((seed * (i + 2)) % 4800) + 800,
-      scale: ((seed * (i + 3)) % 30) + 20,
-      rotation: (seed * (i + 4)) % 360,
-      color: NEBULA_COLORS[i % NEBULA_COLORS.length]
-    }))
+    return Array.from({ length: cloudCount }, (_, i) => {
+      // Calculate position using sine waves for more natural distribution
+      const angle = (i / cloudCount) * Math.PI * 2
+      const radius = 200 + Math.sin(angle * 2) * 100
+      
+      return {
+        id: `nebula-${i}`,
+        // Distribute in a more circular pattern across viewport
+        x: 720 + Math.cos(angle) * radius * 2,
+        y: 2400 + Math.sin(angle) * radius * 3,
+        // Larger scale range
+        scale: 40 + Math.sin(angle * 3) * 20,
+        rotation: angle * (180 / Math.PI),
+        color: NEBULA_COLORS[i % NEBULA_COLORS.length]
+      }
+    })
   }, [])
 
   return (
