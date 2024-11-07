@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react'
 import { useScroll } from '@/hooks/useScroll'
-import MountainScene from '@/components/scenes/Mountain'
+import SpaceScene from '@/components/scenes/Space'
 
 // Page metadata for dynamic routes
 export const dynamic = 'force-dynamic'
@@ -12,16 +12,15 @@ export default function Home() {
     threshold: 10,
     delay: 50
   })
-
-  // Debug values
-  console.log('Scroll Y:', y)
-
+  
   return (
     <div className="relative min-h-screen">
-      {/* Debug display */}
-      <div className="fixed top-4 right-4 bg-black/50 text-white p-2 z-50">
-        Scroll: {y}px
-      </div>
+      {/* Debug display - Only show after hydration */}
+      <Suspense fallback={null}>
+        <div className="fixed top-4 right-4 bg-black/50 text-white p-2 z-50">
+          Scroll: {Math.round(y)}px
+        </div>
+      </Suspense>
 
       {/* Initial landing section */}
       <section className="relative h-screen flex items-center justify-center bg-black">
@@ -44,32 +43,27 @@ export default function Home() {
         </Suspense>
       </section>
 
-      {/* Mountain Scene Section - Now it can breathe! */}
-      <section className="relative h-screen">
-        <MountainScene />
-      </section>
+      {/* Space Journey Section */}
+      <section className="relative">
+        <SpaceScene />
+        
+        {/* Content Sections will be integrated within the space scene */}
+        <div className="relative z-10">
+          {/* About Section */}
+          <div className="h-screen flex items-center justify-center">
+            {/* About content will be integrated here */}
+          </div>
 
-      {/* Moved the transition section AFTER the mountain scene's full height */}
-      <div className="relative">
-        {/* About Section with transition gradient */}
-        <section className="relative h-[20vh] bg-gradient-to-b from-mountain-base/80 to-beach-water/80 py-6">
-          {/* About content will be added here */}
-        </section>
+          {/* Gallery Section */}
+          <div className="h-screen flex items-center justify-center">
+            {/* Gallery content will be integrated here */}
+          </div>
 
-        {/* Beach Scene Section */}
-        <section className="relative h-screen">
-          {/* Beach scene component will be added here */}
-        </section>
-      </div>
-
-      {/* Gallery Section */}
-      <section className="relative min-h-screen bg-gradient-to-b from-beach-deep to-space-dark py-24">
-        {/* Gallery content will be added here */}
-      </section>
-
-      {/* Space Scene Section */}
-      <section className="relative h-screen">
-        {/* Space scene component will be added here */}
+          {/* Contact Section */}
+          <div className="h-screen flex items-center justify-center">
+            {/* Contact content will be integrated here */}
+          </div>
+        </div>
       </section>
     </div>
   )
