@@ -14,7 +14,7 @@ export default function Home() {
   })
   
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-black">
       {/* Debug display - Only show after hydration */}
       <Suspense fallback={null}>
         <div className="fixed top-4 right-4 bg-black/50 text-white p-2 z-50">
@@ -23,7 +23,7 @@ export default function Home() {
       </Suspense>
 
       {/* Initial landing section */}
-      <section className="relative h-screen flex items-center justify-center bg-black">
+      <section className="relative h-screen flex items-center justify-center">
         <Suspense fallback={<div className="text-white">Loading...</div>}>
           <div 
             className="transition-all duration-300 ease-out"

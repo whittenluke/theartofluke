@@ -7,28 +7,24 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Scene-specific colors
-        mountain: {
-          peak: '#4A5568',
-          base: '#2D3748',
-          tree: '#276749',
-          water: '#2B6CB0',
-        },
-        beach: {
-          sand: '#F6E05E',
-          water: '#4299E1',
-          deep: '#2C5282',
-        },
+        // Space-specific colors only
         space: {
-          dark: '#1A202C',
-          star: '#F7FAFC',
-          nebula: '#6B46C1',
+          dark: '#0A0F1C',      // Darker base for deep space
+          darker: '#050810',    // Even darker for contrast
+          star: '#F7FAFC',      // Bright white for stars
+          nebula: '#6B46C1',    // Purple nebula base
+          'nebula-light': '#805AD5',  // Lighter nebula areas
+          'nebula-dark': '#553C9A',   // Darker nebula areas
+          'planet-1': '#F6AD55', // Orange planet
+          'planet-2': '#4299E1', // Blue planet
+          'aurora': '#68D391',   // Green aurora effects
         },
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'fade-out': 'fadeOut 0.5s ease-in-out',
         'slide-up': 'slideUp 0.5s ease-out',
+        'twinkle': 'twinkle 3s ease-in-out infinite',
         'parallax-slow': 'parallax 25s linear infinite',
         'parallax-medium': 'parallax 15s linear infinite',
         'parallax-fast': 'parallax 10s linear infinite',
@@ -49,6 +45,10 @@ module.exports = {
         parallax: {
           '0%': { transform: 'translateY(0)' },
           '100%': { transform: 'translateY(-100%)' },
+        },
+        twinkle: {
+          '0%, 100%': { opacity: 0.2 },
+          '50%': { opacity: 1 },
         },
       },
       transitionTimingFunction: {
