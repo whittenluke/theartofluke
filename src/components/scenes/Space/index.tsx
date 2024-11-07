@@ -11,9 +11,9 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
   const { y } = useScroll()
 
   return (
-    <div className={`relative min-h-[800vh] overflow-hidden ${className}`}>
+    <div className={`relative w-full h-full ${className}`}>
       {/* Scene Container */}
-      <div className="sticky top-0 h-screen w-full">
+      <div className="w-full h-full">
         {/* Stars Layer */}
         <div 
           className="absolute inset-0 w-full h-full"
