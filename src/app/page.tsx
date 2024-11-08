@@ -14,7 +14,7 @@ export default function Home() {
   })
   
   return (
-    <div className="relative min-h-screen bg-black">
+    <div className="relative min-h-[2000vh] bg-black">
       {/* Debug display */}
       <Suspense fallback={null}>
         <div className="fixed top-4 right-4 bg-black/50 text-white p-2 z-50">
@@ -51,20 +51,29 @@ export default function Home() {
         </div>
         
         {/* Content Sections */}
-        <div className="relative z-10 pointer-events-none">
-          {/* About Section */}
-          <section className="h-screen flex items-center justify-center">
-            {/* About content */}
+        <div className="relative z-10">
+          {/* Initial cosmic journey section */}
+          <section className="h-[1200vh]" aria-hidden="true" />
+
+          {/* Content sections with more space between them */}
+          <section className="min-h-[200vh] flex items-center justify-center p-8">
+            <div className="max-w-4xl mx-auto">
+              {/* About content */}
+            </div>
           </section>
 
-          {/* Gallery Section */}
-          <section className="h-screen flex items-center justify-center">
-            {/* Gallery content */}
+          {/* Gallery Section with extended space */}
+          <section className="min-h-[300vh] flex items-center justify-center p-8">
+            <div className="max-w-4xl mx-auto">
+              {/* Gallery content */}
+            </div>
           </section>
 
           {/* Contact Section */}
-          <section className="h-screen flex items-center justify-center">
-            {/* Contact content */}
+          <section className="min-h-[200vh] flex items-center justify-center p-8">
+            <div className="max-w-4xl mx-auto">
+              {/* Contact content */}
+            </div>
           </section>
         </div>
       </div>

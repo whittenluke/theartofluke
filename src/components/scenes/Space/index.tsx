@@ -14,7 +14,6 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
 
   return (
     <div className={`relative w-full h-full ${className}`}>
-      {/* Scene Container */}
       <div className="w-full h-full">
         {/* Nebula Layer - Behind everything */}
         <div 
@@ -38,15 +37,14 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
           <Stars />
         </div>
 
-        {/* Planets Layer - In front */}
+        {/* Planets Layer */}
         <div 
           className="absolute inset-0 w-full h-full mix-blend-screen"
           style={{
-            transform: `translateY(${y * 0.05}px)`,
             zIndex: 2
           }}
         >
-          <Planets />
+          <Planets scrollY={y} />
         </div>
       </div>
     </div>
