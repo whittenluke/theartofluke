@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense } from 'react'
+import { Suspense, useCallback } from 'react'
 import { useScroll } from '@/hooks/useScroll'
 import SpaceScene from '@/components/scenes/Space'
 
@@ -12,6 +12,14 @@ export default function Home() {
     threshold: 10,
     delay: 50
   })
+  
+  // Smooth scroll function
+  const scrollToSection = useCallback((yPosition: number) => {
+    window.scrollTo({
+      top: yPosition,
+      behavior: 'smooth'
+    })
+  }, [])
   
   // Fade calculations for both About sections
   const aboutOneOpacity = Math.min(
@@ -42,11 +50,11 @@ export default function Home() {
         
         {/* Content Sections */}
         <div className="relative">
-          {/* Title Section - Moved inside content but before other sections */}
-          <section className="relative h-screen flex items-center justify-center z-20">
+          {/* Title Section with Spaceship */}
+          <section className="relative h-screen flex flex-col items-center justify-center z-20">
             <Suspense fallback={<div className="text-white">Loading...</div>}>
               <div 
-                className="transition-all duration-300 ease-out"
+                className="transition-all duration-300 ease-out text-center"
                 style={{
                   opacity: Math.max(0, 1 - (y / 300)),
                   transform: `translateY(${Math.min(y / 10, 20)}px)`
@@ -55,17 +63,71 @@ export default function Home() {
                 <h1 
                   className="text-6xl md:text-8xl text-white font-bold 
                            opacity-0 animate-fade-in [animation-duration:2s] 
-                           [animation-fill-mode:forwards]"
+                           [animation-fill-mode:forwards] mb-16"
                 >
                   The Art of Luke
                 </h1>
+
+                {/* Spaceship and Begin Button */}
+                <div 
+                  className="flex flex-col items-center cursor-pointer group"
+                  onClick={() => scrollToSection(window.innerHeight + 100)}
+                >
+                  <div className="text-white text-xl mb-4 opacity-75 
+                                group-hover:opacity-100 transition-opacity">
+                    Scroll down
+                  </div>
+                  <svg 
+                    className="w-16 h-16 transform rotate-90 group-hover:translate-x-2 
+                              transition-transform duration-300"
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    {/* Main body */}
+                    <path 
+                      d="M32 4L44 32L32 56L20 32L32 4Z" 
+                      fill="rgba(255,255,255,0.2)"
+                    />
+                    
+                    {/* Wings */}
+                    <path 
+                      d="M20 32L8 44L20 40L32 56L44 40L56 44L44 32"
+                      fill="rgba(255,255,255,0.1)"
+                    />
+                    
+                    {/* Engine glow */}
+                    <circle 
+                      cx="32" 
+                      cy="48" 
+                      r="3" 
+                      fill="#FF6B6B" 
+                      className="animate-pulse"
+                    />
+                    
+                    {/* Window */}
+                    <circle 
+                      cx="32" 
+                      cy="24" 
+                      r="4" 
+                      fill="rgba(135,206,250,0.6)"
+                    />
+                    
+                    {/* Detail lines */}
+                    <line x1="28" y1="16" x2="36" y2="16" />
+                    <line x1="26" y1="32" x2="38" y2="32" />
+                  </svg>
+                </div>
               </div>
             </Suspense>
           </section>
 
-          {/* First About Section */}
+          {/* First About Section with Continue */}
           <section 
-            className="relative min-h-screen flex items-center justify-center z-20 px-4 md:px-8"
+            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8"
             style={{
               opacity: aboutOneOpacity,
               transform: `translateY(${Math.max(0, 50 - (y - 400) / 8)}px)`
@@ -82,25 +144,49 @@ export default function Home() {
                 my thoughts, my creative journey, and my passions with others.  
                 </p>
                 <p>
-                As a Product Manager in insurtech, I get to work on fascinating
-                challenges daily with an incredible team. Together, we transform
-                complex insurance problems into elegant digital solutions that
-                make a real difference in people's lives. My team focuses on  
-                creating unexpected and delightful experiences, and it's exactly
-                the kind of space where groundbreaking experiences are born. 
+                As a Product Manager working in insurtech, I get to tackle
+                fascinating challenges every day alongside a talented team of product,
+                design, and engineering pros. Together, we transform complex
+                insurance problems into elegant digital solutions that make a
+                real difference in people's lives.
                 </p>
                 <p>
-                But that's just one dimension of my life, and my journey thus far
-                through the cosmic expanse of technology and creativity. Continue
-                your journey further to learn more.
+                My team specifically focuses on creating intuitive and delightful 
+                user experiences. What does that mean? Bascially, that we care about the
+                people that are going to use our software and we design with them in mind.
+                </p>
+                <p>
+                But that's just one dimension of my career, my life, and my journey
+                thus far. Continue further to learn more.
                 </p>
               </div>
             </div>
+
+            {/* Continue to Next Section */}
+            <div 
+              className="mt-16 flex flex-col items-center cursor-pointer group"
+              onClick={() => scrollToSection(window.innerHeight * 2 + 100)}
+            >
+              <div className="text-white text-xl mb-4 opacity-75 
+                            group-hover:opacity-100 transition-opacity">
+                Continue scrolling
+              </div>
+              <svg 
+                className="w-16 h-16 transform rotate-90 group-hover:translate-x-2 
+                          transition-transform duration-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+              >
+                <path d="M12 2L2 22h20L12 2z" />
+              </svg>
+            </div>
           </section>
 
-          {/* Second About Section */}
+          {/* Second About Section with Continue */}
           <section 
-            className="relative min-h-screen flex items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
+            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
             style={{
               opacity: aboutTwoOpacity,
               transform: `translateY(${Math.max(0, 50 - (y - 1000) / 8)}px)`
@@ -125,6 +211,27 @@ export default function Home() {
                 art intersect, giving rise to something truly unique and captivating.
                 </p>
               </div>
+            </div>
+
+            {/* Continue to Next Section */}
+            <div 
+              className="mt-16 flex flex-col items-center cursor-pointer group"
+              onClick={() => scrollToSection(window.innerHeight * 3 + 100)}
+            >
+              <div className="text-white text-xl mb-4 opacity-75 
+                            group-hover:opacity-100 transition-opacity">
+                Continue
+              </div>
+              <svg 
+                className="w-16 h-16 transform rotate-90 group-hover:translate-x-2 
+                          transition-transform duration-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+              >
+                <path d="M12 2L2 22h20L12 2z" />
+              </svg>
             </div>
           </section>
 
