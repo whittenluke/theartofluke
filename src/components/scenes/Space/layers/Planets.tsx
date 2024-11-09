@@ -19,8 +19,8 @@ const Planets = ({ scrollY }: PlanetsProps) => {
   
   // Start positions below the viewport (after title)
   const orangePlanetY = windowHeight + 1500 - (scrollY * 0.3)
-  const bluePlanetY = windowHeight + 1900 - (scrollY * 0.2)
-  const greenPlanetY = windowHeight + 2400 - (scrollY * 0.1)
+  const bluePlanetY = windowHeight + 1700 - (scrollY * 0.2)
+  const greenPlanetY = windowHeight + 1300 - (scrollY * 0.1)
 
   return (
     <svg
@@ -35,16 +35,16 @@ const Planets = ({ scrollY }: PlanetsProps) => {
         {/* First planet - Orange/Red gas giant */}
         <g>
           <circle
-            cx="720"
+            cx="750"
             cy={orangePlanetY}
-            r="150"
+            r="50"
             fill="url(#orangePlanetGradient)"
             className="opacity-90"
           />
           <circle
-            cx="720"
+            cx="750"
             cy={orangePlanetY}
-            r="160"
+            r="60"
             className="opacity-30"
             fill="url(#orangeGlow)"
           />
@@ -55,14 +55,14 @@ const Planets = ({ scrollY }: PlanetsProps) => {
           <circle
             cx="300"
             cy={bluePlanetY}
-            r="100"
+            r="60"
             fill="url(#bluePlanetGradient)"
             className="opacity-90"
           />
           <circle
             cx="300"
             cy={bluePlanetY}
-            r="110"
+            r="70"
             className="opacity-30"
             fill="url(#blueGlow)"
           />
@@ -73,14 +73,14 @@ const Planets = ({ scrollY }: PlanetsProps) => {
           <circle
             cx="1000"
             cy={greenPlanetY}
-            r="120"
+            r="40"
             fill="url(#greenPlanetGradient)"
             className="opacity-90"
           />
           <circle
             cx="1000"
             cy={greenPlanetY}
-            r="130"
+            r="50"
             className="opacity-30"
             fill="url(#greenGlow)"
           />
