@@ -1,120 +1,107 @@
 'use client'
 
 import { useMemo, useEffect, useState } from 'react'
+import { useScroll } from '@/hooks/useScroll'
 
 interface Star {
   x: number
   y: number
   size: number
   opacity: number
-  color: typeof STAR_COLORS[number]
-  twinkleSpeed: number
+  color: string
   shouldTwinkle: boolean
 }
 
-const STAR_COLORS = [
-  '#FFFFFF',  // Pure white
-  '#F8F7FF',  // Slightly blue white
-  '#FFF4EA',  // Slightly warm white
-  '#FFE3D8',  // Warm white
-] as const
-
 const Stars = () => {
   const [mounted, setMounted] = useState(false)
+  const [stars, setStars] = useState<Star[]>([])
   const [twinklingStars, setTwinklingStars] = useState<Set<number>>(new Set())
+  const { y } = useScroll()
 
-  // Generate static stars only after component mounts
-  const stars: Star[] = useMemo(() => {
-    if (!mounted) return []
+  // Generate stars only after component mounts (client-side)
+  useEffect(() => {
+    if (!mounted) return
     
-    const starCount = 1000
-    const seed = 123 // Fixed seed for consistency
-
-    return Array.from({ length: starCount }, (_, i) => ({
-      x: (seed * (i + 1)) % 1440,
-      y: (seed * (i + 2)) % 6400,
-      size: ((seed * (i + 3)) % 15) / 10 + 0.5,
-      opacity: ((seed * (i + 4)) % 3) / 10 + 0.2,
-      color: STAR_COLORS[Math.floor((seed * (i + 5)) % STAR_COLORS.length)],
-      twinkleSpeed: ((seed * (i + 6)) % 2000) + 1000,
-      shouldTwinkle: ((seed * (i + 7)) % 100) < 15 // Deterministic twinkle selection
+    const starCount = 350
+    const generatedStars = Array.from({ length: starCount }, () => ({
+      x: Math.random() * 1440,
+      y: Math.random() * 2000,
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.5 + 0.25,
+      color: Math.random() > 0.3 ? '#FFFFFF' : '#FFF4EA',
+      shouldTwinkle: Math.random() > 0.8
     }))
+    
+    setStars(generatedStars)
   }, [mounted])
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Twinkling effect
   useEffect(() => {
     if (!mounted) return
 
-    const twinkleIntervals: NodeJS.Timeout[] = []
+    const interval = setInterval(() => {
+      setTwinklingStars(prev => {
+        const next = new Set(prev)
+        stars.forEach((star, index) => {
+          if (star.shouldTwinkle && Math.random() > 0.5) {
+            if (next.has(index)) next.delete(index)
+            else next.add(index)
+          }
+        })
+        return next
+      })
+    }, 2000)
 
-    stars.forEach((star, index) => {
-      if (star.shouldTwinkle) {  // Use pre-determined value instead of Math.random()
-        const interval = setInterval(() => {
-          setTwinklingStars(prev => {
-            const next = new Set(prev)
-            if (next.has(index)) {
-              next.delete(index)
-            } else {
-              next.add(index)
-            }
-            return next
-          })
-        }, star.twinkleSpeed)
-        
-        twinkleIntervals.push(interval)
-      }
-    })
-
-    return () => twinkleIntervals.forEach(clearInterval)
+    return () => clearInterval(interval)
   }, [stars, mounted])
 
-  if (!mounted) return null
+  if (!mounted || stars.length === 0) return null
+
+  // Calculate viewport height and required repetitions
+  const viewportHeight = 6400
+  const patternHeight = 2000
+  const scrollOffset = y * 0.1
+  const visibleRange = viewportHeight + scrollOffset + patternHeight
+
+  // Calculate how many repetitions we need
+  const repetitions = Math.ceil(visibleRange / patternHeight) + 1
 
   return (
     <svg
-      viewBox={`0 0 1440 6400`}
+      viewBox={`0 0 1440 ${viewportHeight}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-full"
-      preserveAspectRatio="xMidYMax slice"
+      preserveAspectRatio="xMidYMin slice"
     >
-      <defs>
-        {STAR_COLORS.map((color, i) => (
-          <radialGradient key={i} id={`starGlow${i}`} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor={color} stopOpacity="1" />
-            <stop offset="100%" stopColor={color} stopOpacity="0" />
-          </radialGradient>
-        ))}
-      </defs>
+      {Array.from({ length: repetitions }, (_, i) => {
+        // Calculate the y position for this group of stars
+        const basePosition = i * patternHeight
+        const adjustedPosition = basePosition - (scrollOffset % patternHeight)
 
-      <g className="star-field">
-        {stars.map((star, index) => (
-          <g key={index}>
-            <circle
-              cx={star.x}
-              cy={star.y}
-              r={star.size}
-              fill={star.color}
-              opacity={twinklingStars.has(index) ? 1 : star.opacity}
-              className="transition-opacity duration-1000"
-            />
-            {star.size > 1.5 && (
+        return (
+          <g 
+            key={i} 
+            className="star-field" 
+            transform={`translate(0, ${adjustedPosition})`}
+          >
+            {stars.map((star, index) => (
               <circle
+                key={`${i}-${index}`}
                 cx={star.x}
                 cy={star.y}
-                r={star.size * 2}
-                fill={`url(#starGlow${STAR_COLORS.indexOf(star.color)})`}
-                opacity={twinklingStars.has(index) ? 0.8 : star.opacity * 0.3}
-                className="transition-opacity duration-1000"
+                r={star.size}
+                fill={star.color}
+                opacity={twinklingStars.has(index) ? 1 : star.opacity}
+                className="transition-opacity duration-2000"
               />
-            )}
+            ))}
           </g>
-        ))}
-      </g>
+        )
+      })}
     </svg>
   )
 }

@@ -13,14 +13,17 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
   const { y } = useScroll()
 
   return (
-    <div className={`relative w-full h-full ${className}`}>
-      <div className="w-full h-full">
+    <div className={`relative w-full h-full overflow-hidden ${className}`}>
+      <div className="absolute inset-0 w-full h-[300vh]">
+        {/* Background color to ensure no transparency */}
+        <div className="absolute inset-0 bg-black -z-1" />
+        
         {/* Nebula Layer - Behind everything */}
         <div 
           className="absolute inset-0 w-full h-full mix-blend-screen"
           style={{
-            transform: `translateY(${y * 0.01}px)`,
-            zIndex: 0
+            transform: `translateY(${-y * 0.01}px)`,
+            zIndex: 1
           }}
         >
           <Nebula />
@@ -30,8 +33,8 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
         <div 
           className="absolute inset-0 w-full h-full mix-blend-screen"
           style={{
-            transform: `translateY(${y * 0.1}px)`,
-            zIndex: 1
+            transform: `translateY(${-y * 0.1}px)`,
+            zIndex: 2
           }}
         >
           <Stars />
@@ -41,7 +44,7 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
         <div 
           className="absolute inset-0 w-full h-full mix-blend-screen"
           style={{
-            zIndex: 2
+            zIndex: 3
           }}
         >
           <Planets scrollY={y} />

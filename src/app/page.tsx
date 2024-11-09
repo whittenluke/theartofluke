@@ -22,59 +22,62 @@ export default function Home() {
         </div>
       </Suspense>
 
-      {/* Title Section */}
-      <section className="relative h-screen flex items-center justify-center">
-        <Suspense fallback={<div className="text-white">Loading...</div>}>
-          <div 
-            className="transition-all duration-300 ease-out"
-            style={{
-              opacity: Math.max(0, 1 - (y / 300)),
-              transform: `translateY(${Math.min(y / 10, 20)}px)`
-            }}
-          >
-            <h1 
-              className="text-6xl md:text-8xl text-white font-bold 
-                         opacity-0 animate-fade-in [animation-duration:2s] 
-                         [animation-fill-mode:forwards]"
-            >
-              The Art of Luke
-            </h1>
-          </div>
-        </Suspense>
-      </section>
-
       {/* Main Content with Space Background */}
       <div className="relative">
         {/* Space Scene as fixed background */}
-        <div className="fixed top-0 left-0 w-full h-full z-0">
+        <div className="fixed top-0 left-0 w-full h-[200vh] z-0">
           <SpaceScene />
         </div>
         
         {/* Content Sections */}
-        <div className="relative z-10">
-          {/* Initial cosmic journey section */}
-          <section className="h-[1200vh]" aria-hidden="true" />
-
-          {/* Content sections with more space between them */}
-          <section className="min-h-[200vh] flex items-center justify-center p-8">
-            <div className="max-w-4xl mx-auto">
-              {/* About content */}
-            </div>
+        <div className="relative">
+          {/* Title Section - Moved inside content but before other sections */}
+          <section className="relative h-screen flex items-center justify-center z-20">
+            <Suspense fallback={<div className="text-white">Loading...</div>}>
+              <div 
+                className="transition-all duration-300 ease-out"
+                style={{
+                  opacity: Math.max(0, 1 - (y / 300)),
+                  transform: `translateY(${Math.min(y / 10, 20)}px)`
+                }}
+              >
+                <h1 
+                  className="text-6xl md:text-8xl text-white font-bold 
+                           opacity-0 animate-fade-in [animation-duration:2s] 
+                           [animation-fill-mode:forwards]"
+                >
+                  The Art of Luke
+                </h1>
+              </div>
+            </Suspense>
           </section>
 
-          {/* Gallery Section with extended space */}
-          <section className="min-h-[300vh] flex items-center justify-center p-8">
-            <div className="max-w-4xl mx-auto">
-              {/* Gallery content */}
-            </div>
-          </section>
+          {/* Rest of content with adjusted z-index */}
+          <div className="relative z-10">
+            {/* Initial cosmic journey section */}
+            <section className="h-[1200vh]" aria-hidden="true" />
 
-          {/* Contact Section */}
-          <section className="min-h-[200vh] flex items-center justify-center p-8">
-            <div className="max-w-4xl mx-auto">
-              {/* Contact content */}
-            </div>
-          </section>
+            {/* Content sections with more space between them */}
+            <section className="min-h-[200vh] flex items-center justify-center p-8">
+              <div className="max-w-4xl mx-auto">
+                {/* About content */}
+              </div>
+            </section>
+
+            {/* Gallery Section with extended space */}
+            <section className="min-h-[300vh] flex items-center justify-center p-8">
+              <div className="max-w-4xl mx-auto">
+                {/* Gallery content */}
+              </div>
+            </section>
+
+            {/* Contact Section */}
+            <section className="min-h-[200vh] flex items-center justify-center p-8">
+              <div className="max-w-4xl mx-auto">
+                {/* Contact content */}
+              </div>
+            </section>
+          </div>
         </div>
       </div>
     </div>
