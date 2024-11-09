@@ -13,6 +13,17 @@ export default function Home() {
     delay: 50
   })
   
+  // Fade calculations for both About sections
+  const aboutOneOpacity = Math.min(
+    Math.max(0, (y - 400) / 400),
+    1
+  )
+
+  const aboutTwoOpacity = Math.min(
+    Math.max(0, (y - 1000) / 400), // Starts fading in at 1000px
+    1
+  )
+
   return (
     <div className="relative min-h-[2000vh] bg-black">
       {/* Debug display */}
@@ -52,10 +63,75 @@ export default function Home() {
             </Suspense>
           </section>
 
+          {/* First About Section */}
+          <section 
+            className="relative min-h-screen flex items-center justify-center z-20 px-4 md:px-8"
+            style={{
+              opacity: aboutOneOpacity,
+              transform: `translateY(${Math.max(0, 50 - (y - 400) / 8)}px)`
+            }}
+          >
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
+                About Me
+              </h2>
+              
+              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
+                <p>
+                Hi and welcome! I'm Luke, and I created this space to share
+                my thoughts, my creative journey, and my passions with others.  
+                </p>
+                <p>
+                As a Product Manager in insurtech, I get to work on fascinating
+                challenges daily with an incredible team. Together, we transform
+                complex insurance problems into elegant digital solutions that
+                make a real difference in people's lives. My team focuses on  
+                creating unexpected and delightful experiences, and it's exactly
+                the kind of space where groundbreaking experiences are born. 
+                </p>
+                <p>
+                But that's just one dimension of my life, and my journey thus far
+                through the cosmic expanse of technology and creativity. Continue
+                your journey further to learn more.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Second About Section */}
+          <section 
+            className="relative min-h-screen flex items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
+            style={{
+              opacity: aboutTwoOpacity,
+              transform: `translateY(${Math.max(0, 50 - (y - 1000) / 8)}px)`
+            }}
+          >
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
+                My Journey
+              </h2>
+              
+              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
+                <p>
+                By day, I work as a Technical Product Manager for an insurance company.
+                I know, insurance sounds boring, but I get to work in a really special
+                software space with people that care about technology. It's a really
+                cool gig. While I spend most of my time orchestrating technical solutions
+                and driving product innovation, my world extends far beyond this role. 
+                </p>
+                <p>
+                My journey is rich with experiences, woven from threads of code, color,
+                and chords. I'm constantly seeking my ideal dynamic where technology and
+                art intersect, giving rise to something truly unique and captivating.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* Rest of content with adjusted z-index */}
           <div className="relative z-10">
             {/* Initial cosmic journey section */}
-            <section className="h-[1200vh]" aria-hidden="true" />
+            <section className="h-[800vh]" aria-hidden="true" />
 
             {/* Content sections with more space between them */}
             <section className="min-h-[200vh] flex items-center justify-center p-8">

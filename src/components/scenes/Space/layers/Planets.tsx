@@ -35,14 +35,14 @@ const Planets = ({ scrollY }: PlanetsProps) => {
         {/* First planet - Orange/Red gas giant */}
         <g>
           <circle
-            cx="750"
+            cx="825"
             cy={orangePlanetY}
             r="50"
             fill="url(#orangePlanetGradient)"
             className="opacity-90"
           />
           <circle
-            cx="750"
+            cx="825"
             cy={orangePlanetY}
             r="60"
             className="opacity-30"
