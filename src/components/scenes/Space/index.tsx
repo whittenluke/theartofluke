@@ -16,33 +16,33 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
     <div className={`relative w-full h-full overflow-hidden ${className}`}>
       <div className="absolute inset-0 w-full h-[300vh]">
         {/* Background color to ensure no transparency */}
-        <div className="absolute inset-0 bg-black -z-1" />
+        <div className="absolute inset-0 bg-black" />
         
-        {/* Nebula Layer - Behind everything */}
+        {/* Stars Layer - Base layer */}
         <div 
-          className="absolute inset-0 w-full h-full mix-blend-screen"
-          style={{
-            transform: `translateY(${-y * 0.01}px)`,
-            zIndex: 1
-          }}
-        >
-          <Nebula />
-        </div>
-
-        {/* Stars Layer */}
-        <div 
-          className="absolute inset-0 w-full h-full mix-blend-screen"
+          className="absolute inset-0 w-full h-full"
           style={{
             transform: `translateY(${-y * 0.1}px)`,
-            zIndex: 2
+            zIndex: 1
           }}
         >
           <Stars />
         </div>
 
-        {/* Planets Layer */}
+        {/* Nebula Layer - Middle layer */}
         <div 
-          className="absolute inset-0 w-full h-full mix-blend-screen"
+          className="absolute inset-0 w-full h-full"
+          style={{
+            transform: `translateY(${-y * 0.01}px)`,
+            zIndex: 2
+          }}
+        >
+          <Nebula />
+        </div>
+
+        {/* Planets Layer - Top layer */}
+        <div 
+          className="absolute inset-0 w-full h-full"
           style={{
             zIndex: 3
           }}

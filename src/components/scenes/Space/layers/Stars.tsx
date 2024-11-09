@@ -76,6 +76,7 @@ const Stars = () => {
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-full"
       preserveAspectRatio="xMidYMin slice"
+      style={{ mixBlendMode: 'screen' }}
     >
       {Array.from({ length: repetitions }, (_, i) => {
         // Calculate the y position for this group of stars

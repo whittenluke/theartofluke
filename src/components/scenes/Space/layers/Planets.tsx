@@ -29,59 +29,62 @@ const Planets = ({ scrollY }: PlanetsProps) => {
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-full absolute inset-0"
       preserveAspectRatio="xMidYMin meet"
+      style={{ isolation: 'isolate' }}
     >
-      {/* First planet - Orange/Red gas giant */}
-      <g>
-        <circle
-          cx="720"
-          cy={orangePlanetY}
-          r="150"
-          fill="url(#orangePlanetGradient)"
-          className="opacity-90"
-        />
-        <circle
-          cx="720"
-          cy={orangePlanetY}
-          r="160"
-          className="opacity-30"
-          fill="url(#orangeGlow)"
-        />
-      </g>
+      <g style={{ mixBlendMode: 'screen', isolation: 'isolate' }}>
+        {/* First planet - Orange/Red gas giant */}
+        <g>
+          <circle
+            cx="720"
+            cy={orangePlanetY}
+            r="150"
+            fill="url(#orangePlanetGradient)"
+            className="opacity-90"
+          />
+          <circle
+            cx="720"
+            cy={orangePlanetY}
+            r="160"
+            className="opacity-30"
+            fill="url(#orangeGlow)"
+          />
+        </g>
 
-      {/* Second planet - Blue ice planet */}
-      <g>
-        <circle
-          cx="300"
-          cy={bluePlanetY}
-          r="100"
-          fill="url(#bluePlanetGradient)"
-          className="opacity-90"
-        />
-        <circle
-          cx="300"
-          cy={bluePlanetY}
-          r="110"
-          className="opacity-30"
-          fill="url(#blueGlow)"
-        />
-      </g>
+        {/* Second planet - Blue ice planet */}
+        <g>
+          <circle
+            cx="300"
+            cy={bluePlanetY}
+            r="100"
+            fill="url(#bluePlanetGradient)"
+            className="opacity-90"
+          />
+          <circle
+            cx="300"
+            cy={bluePlanetY}
+            r="110"
+            className="opacity-30"
+            fill="url(#blueGlow)"
+          />
+        </g>
 
-      {/* Third planet - Green terrestrial planet */}
-      <g>
-        <circle
-          cx="1000"
-          cy={greenPlanetY}
-          r="120"
-          fill="url(#greenPlanetGradient)"
-          className="opacity-90"
-        />
-        <circle
-          cx="1000"
-          cy={greenPlanetY}
-          r="130"
-          className="opacity-30"
-          fill="url(#greenGlow)"
-        />
+        {/* Third planet - Green terrestrial planet */}
+        <g>
+          <circle
+            cx="1000"
+            cy={greenPlanetY}
+            r="120"
+            fill="url(#greenPlanetGradient)"
+            className="opacity-90"
+          />
+          <circle
+            cx="1000"
+            cy={greenPlanetY}
+            r="130"
+            className="opacity-30"
+            fill="url(#greenGlow)"
+          />
+        </g>
       </g>
 
       {/* Gradient definitions */}
