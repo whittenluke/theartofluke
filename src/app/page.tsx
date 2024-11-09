@@ -81,8 +81,6 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
 
   // Calculate styles based on state
   const getFlightStyles = (): CSSProperties => {
-    const currentSection = getCurrentSection()
-    
     if (isAnimating) {
       return {
         position: 'fixed',
@@ -107,9 +105,7 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
 
     // Default position
     return {
-      position: 'absolute',
-      left: '50%',
-      transform: 'translateX(-50%)',
+      position: 'relative',
       transition: 'transform 0.5s ease-out'
     }
   }
@@ -123,7 +119,7 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       <div className="relative transform transition-all duration-700">
         {/* Text - Only show on initial load */}
         {getCurrentSection() === 'title' && !isLeadingScroll && !isAnimating && (
-          <div className="text-white text-xl mb-4 opacity-75 text-center
+          <div className="text-white text-xl mb-4 opacity-75 text-center whitespace-nowrap
                        transition-opacity duration-300 group-hover:opacity-100">
             Scroll down or click spaceship
           </div>
@@ -257,7 +253,7 @@ export default function Home() {
               </div>
 
               {/* Single Spaceship */}
-              <div className="absolute bottom-[20%] w-full">
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-[20%]">
                 <RocketShip 
                   onClick={() => scrollToSection(window.innerHeight + 100)}
                   position="first"
