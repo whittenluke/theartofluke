@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useCallback } from 'react'
+import { Suspense, useCallback, useState, useEffect, CSSProperties } from 'react'
 import { useScroll } from '@/hooks/useScroll'
 import SpaceScene from '@/components/scenes/Space'
 
@@ -8,69 +8,186 @@ import SpaceScene from '@/components/scenes/Space'
 export const dynamic = 'force-dynamic'
 
 // Add this rocket component (you can move it to a separate file later)
-const RocketShip = ({ onClick, className = "" }: { onClick: () => void, className?: string }) => {
+const RocketShip = ({ onClick, className = "", position = "first" }: { 
+  onClick: () => void, 
+  className?: string,
+  position?: "first" | "second" | "third"
+}) => {
+  const { y, direction } = useScroll({ threshold: 10, delay: 50 })
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [flightProgress, setFlightProgress] = useState(0)
+  const [isLeadingScroll, setIsLeadingScroll] = useState(false)
+
+  // Track current section
+  const getCurrentSection = useCallback(() => {
+    if (y < window.innerHeight * 0.8) return 'title'
+    if (y < window.innerHeight * 1.8) return 'about'
+    if (y < window.innerHeight * 2.8) return 'journey'
+    return 'other'
+  }, [y])
+
+  // Handle scroll-based behavior
+  useEffect(() => {
+    if (direction === 'down' && y > 100) {
+      setIsLeadingScroll(true)
+    } else if (direction === 'up' && y < 100) {
+      setIsLeadingScroll(false)
+    }
+  }, [y, direction])
+
+  // Handle click animation and scroll
+  const handleClick = async () => {
+    const currentSection = getCurrentSection()
+    if (isAnimating) return // Prevent multiple clicks during animation
+    
+    setIsAnimating(true)
+    
+    // Much slower animation (4 seconds total)
+    const startTime = Date.now()
+    const duration = 4000
+    
+    const animateFlight = () => {
+      const elapsed = Date.now() - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      
+      // Smooth easing
+      const eased = -(Math.cos(Math.PI * progress) - 1) / 2
+      setFlightProgress(eased)
+      
+      if (progress < 1) {
+        requestAnimationFrame(animateFlight)
+      } else {
+        // Determine next section based on current position
+        const nextY = currentSection === 'title' ? window.innerHeight + 100 :
+                     currentSection === 'about' ? window.innerHeight * 2 + 100 :
+                     window.innerHeight * 3 + 100
+
+        // Slow scroll to next section
+        window.scrollTo({
+          top: nextY,
+          behavior: 'smooth'
+        })
+        
+        // Reset after animation completes
+        setTimeout(() => {
+          setIsAnimating(false)
+          setFlightProgress(0)
+        }, 1000)
+      }
+    }
+    
+    requestAnimationFrame(animateFlight)
+  }
+
+  // Calculate styles based on state
+  const getFlightStyles = (): CSSProperties => {
+    const currentSection = getCurrentSection()
+    
+    if (isAnimating) {
+      return {
+        position: 'fixed',
+        left: '50%',
+        top: '80%',
+        transform: `translate(-50%, -50%) rotate(${180 * flightProgress}deg)`,
+        transition: 'transform 1s ease-out',
+        zIndex: 100
+      }
+    }
+
+    if (isLeadingScroll) {
+      return {
+        position: 'fixed',
+        left: '50%',
+        bottom: '20%',
+        transform: `translate(-50%, 0) rotate(${direction === 'down' ? '180deg' : '0deg'})`,
+        transition: 'transform 0.5s ease-out',
+        zIndex: 100
+      }
+    }
+
+    // Default position
+    return {
+      position: 'absolute',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      transition: 'transform 0.5s ease-out'
+    }
+  }
+
   return (
     <div 
-      onClick={onClick}
+      onClick={handleClick}
       className={`group cursor-pointer ${className}`}
+      style={getFlightStyles()}
     >
-      <div className="relative transform transition-transform duration-500 
-                    group-hover:-translate-y-2 group-active:rotate-180"
-    >
-        <svg 
-          className="w-16 h-16 transform -rotate-180 transition-all duration-500
-                    group-active:translate-y-10"
-          viewBox="0 0 64 64"
-          fill="none"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          {/* Main body */}
-          <path 
-            d="M32 4L44 32L32 56L20 32L32 4Z" 
-            fill="rgba(255,255,255,0.2)"
-          />
-          
-          {/* Wings */}
-          <path 
-            d="M20 32L8 44L20 40L32 56L44 40L56 44L44 32"
-            fill="rgba(255,255,255,0.1)"
-          />
-          
-          {/* Window */}
-          <circle 
-            cx="32" 
-            cy="24" 
-            r="4" 
-            fill="rgba(135,206,250,0.6)"
-          />
-          
-          {/* Detail lines */}
-          <line x1="28" y1="16" x2="36" y2="16" />
-          <line x1="26" y1="32" x2="38" y2="32" />
+      <div className="relative transform transition-all duration-700">
+        {/* Text - Only show on initial load */}
+        {getCurrentSection() === 'title' && !isLeadingScroll && !isAnimating && (
+          <div className="text-white text-xl mb-4 opacity-75 text-center
+                       transition-opacity duration-300 group-hover:opacity-100">
+            Scroll down or click spaceship
+          </div>
+        )}
 
-          {/* Rocket Boost - Animated */}
-          <g className="rocket-boost">
-            <path
-              d="M28 56L32 64L36 56"
-              className="animate-pulse"
-              fill="rgba(255,166,0,0.6)"
+        {/* Rocket */}
+        <div className="transform transition-all duration-1000">
+          <svg 
+            className="w-16 h-16"
+            viewBox="0 0 64 64"
+            fill="none"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {/* Main body */}
+            <path 
+              d="M32 4L44 32L32 56L20 32L32 4Z" 
+              fill="rgba(255,255,255,0.2)"
             />
-            <path
-              d="M30 56L32 62L34 56"
-              className="animate-pulse"
-              fill="rgba(255,69,0,0.8)"
+            
+            {/* Wings */}
+            <path 
+              d="M20 32L8 44L20 40L32 56L44 40L56 44L44 32"
+              fill="rgba(255,255,255,0.1)"
             />
-          </g>
-        </svg>
+            
+            {/* Window */}
+            <circle 
+              cx="32" 
+              cy="24" 
+              r="4" 
+              fill="rgba(135,206,250,0.6)"
+            />
+            
+            {/* Detail lines */}
+            <line x1="28" y1="16" x2="36" y2="16" />
+            <line x1="26" y1="32" x2="38" y2="32" />
 
-        {/* Engine glow effect */}
-        <div 
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 
-                    w-4 h-4 bg-orange-500 rounded-full blur-md animate-pulse"
-        />
+            {/* Rocket Boost - Animated */}
+            <g className="rocket-boost">
+              <path
+                d="M28 56L32 64L36 56"
+                className="animate-pulse"
+                fill="rgba(255,166,0,0.6)"
+              />
+              <path
+                d="M30 56L32 62L34 56"
+                className="animate-pulse"
+                fill="rgba(255,69,0,0.8)"
+              />
+            </g>
+          </svg>
+
+          {/* Engine glow */}
+          <div 
+            className={`
+              absolute bottom-0 left-1/2 transform -translate-x-1/2 
+              w-4 h-4 bg-orange-500 rounded-full blur-md
+              ${(isAnimating || isLeadingScroll) ? 'animate-pulse-fast scale-150' : 'animate-pulse'}
+            `}
+          />
+        </div>
       </div>
     </div>
   )
@@ -122,6 +239,7 @@ export default function Home() {
           {/* Title Section with Spaceship */}
           <section className="relative h-screen flex flex-col items-center justify-center z-20">
             <Suspense fallback={<div className="text-white">Loading...</div>}>
+              {/* Title content */}
               <div 
                 className="transition-all duration-300 ease-out text-center"
                 style={{
@@ -136,22 +254,19 @@ export default function Home() {
                 >
                   The Art of Luke
                 </h1>
+              </div>
 
-                {/* Spaceship and Begin Button */}
-                <div className="flex flex-col items-center">
-                  <div className="text-white text-xl mb-4 opacity-75 
-                                group-hover:opacity-100 transition-opacity">
-                    Scroll down to begin
-                  </div>
-                  <RocketShip 
-                    onClick={() => scrollToSection(window.innerHeight + 100)}
-                  />
-                </div>
+              {/* Single Spaceship */}
+              <div className="absolute bottom-[20%] w-full">
+                <RocketShip 
+                  onClick={() => scrollToSection(window.innerHeight + 100)}
+                  position="first"
+                />
               </div>
             </Suspense>
           </section>
 
-          {/* First About Section with Continue */}
+          {/* First About Section */}
           <section 
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8"
             style={{
@@ -187,20 +302,9 @@ export default function Home() {
                 </p>
               </div>
             </div>
-
-            {/* Continue to Next Section */}
-            <div className="mt-16 flex flex-col items-center">
-              <div className="text-white text-xl mb-4 opacity-75 
-                            group-hover:opacity-100 transition-opacity">
-                Continue scrolling
-              </div>
-              <RocketShip 
-                onClick={() => scrollToSection(window.innerHeight * 2 + 100)}
-              />
-            </div>
           </section>
 
-          {/* Second About Section with Continue */}
+          {/* Second About Section */}
           <section 
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
             style={{
@@ -227,17 +331,6 @@ export default function Home() {
                 art intersect, giving rise to something truly unique and captivating.
                 </p>
               </div>
-            </div>
-
-            {/* Continue to Next Section */}
-            <div className="mt-16 flex flex-col items-center">
-              <div className="text-white text-xl mb-4 opacity-75 
-                            group-hover:opacity-100 transition-opacity">
-                Continue
-              </div>
-              <RocketShip 
-                onClick={() => scrollToSection(window.innerHeight * 3 + 100)}
-              />
             </div>
           </section>
 

@@ -29,6 +29,7 @@ module.exports = {
         'parallax-medium': 'parallax 15s linear infinite',
         'parallax-fast': 'parallax 10s linear infinite',
         'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         fadeIn: {
