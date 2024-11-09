@@ -7,6 +7,75 @@ import SpaceScene from '@/components/scenes/Space'
 // Page metadata for dynamic routes
 export const dynamic = 'force-dynamic'
 
+// Add this rocket component (you can move it to a separate file later)
+const RocketShip = ({ onClick, className = "" }: { onClick: () => void, className?: string }) => {
+  return (
+    <div 
+      onClick={onClick}
+      className={`group cursor-pointer ${className}`}
+    >
+      <div className="relative transform transition-transform duration-500 
+                    group-hover:-translate-y-2 group-active:rotate-180"
+    >
+        <svg 
+          className="w-16 h-16 transform -rotate-180 transition-all duration-500
+                    group-active:translate-y-10"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {/* Main body */}
+          <path 
+            d="M32 4L44 32L32 56L20 32L32 4Z" 
+            fill="rgba(255,255,255,0.2)"
+          />
+          
+          {/* Wings */}
+          <path 
+            d="M20 32L8 44L20 40L32 56L44 40L56 44L44 32"
+            fill="rgba(255,255,255,0.1)"
+          />
+          
+          {/* Window */}
+          <circle 
+            cx="32" 
+            cy="24" 
+            r="4" 
+            fill="rgba(135,206,250,0.6)"
+          />
+          
+          {/* Detail lines */}
+          <line x1="28" y1="16" x2="36" y2="16" />
+          <line x1="26" y1="32" x2="38" y2="32" />
+
+          {/* Rocket Boost - Animated */}
+          <g className="rocket-boost">
+            <path
+              d="M28 56L32 64L36 56"
+              className="animate-pulse"
+              fill="rgba(255,166,0,0.6)"
+            />
+            <path
+              d="M30 56L32 62L34 56"
+              className="animate-pulse"
+              fill="rgba(255,69,0,0.8)"
+            />
+          </g>
+        </svg>
+
+        {/* Engine glow effect */}
+        <div 
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 
+                    w-4 h-4 bg-orange-500 rounded-full blur-md animate-pulse"
+        />
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   const { y } = useScroll({
     threshold: 10,
@@ -69,57 +138,14 @@ export default function Home() {
                 </h1>
 
                 {/* Spaceship and Begin Button */}
-                <div 
-                  className="flex flex-col items-center cursor-pointer group"
-                  onClick={() => scrollToSection(window.innerHeight + 100)}
-                >
+                <div className="flex flex-col items-center">
                   <div className="text-white text-xl mb-4 opacity-75 
                                 group-hover:opacity-100 transition-opacity">
-                    Scroll down
+                    Scroll down to begin
                   </div>
-                  <svg 
-                    className="w-16 h-16 transform rotate-90 group-hover:translate-x-2 
-                              transition-transform duration-300"
-                    viewBox="0 0 64 64"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    {/* Main body */}
-                    <path 
-                      d="M32 4L44 32L32 56L20 32L32 4Z" 
-                      fill="rgba(255,255,255,0.2)"
-                    />
-                    
-                    {/* Wings */}
-                    <path 
-                      d="M20 32L8 44L20 40L32 56L44 40L56 44L44 32"
-                      fill="rgba(255,255,255,0.1)"
-                    />
-                    
-                    {/* Engine glow */}
-                    <circle 
-                      cx="32" 
-                      cy="48" 
-                      r="3" 
-                      fill="#FF6B6B" 
-                      className="animate-pulse"
-                    />
-                    
-                    {/* Window */}
-                    <circle 
-                      cx="32" 
-                      cy="24" 
-                      r="4" 
-                      fill="rgba(135,206,250,0.6)"
-                    />
-                    
-                    {/* Detail lines */}
-                    <line x1="28" y1="16" x2="36" y2="16" />
-                    <line x1="26" y1="32" x2="38" y2="32" />
-                  </svg>
+                  <RocketShip 
+                    onClick={() => scrollToSection(window.innerHeight + 100)}
+                  />
                 </div>
               </div>
             </Suspense>
@@ -163,24 +189,14 @@ export default function Home() {
             </div>
 
             {/* Continue to Next Section */}
-            <div 
-              className="mt-16 flex flex-col items-center cursor-pointer group"
-              onClick={() => scrollToSection(window.innerHeight * 2 + 100)}
-            >
+            <div className="mt-16 flex flex-col items-center">
               <div className="text-white text-xl mb-4 opacity-75 
                             group-hover:opacity-100 transition-opacity">
                 Continue scrolling
               </div>
-              <svg 
-                className="w-16 h-16 transform rotate-90 group-hover:translate-x-2 
-                          transition-transform duration-300"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-              >
-                <path d="M12 2L2 22h20L12 2z" />
-              </svg>
+              <RocketShip 
+                onClick={() => scrollToSection(window.innerHeight * 2 + 100)}
+              />
             </div>
           </section>
 
@@ -214,24 +230,14 @@ export default function Home() {
             </div>
 
             {/* Continue to Next Section */}
-            <div 
-              className="mt-16 flex flex-col items-center cursor-pointer group"
-              onClick={() => scrollToSection(window.innerHeight * 3 + 100)}
-            >
+            <div className="mt-16 flex flex-col items-center">
               <div className="text-white text-xl mb-4 opacity-75 
                             group-hover:opacity-100 transition-opacity">
                 Continue
               </div>
-              <svg 
-                className="w-16 h-16 transform rotate-90 group-hover:translate-x-2 
-                          transition-transform duration-300"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-              >
-                <path d="M12 2L2 22h20L12 2z" />
-              </svg>
+              <RocketShip 
+                onClick={() => scrollToSection(window.innerHeight * 3 + 100)}
+              />
             </div>
           </section>
 

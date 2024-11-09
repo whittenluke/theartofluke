@@ -28,6 +28,7 @@ module.exports = {
         'parallax-slow': 'parallax 25s linear infinite',
         'parallax-medium': 'parallax 15s linear infinite',
         'parallax-fast': 'parallax 10s linear infinite',
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         fadeIn: {
@@ -49,6 +50,10 @@ module.exports = {
         twinkle: {
           '0%, 100%': { opacity: 0.2 },
           '50%': { opacity: 1 },
+        },
+        pulse: {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0.5 },
         },
       },
       transitionTimingFunction: {
