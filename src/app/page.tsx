@@ -95,18 +95,35 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
     }
 
     if (isLeadingScroll) {
-      // Early scroll animation (0-50px)
-      const rotationProgress = Math.min(y / 50, 1)
-      const rotationDegrees = direction === 'down' ? 
-        180 * rotationProgress : // Rotate down when scrolling down
-        0 // Keep facing up when scrolling up
+      // Extend the animation range to first 100px of scroll
+      const rotationProgress = Math.min(y / 100, 1)
+      
+      // Only start moving when we have some scroll progress
+      if (y < 1) {
+        return {
+          position: 'relative',
+          transform: 'rotate(0deg)',
+          transition: 'all 0.3s ease-out'
+        }
+      }
+
+      // Calculate rotation
+      const rotationDegrees = direction === 'down'
+        ? 180 * rotationProgress // Smooth rotation over first 100px
+        : 0 // Keep facing up when scrolling up
+
+      // Start from bottom-[20%] position (matching the original container position)
+      const startPosition = 20 // Original bottom position (%)
+      const endPosition = 10   // Final bottom position (%)
+      const positionProgress = rotationProgress
+      const bottomPosition = startPosition - (startPosition - endPosition) * positionProgress
 
       return {
         position: 'fixed',
         left: '50%',
-        bottom: '10%',
+        bottom: `${Math.max(endPosition, bottomPosition)}%`,
         transform: `translate(-50%, 0) rotate(${rotationDegrees}deg)`,
-        transition: 'all 0.2s ease-out',
+        transition: 'all 0.3s ease-out',
         zIndex: 100
       }
     }
@@ -114,8 +131,8 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
     // Default position (at top of page)
     return {
       position: 'relative',
-      transform: 'rotate(0deg)', // Explicitly set rotation to 0
-      transition: 'all 0.2s ease-out'
+      transform: 'rotate(0deg)',
+      transition: 'all 0.3s ease-out'
     }
   }
 
