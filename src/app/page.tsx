@@ -40,11 +40,10 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
   // Handle click animation and scroll
   const handleClick = async () => {
     const currentSection = getCurrentSection()
-    if (isAnimating) return // Prevent multiple clicks during animation
+    if (isAnimating) return
     
     setIsAnimating(true)
     
-    // Much slower animation (4 seconds total)
     const startTime = Date.now()
     const duration = 2000
     
@@ -59,21 +58,24 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       if (progress < 1) {
         requestAnimationFrame(animateFlight)
       } else {
-        // Determine next section based on current position
         const nextY = currentSection === 'title' ? window.innerHeight + 100 :
                      currentSection === 'about' ? window.innerHeight * 2 + 100 :
                      window.innerHeight * 3 + 100
 
-        // Slow scroll to next section
+        // Scroll to next section
         window.scrollTo({
           top: nextY,
           behavior: 'smooth'
         })
         
-        // Reset after animation completes
+        // Add final rotation animation after reaching destination
         setTimeout(() => {
-          setIsAnimating(false)
-          setFlightProgress(0)
+          setFlightProgress(2) // This triggers the return rotation
+          setTimeout(() => {
+            setIsAnimating(false)
+            setFlightProgress(0)
+            setIsLeadingScroll(false) // Reset scroll state when animation completes
+          }, 500)
         }, 1000)
       }
     }
@@ -84,12 +86,17 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
   // Calculate styles based on state
   const getFlightStyles = (): CSSProperties => {
     if (isAnimating) {
+      // Handle both initial and return rotation
+      const rotationDegrees = flightProgress <= 1 
+        ? 180 * flightProgress  // Initial rotation down
+        : 180 * (2 - flightProgress) // Return rotation up
+      
       return {
         position: 'fixed',
         left: '50%',
         top: '80%',
-        transform: `translate(-50%, -50%) rotate(${180 * flightProgress}deg)`,
-        transition: 'transform 1s ease-out',
+        transform: `translate(-50%, -50%) rotate(${rotationDegrees}deg)`,
+        transition: 'transform 0.5s ease-out',
         zIndex: 100
       }
     }
@@ -128,10 +135,11 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       }
     }
 
-    // Default position (at top of page)
+    // Default position - now includes section check
+    const currentSection = getCurrentSection()
     return {
-      position: 'relative',
-      transform: 'rotate(0deg)',
+      position: currentSection === 'about' ? 'relative' : 'relative',
+      transform: 'rotate(0deg)', // Always face up in resting state
       transition: 'all 0.3s ease-out'
     }
   }
@@ -143,8 +151,9 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       style={getFlightStyles()}
     >
       <div className="relative duration-700">
-        {/* Text - Modified condition to hide during animation */}
-        {(getCurrentSection() === 'title' && (y === 0 || (!isLeadingScroll && !isAnimating)) && !isAnimating) && (
+        {/* Text - Modified conditions for both sections */}
+        {((getCurrentSection() === 'title' && (y === 0 || (!isLeadingScroll && !isAnimating)) && !isAnimating) ||
+          (getCurrentSection() === 'about' && !isLeadingScroll && !isAnimating)) && (
           <div className="text-white text-xl mb-4 opacity-75 text-center whitespace-nowrap
                        transition-opacity duration-300 group-hover:opacity-100">
             Scroll down or click spaceship
