@@ -28,12 +28,14 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
 
   // Handle scroll-based behavior
   useEffect(() => {
-    if (direction === 'down' && y > 100) {
+    // Start transition immediately with any scroll
+    if (y > 0) {
       setIsLeadingScroll(true)
-    } else if (direction === 'up' && y < 100) {
+    } else {
+      // Only reset to original position at the very top
       setIsLeadingScroll(false)
     }
-  }, [y, direction])
+  }, [y])
 
   // Handle click animation and scroll
   const handleClick = async () => {
@@ -93,20 +95,27 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
     }
 
     if (isLeadingScroll) {
+      // Early scroll animation (0-50px)
+      const rotationProgress = Math.min(y / 50, 1)
+      const rotationDegrees = direction === 'down' ? 
+        180 * rotationProgress : // Rotate down when scrolling down
+        0 // Keep facing up when scrolling up
+
       return {
         position: 'fixed',
         left: '50%',
-        bottom: '20%',
-        transform: `translate(-50%, 0) rotate(${direction === 'down' ? '180deg' : '0deg'})`,
-        transition: 'transform 0.5s ease-out',
+        bottom: '10%',
+        transform: `translate(-50%, 0) rotate(${rotationDegrees}deg)`,
+        transition: 'all 0.2s ease-out',
         zIndex: 100
       }
     }
 
-    // Modified default position - remove the transform
+    // Default position (at top of page)
     return {
-      position: 'static',  // Change to static to prevent compound transforms
-      transition: 'transform 0.5s ease-out'
+      position: 'relative',
+      transform: 'rotate(0deg)', // Explicitly set rotation to 0
+      transition: 'all 0.2s ease-out'
     }
   }
 
@@ -117,8 +126,8 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       style={getFlightStyles()}
     >
       <div className="relative duration-700">
-        {/* Text - Only show on initial load */}
-        {getCurrentSection() === 'title' && !isLeadingScroll && !isAnimating && (
+        {/* Text - Show on initial load AND when back at top */}
+        {(getCurrentSection() === 'title' && (y === 0 || (!isLeadingScroll && !isAnimating))) && (
           <div className="text-white text-xl mb-4 opacity-75 text-center whitespace-nowrap
                        transition-opacity duration-300 group-hover:opacity-100">
             Scroll down or click spaceship
@@ -253,7 +262,7 @@ export default function Home() {
               </div>
 
               {/* Single Spaceship */}
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-[20%]">
+              <div className="relative">
                 <RocketShip 
                   onClick={() => scrollToSection(window.innerHeight + 100)}
                   position="first"
