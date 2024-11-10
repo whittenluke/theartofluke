@@ -138,9 +138,12 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
     // Default position - now includes section check
     const currentSection = getCurrentSection()
     return {
-      position: currentSection === 'about' ? 'relative' : 'relative',
-      transform: 'rotate(0deg)', // Always face up in resting state
-      transition: 'all 0.3s ease-out'
+      position: 'fixed',
+      left: '50%',
+      bottom: '10%',
+      transform: 'translate(-50%, 0) rotate(0deg)',
+      transition: 'all 0.3s ease-out',
+      zIndex: 100
     }
   }
 
