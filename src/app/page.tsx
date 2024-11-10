@@ -143,8 +143,8 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       style={getFlightStyles()}
     >
       <div className="relative duration-700">
-        {/* Text - Show on initial load AND when back at top */}
-        {(getCurrentSection() === 'title' && (y === 0 || (!isLeadingScroll && !isAnimating))) && (
+        {/* Text - Modified condition to hide during animation */}
+        {(getCurrentSection() === 'title' && (y === 0 || (!isLeadingScroll && !isAnimating)) && !isAnimating) && (
           <div className="text-white text-xl mb-4 opacity-75 text-center whitespace-nowrap
                        transition-opacity duration-300 group-hover:opacity-100">
             Scroll down or click spaceship
