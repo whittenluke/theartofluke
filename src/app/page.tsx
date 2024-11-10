@@ -44,7 +44,7 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
     
     // Much slower animation (4 seconds total)
     const startTime = Date.now()
-    const duration = 4000
+    const duration = 2000
     
     const animateFlight = () => {
       const elapsed = Date.now() - startTime
@@ -103,9 +103,9 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       }
     }
 
-    // Default position
+    // Modified default position - remove the transform
     return {
-      position: 'relative',
+      position: 'static',  // Change to static to prevent compound transforms
       transition: 'transform 0.5s ease-out'
     }
   }
@@ -116,7 +116,7 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       className={`group cursor-pointer ${className}`}
       style={getFlightStyles()}
     >
-      <div className="relative transform transition-all duration-700">
+      <div className="relative duration-700">
         {/* Text - Only show on initial load */}
         {getCurrentSection() === 'title' && !isLeadingScroll && !isAnimating && (
           <div className="text-white text-xl mb-4 opacity-75 text-center whitespace-nowrap
@@ -126,7 +126,7 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
         )}
 
         {/* Rocket */}
-        <div className="transform transition-all duration-1000">
+        <div className="flex justify-center duration-1000">
           <svg 
             className="w-16 h-16"
             viewBox="0 0 64 64"
