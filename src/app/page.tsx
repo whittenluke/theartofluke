@@ -3,6 +3,14 @@
 import { Suspense, useCallback, useState, useEffect, CSSProperties, useRef } from 'react'
 import { useScroll } from '@/hooks/useScroll'
 import SpaceScene from '@/components/scenes/Space'
+import { 
+  CommandLineIcon,    // Mission Control
+  RocketLaunchIcon,   // Professional Journey
+  SparklesIcon,       // Art Nebula
+  LightBulbIcon,      // Innovation Sector
+  MusicalNoteIcon,    // Harmonic Transmission
+  SignalIcon          // Communication Array
+} from '@heroicons/react/24/outline'
 
 // Page metadata for dynamic routes
 export const dynamic = 'force-dynamic'
@@ -318,7 +326,7 @@ export default function Home() {
             </Suspense>
           </section>
 
-          {/* First About Section */}
+          {/* Mission Control Section */}
           <section 
             className="relative flex flex-col items-center justify-center z-20 px-4 md:px-8"
             style={{
@@ -326,32 +334,66 @@ export default function Home() {
               transform: `translateY(${Math.max(0, 50 - (y - 400) / 8)}px)`
             }}
           >
-            <div className="max-w-3xl mx-auto text-white">
-              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
-                About Me
+            <div className="max-w-4xl mx-auto text-white w-full">
+              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+                Mission Control
               </h2>
               
-              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
-                <p>
-                Hi and welcome! I'm Luke, and I created this space to share
-                my thoughts, my creative journey, and my passions with others.  
-                </p>
-                <p>
-                As a Product Manager working in insurtech, I get to tackle
-                fascinating challenges every day alongside a talented team of product,
-                design, and engineering pros. Together, we transform complex
-                insurance problems into elegant digital solutions that make a
-                real difference in people's lives.
-                </p>
-                <p>
-                My team specifically focuses on creating intuitive and delightful 
-                user experiences. What does that mean? Bascially, that we care about the
-                people that are going to use our software and we design with them in mind.
-                </p>
-                <p>
-                But that's just one dimension of my career, my life, and my journey
-                thus far. Continue further to learn more.
-                </p>
+              {/* Navigation Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Mission Control Card */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
+                  <div className="h-12 w-12 mb-4 mx-auto">
+                    <CommandLineIcon className="w-full h-full text-blue-500" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-center mb-2">Mission Control</h3>
+                  <p className="text-sm text-center text-gray-300">Navigation Hub</p>
+                </div>
+
+                {/* Professional Journey Card */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
+                  <div className="h-12 w-12 mb-4 mx-auto">
+                    <RocketLaunchIcon className="w-full h-full text-green-500" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-center mb-2">Professional Journey</h3>
+                  <p className="text-sm text-center text-gray-300">Career & Experience</p>
+                </div>
+
+                {/* Innovation Sector Card */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
+                  <div className="h-12 w-12 mb-4 mx-auto">
+                    <LightBulbIcon className="w-full h-full text-yellow-500" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-center mb-2">Innovation Sector</h3>
+                  <p className="text-sm text-center text-gray-300">Tech & Ideas</p>
+                </div>
+
+                {/* Art Nebula Card */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
+                  <div className="h-12 w-12 mb-4 mx-auto">
+                    <SparklesIcon className="w-full h-full text-purple-500" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-center mb-2">Art Nebula</h3>
+                  <p className="text-sm text-center text-gray-300">Creative Works</p>
+                </div>
+
+                {/* Harmonic Transmission Card */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
+                  <div className="h-12 w-12 mb-4 mx-auto">
+                    <MusicalNoteIcon className="w-full h-full text-red-500" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-center mb-2">Harmonic Transmission</h3>
+                  <p className="text-sm text-center text-gray-300">Music & Sound</p>
+                </div>
+
+                {/* Communication Array Card */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
+                  <div className="h-12 w-12 mb-4 mx-auto">
+                    <SignalIcon className="w-full h-full text-cyan-500" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-center mb-2">Communication Array</h3>
+                  <p className="text-sm text-center text-gray-300">Contact & Connect</p>
+                </div>
               </div>
             </div>
           </section>
@@ -366,21 +408,25 @@ export default function Home() {
           >
             <div className="max-w-3xl mx-auto text-white">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
-                My Journey
+                Professional Journey
               </h2>
               
               <div className="space-y-6 text-lg md:text-xl leading-relaxed">
                 <p>
-                By day, I work as a Technical Product Manager for an insurance company.
-                I know, insurance sounds boring, but I get to work in a really special
-                software space with people that care about technology. It's a really
-                cool gig. While I spend most of my time orchestrating technical solutions
-                and driving product innovation, my world extends far beyond this role. 
+                As a Product Manager working in insurtech, I get to tackle
+                fascinating challenges every day alongside a talented team
+                of product, design, and engineering pros. Together, we
+                transform complex insurance problems into elegant digital
+                solutions that make a real difference in people's lives.
                 </p>
                 <p>
-                My journey is rich with experiences, woven from threads of code, color,
-                and chords. I'm constantly seeking my ideal dynamic where technology and
-                art intersect, giving rise to something truly unique and captivating.
+                My team specifically focuses on creating intuitive and
+                delightful user experiences. What does that mean? Bascially,
+                that we care about the people that are going to use our 
+                software and we design with them in mind.
+                </p>
+                <p>
+                But that's just one dimension of my career, my life, and my journey thus far. Continue further to learn more.
                 </p>
               </div>
             </div>
