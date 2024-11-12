@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useCallback, useState, useEffect, CSSProperties } from 'react'
+import { Suspense, useCallback, useState, useEffect, CSSProperties, useRef } from 'react'
 import { useScroll } from '@/hooks/useScroll'
 import SpaceScene from '@/components/scenes/Space'
 
@@ -18,16 +18,6 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
   const [flightProgress, setFlightProgress] = useState(0)
   const [isLeadingScroll, setIsLeadingScroll] = useState(false)
 
-  // Add these constants at the top of the component
-  const SECTION_THRESHOLDS: Record<string, number> = {
-    title: 0,
-    about: window.innerHeight * 0.8,
-    journey: window.innerHeight * 1.8,
-    other: window.innerHeight * 2.8
-  }
-  
-  const LOCK_THRESHOLD = 100 // pixels before lock point to start transition
-
   // Track current section
   const getCurrentSection = useCallback(() => {
     if (y < window.innerHeight * 0.8) return 'title'
@@ -36,17 +26,17 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
     return 'other'
   }, [y])
 
-  // Add a new function to check if we're in the lock zone
-  const isInLockZone = () => {
-    return Math.abs(y - 951) < 50
+  // Remove the isInLockZone function and replace with this simpler check
+  const isInDefaultState = () => {
+    return y === 0 || (y >= 750 && y <= 850) || (y >= 1820 && y <= 1920)
   }
 
-  // Modify the scroll effect to consider the lock zone
+  // Update the useEffect to properly handle both clickable zones
   useEffect(() => {
-    if (y > 0 && !isInLockZone()) {  // Changed condition
+    if (y > 0 && !isInDefaultState()) {  
       setIsLeadingScroll(true)
     } else {
-      setIsLeadingScroll(false)  // Reset when at top or in lock zone
+      setIsLeadingScroll(false)
     }
   }, [y])
 
@@ -71,23 +61,26 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
       if (progress < 1) {
         requestAnimationFrame(animateFlight)
       } else {
-        const nextY = currentSection === 'title' ? window.innerHeight + 100 :
-                     currentSection === 'about' ? window.innerHeight * 2 + 300 :
-                     window.innerHeight * 3 + 100
+        let nextY
+        if (currentSection === 'title') {
+          nextY = 750  // First click from top
+        } else if (y >= 750 && y <= 850) {
+          nextY = 1820  // Second click from About Me
+        } else if (y >= 1820 && y <= 1920) {
+          nextY = window.innerHeight * 3 + 100  // Third click from Journey
+        }
 
-        // Scroll to next section
         window.scrollTo({
           top: nextY,
           behavior: 'smooth'
         })
         
-        // Add final rotation animation after reaching destination
         setTimeout(() => {
-          setFlightProgress(2) // This triggers the return rotation
+          setFlightProgress(2)
           setTimeout(() => {
             setIsAnimating(false)
             setFlightProgress(0)
-            setIsLeadingScroll(false) // Reset scroll state when animation completes
+            setIsLeadingScroll(false)
           }, 500)
         }, 1000)
       }
@@ -98,13 +91,6 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
 
   // Calculate styles based on state
   const getFlightStyles = (): CSSProperties => {
-    // Get distance to nearest lock point
-    const currentY = y
-    const nearestLockPoint = Object.values(SECTION_THRESHOLDS).reduce((prev, curr) => 
-      Math.abs(curr - currentY) < Math.abs(prev - currentY) ? curr : prev
-    )
-    const distanceToLock = Math.abs(currentY - nearestLockPoint)
-
     if (isAnimating) {
       // Handle both initial and return rotation
       const rotationDegrees = flightProgress <= 1 
@@ -122,26 +108,15 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
     }
 
     if (isLeadingScroll) {
-      // Add this lock zone check before the existing scroll behavior
-      if (Math.abs(y - 951) < 50) { // 50px tolerance for smooth transition
-        return {
-          position: 'fixed',
-          left: '50%',
-          bottom: '10%',
-          transform: 'translate(-50%, 0) rotate(0deg)',
-          transition: 'all 0.3s ease-out',
-          zIndex: 100
-        }
-      }
-
-      // Existing scroll behavior
+      // Scroll behavior
       const rotationProgress = Math.min(y / 100, 1)
       
       if (y < 1) {
         return {
           position: 'relative',
           transform: 'rotate(0deg)',
-          transition: 'all 0.3s ease-out'
+          transition: 'all 0.3s ease-out',
+          zIndex: 100
         }
       }
 
@@ -149,42 +124,56 @@ const RocketShip = ({ onClick, className = "", position = "first" }: {
         ? 180 * rotationProgress
         : 0
 
-      const startPosition = 20
-      const endPosition = 10
-      const positionProgress = rotationProgress
-      const bottomPosition = startPosition - (startPosition - endPosition) * positionProgress
-
       return {
         position: 'fixed',
         left: '50%',
-        bottom: `${Math.max(endPosition, bottomPosition)}%`,
-        transform: `translate(-50%, 0) rotate(${rotationDegrees}deg)`,
+        top: '80%',
+        transform: `translate(-50%, -50%) rotate(${rotationDegrees}deg)`,
         transition: 'all 0.3s ease-out',
         zIndex: 100
       }
     }
 
-    // Default locked position at section
+    // Default state (used at both y=0 and 850-1000px)
     return {
       position: 'fixed',
       left: '50%',
-      bottom: '10%',
-      transform: 'translate(-50%, 0) rotate(0deg)',
+      top: '80%',
+      transform: 'translate(-50%, -50%) rotate(0deg)',
       transition: 'all 0.3s ease-out',
-      zIndex: 100
+      zIndex: 100,
+      cursor: 'pointer'
     }
   }
 
   return (
     <div 
-      onClick={handleClick}
-      className={`group cursor-pointer ${className}`}
+      onClick={(e) => {
+        // Debug logs
+        console.log({
+          y,
+          isLeadingScroll,
+          flightProgress,
+          isInDefaultState: isInDefaultState(),
+          isUpright: !isLeadingScroll && flightProgress === 0 && (y < 100 || (y >= 750 && y <= 850) || (y >= 1820 && y <= 1920))
+        })
+        
+        const isUpright = !isLeadingScroll && flightProgress === 0 && 
+                         (y < 100 || (y >= 750 && y <= 850) || (y >= 1820 && y <= 1920))
+        
+        if (isInDefaultState() && isUpright && !isAnimating) {
+          handleClick()
+        } else {
+          e.preventDefault()
+        }
+      }}
+      className={`group ${isInDefaultState() && !isLeadingScroll && flightProgress === 0 ? 'cursor-pointer' : 'cursor-default'} ${className}`}
       style={getFlightStyles()}
     >
-      <div className="relative duration-700">
+      <div className="relative duration-700 flex flex-col items-center">
         {/* Text - Modified conditions for both sections */}
         {((getCurrentSection() === 'title' && (y === 0 || (!isLeadingScroll && !isAnimating)) && !isAnimating) ||
-          (isInLockZone() && !isAnimating && flightProgress === 0) ||
+          (isInDefaultState() && !isAnimating && flightProgress === 0) ||
           (getCurrentSection() === 'about' && !isLeadingScroll && !isAnimating && flightProgress === 0)) && (
           <div className="text-white text-xl mb-4 opacity-75 text-center whitespace-nowrap
                        transition-opacity duration-300 group-hover:opacity-100">
@@ -261,15 +250,15 @@ export default function Home() {
     threshold: 10,
     delay: 50
   })
-  
-  // Smooth scroll function
-  const scrollToSection = useCallback((yPosition: number) => {
+
+  // Simplify scrollToSection back to its basic form
+  const scrollToSection = useCallback((target: number) => {
     window.scrollTo({
-      top: yPosition,
+      top: target,
       behavior: 'smooth'
     })
   }, [])
-  
+
   // Fade calculations for both About sections
   const aboutOneOpacity = Math.min(
     Math.max(0, (y - 400) / 400),
@@ -322,7 +311,7 @@ export default function Home() {
               {/* Single Spaceship */}
               <div className="relative">
                 <RocketShip 
-                  onClick={() => scrollToSection(window.innerHeight + 100)}
+                  onClick={() => scrollToSection(750)}
                   position="first"
                 />
               </div>
@@ -331,7 +320,7 @@ export default function Home() {
 
           {/* First About Section */}
           <section 
-            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8"
+            className="relative flex flex-col items-center justify-center z-20 px-4 md:px-8"
             style={{
               opacity: aboutOneOpacity,
               transform: `translateY(${Math.max(0, 50 - (y - 400) / 8)}px)`
