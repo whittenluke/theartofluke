@@ -15,6 +15,19 @@ import {
 // Page metadata for dynamic routes
 export const dynamic = 'force-dynamic'
 
+// Add this near the top of the file, after imports
+const TITLE_DISPLAY_DURATION = 3000 // Duration in ms to show title
+
+// Add this after the TITLE_DISPLAY_DURATION constant
+const SECTION_DESTINATIONS = {
+  missionControl: 750,
+  professionalJourney: 1000,
+  innovationSector: 1600,
+  artNebula: 2200,
+  harmonicTransmission: 2800,
+  communicationArray: 3400
+} as const
+
 // Add this rocket component (you can move it to a separate file later)
 const RocketShip = ({ onClick, className = "", position = "first" }: { 
   onClick: () => void, 
@@ -259,10 +272,39 @@ export default function Home() {
     delay: 50
   })
 
-  // Simplify scrollToSection back to its basic form
-  const scrollToSection = useCallback((target: number) => {
+  const [showTitle, setShowTitle] = useState(true)
+  // Add state for Mission Control visibility
+  const [showMissionControl, setShowMissionControl] = useState(false)
+
+  useEffect(() => {
+    const titleTimer = setTimeout(() => {
+      setShowTitle(false)
+      // Increase delay before showing Mission Control to 2000ms (2 seconds)
+      setTimeout(() => {
+        setShowMissionControl(true)
+      }, 2000) // Increased from 1000ms to 2000ms for a clearer separation
+    }, TITLE_DISPLAY_DURATION)
+
+    return () => clearTimeout(titleTimer)
+  }, [])
+
+  // Add refs for each section
+  const professionalJourneyRef = useRef<HTMLElement>(null)
+  const innovationSectorRef = useRef<HTMLElement>(null)
+  const artNebulaRef = useRef<HTMLElement>(null)
+  const harmonicTransmissionRef = useRef<HTMLElement>(null)
+  const communicationArrayRef = useRef<HTMLElement>(null)
+
+  // Update scrollToSection to use element positions
+  const scrollToSection = useCallback((target: number | HTMLElement | null) => {
+    if (target === null) return
+    
+    const position = typeof target === 'number' 
+      ? target 
+      : target.getBoundingClientRect().top + window.scrollY
+
     window.scrollTo({
-      top: target,
+      top: position,
       behavior: 'smooth'
     })
   }, [])
@@ -277,6 +319,13 @@ export default function Home() {
     Math.max(0, (y - 1000) / 400), // Starts fading in at 1000px
     1
   )
+
+  // Modify handleCardClick to use refs instead of hardcoded positions
+  const handleCardClick = (ref: React.RefObject<HTMLElement>) => {
+    if (ref.current) {
+      scrollToSection(ref.current)
+    }
+  }
 
   return (
     <div className="relative min-h-[2000vh] bg-black">
@@ -297,27 +346,120 @@ export default function Home() {
         {/* Content Sections */}
         <div className="relative">
           {/* Title Section with Spaceship */}
-          <section className="relative h-screen flex flex-col items-center justify-center z-20">
+          <section className="relative h-screen flex flex-col items-center z-20">
             <Suspense fallback={<div className="text-white">Loading...</div>}>
-              {/* Title content */}
               <div 
-                className="transition-all duration-300 ease-out text-center"
+                className="transition-all duration-300 ease-out text-center mt-32"
                 style={{
                   opacity: Math.max(0, 1 - (y / 300)),
                   transform: `translateY(${Math.min(y / 10, 20)}px)`
                 }}
               >
                 <h1 
-                  className="text-6xl md:text-8xl text-white font-bold 
-                           opacity-0 animate-fade-in [animation-duration:2s] 
-                           [animation-fill-mode:forwards] mb-16"
+                  className={`
+                    flex flex-col items-center gap-4
+                    text-6xl md:text-8xl text-white font-bold 
+                    opacity-0 animate-fade-in [animation-duration:2s] 
+                    [animation-fill-mode:forwards] mb-16
+                    ${!showTitle ? 'animate-fade-out' : ''}
+                  `}
                 >
-                  The Art of Luke
+                  <span className="text-4xl md:text-6xl">Welcome to</span>
+                  <span>The Art of Luke</span>
                 </h1>
               </div>
 
-              {/* Single Spaceship */}
-              <div className="relative">
+              {/* Mission Control - Positioned at top */}
+              <div 
+                className={`
+                  absolute top-32 left-1/2 -translate-x-1/2
+                  w-full max-w-4xl px-4 transition-all duration-1000
+                  ${showMissionControl ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}
+                `}
+              >
+                <div className="text-white w-full">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+                    Mission Control
+                  </h2>
+                  
+                  {/* Navigation Cards Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {/* Mission Control Card */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                      onClick={() => handleCardClick(SECTION_DESTINATIONS.missionControl)}
+                    >
+                      <div className="h-12 w-12 mb-4 mx-auto">
+                        <CommandLineIcon className="w-full h-full text-blue-500" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-center mb-2">Mission Control</h3>
+                      <p className="text-sm text-center text-gray-300">Navigation Hub</p>
+                    </div>
+
+                    {/* Professional Journey Card */}
+                    <div 
+                      className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                      onClick={() => handleCardClick(professionalJourneyRef)}
+                    >
+                      <div className="h-12 w-12 mb-4 mx-auto">
+                        <RocketLaunchIcon className="w-full h-full text-green-500" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-center mb-2">Professional Journey</h3>
+                      <p className="text-sm text-center text-gray-300">Career & Experience</p>
+                    </div>
+
+                    {/* Innovation Sector Card */}
+                    <div 
+                      className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                      onClick={() => handleCardClick(innovationSectorRef)}
+                    >
+                      <div className="h-12 w-12 mb-4 mx-auto">
+                        <LightBulbIcon className="w-full h-full text-yellow-500" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-center mb-2">Innovation Sector</h3>
+                      <p className="text-sm text-center text-gray-300">Tech & Ideas</p>
+                    </div>
+
+                    {/* Art Nebula Card */}
+                    <div 
+                      className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                      onClick={() => handleCardClick(artNebulaRef)}
+                    >
+                      <div className="h-12 w-12 mb-4 mx-auto">
+                        <SparklesIcon className="w-full h-full text-purple-500" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-center mb-2">Art Nebula</h3>
+                      <p className="text-sm text-center text-gray-300">Creative Works</p>
+                    </div>
+
+                    {/* Harmonic Transmission Card */}
+                    <div 
+                      className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                      onClick={() => handleCardClick(harmonicTransmissionRef)}
+                    >
+                      <div className="h-12 w-12 mb-4 mx-auto">
+                        <MusicalNoteIcon className="w-full h-full text-red-500" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-center mb-2">Harmonic Transmission</h3>
+                      <p className="text-sm text-center text-gray-300">Music & Sound</p>
+                    </div>
+
+                    {/* Communication Array Card */}
+                    <div 
+                      className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                      onClick={() => handleCardClick(communicationArrayRef)}
+                    >
+                      <div className="h-12 w-12 mb-4 mx-auto">
+                        <SignalIcon className="w-full h-full text-cyan-500" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-center mb-2">Communication Array</h3>
+                      <p className="text-sm text-center text-gray-300">Contact & Connect</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Spaceship */}
+              <div className="relative mt-auto mb-32">
                 <RocketShip 
                   onClick={() => scrollToSection(750)}
                   position="first"
@@ -326,80 +468,9 @@ export default function Home() {
             </Suspense>
           </section>
 
-          {/* Mission Control Section */}
+          {/* Professional Journey Section */}
           <section 
-            className="relative flex flex-col items-center justify-center z-20 px-4 md:px-8"
-            style={{
-              opacity: aboutOneOpacity,
-              transform: `translateY(${Math.max(0, 50 - (y - 400) / 8)}px)`
-            }}
-          >
-            <div className="max-w-4xl mx-auto text-white w-full">
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Mission Control
-              </h2>
-              
-              {/* Navigation Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Mission Control Card */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
-                  <div className="h-12 w-12 mb-4 mx-auto">
-                    <CommandLineIcon className="w-full h-full text-blue-500" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-center mb-2">Mission Control</h3>
-                  <p className="text-sm text-center text-gray-300">Navigation Hub</p>
-                </div>
-
-                {/* Professional Journey Card */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
-                  <div className="h-12 w-12 mb-4 mx-auto">
-                    <RocketLaunchIcon className="w-full h-full text-green-500" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-center mb-2">Professional Journey</h3>
-                  <p className="text-sm text-center text-gray-300">Career & Experience</p>
-                </div>
-
-                {/* Innovation Sector Card */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
-                  <div className="h-12 w-12 mb-4 mx-auto">
-                    <LightBulbIcon className="w-full h-full text-yellow-500" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-center mb-2">Innovation Sector</h3>
-                  <p className="text-sm text-center text-gray-300">Tech & Ideas</p>
-                </div>
-
-                {/* Art Nebula Card */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
-                  <div className="h-12 w-12 mb-4 mx-auto">
-                    <SparklesIcon className="w-full h-full text-purple-500" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-center mb-2">Art Nebula</h3>
-                  <p className="text-sm text-center text-gray-300">Creative Works</p>
-                </div>
-
-                {/* Harmonic Transmission Card */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
-                  <div className="h-12 w-12 mb-4 mx-auto">
-                    <MusicalNoteIcon className="w-full h-full text-red-500" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-center mb-2">Harmonic Transmission</h3>
-                  <p className="text-sm text-center text-gray-300">Music & Sound</p>
-                </div>
-
-                {/* Communication Array Card */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
-                  <div className="h-12 w-12 mb-4 mx-auto">
-                    <SignalIcon className="w-full h-full text-cyan-500" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-center mb-2">Communication Array</h3>
-                  <p className="text-sm text-center text-gray-300">Contact & Connect</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Second About Section */}
-          <section 
+            ref={professionalJourneyRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
             style={{
               opacity: aboutTwoOpacity,
@@ -427,6 +498,125 @@ export default function Home() {
                 </p>
                 <p>
                 But that's just one dimension of my career, my life, and my journey thus far. Continue further to learn more.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Innovation Sector Section */}
+          <section 
+            ref={innovationSectorRef}
+            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
+            style={{
+              opacity: Math.min(Math.max(0, (y - 1600) / 400), 1),
+              transform: `translateY(${Math.max(0, 50 - (y - 1600) / 8)}px)`
+            }}
+          >
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
+                Innovation Sector
+              </h2>
+              
+              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
+                <p>
+                At the intersection of technology and creativity, the Innovation Sector
+                serves as a laboratory for exploring cutting-edge ideas and solutions.
+                Here, we push the boundaries of what's possible in web development,
+                product design, and digital experiences.
+                </p>
+                <p>
+                From experimenting with new frameworks to crafting novel user interactions,
+                this space showcases the technical innovations that drive our cosmic journey
+                forward into uncharted digital territories.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Art Nebula Section */}
+          <section 
+            ref={artNebulaRef}
+            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
+            style={{
+              opacity: Math.min(Math.max(0, (y - 2200) / 400), 1),
+              transform: `translateY(${Math.max(0, 50 - (y - 2200) / 8)}px)`
+            }}
+          >
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
+                Art Nebula
+              </h2>
+              
+              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
+                <p>
+                Within the Art Nebula, creative expression takes flight across multiple
+                mediums and dimensions. This gallery of imagination showcases various
+                artistic endeavors, from digital art to traditional mediums, each piece
+                telling its own story.
+                </p>
+                <p>
+                Like the cosmic nebulae that birth new stars, this space nurtures the
+                convergence of technology and artistry, creating experiences that
+                resonate across the digital cosmos.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Harmonic Transmission Section */}
+          <section 
+            ref={harmonicTransmissionRef}
+            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
+            style={{
+              opacity: Math.min(Math.max(0, (y - 2800) / 400), 1),
+              transform: `translateY(${Math.max(0, 50 - (y - 2800) / 8)}px)`
+            }}
+          >
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
+                Harmonic Transmission
+              </h2>
+              
+              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
+                <p>
+                The Harmonic Transmission sector resonates with the rhythms and melodies
+                of musical exploration. Here, sound waves ripple through the digital void,
+                creating patterns of harmony and creative expression.
+                </p>
+                <p>
+                This audio observatory captures the fusion of traditional musicianship
+                with modern digital production, broadcasting sonic experiments across
+                the vastness of our digital space.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Communication Array Section */}
+          <section 
+            ref={communicationArrayRef}
+            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
+            style={{
+              opacity: Math.min(Math.max(0, (y - 3400) / 400), 1),
+              transform: `translateY(${Math.max(0, 50 - (y - 3400) / 8)}px)`
+            }}
+          >
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
+                Communication Array
+              </h2>
+              
+              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
+                <p>
+                The Communication Array stands as our beacon to the outside world,
+                a nexus point for connection and collaboration. This is where our
+                cosmic journey intersects with yours, creating opportunities for
+                meaningful dialogue and shared exploration.
+                </p>
+                <p>
+                Through this array, we broadcast our signal across the digital expanse,
+                inviting fellow travelers to join our mission and shape the future
+                of our expanding universe.
                 </p>
               </div>
             </div>
