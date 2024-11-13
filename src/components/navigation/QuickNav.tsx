@@ -51,7 +51,7 @@ export const QuickNav = ({ currentSection, onNavigate }: QuickNavProps) => {
     { 
       id: 'communicationArray', 
       icon: SignalIcon, 
-      label: ['Communication', 'Array'],
+      label: ['Contact', 'Zone'],
       color: 'text-cyan-500' 
     }
   ]
