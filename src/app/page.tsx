@@ -11,6 +11,7 @@ import {
   MusicalNoteIcon,    // Harmonic Transmission
   SignalIcon          // Communication Array
 } from '@heroicons/react/24/outline'
+import { QuickNav } from '@/components/navigation/QuickNav'
 
 // Page metadata for dynamic routes
 export const dynamic = 'force-dynamic'
@@ -289,6 +290,7 @@ export default function Home() {
   }, [])
 
   // Add refs for each section
+  const missionControlRef = useRef<HTMLElement>(null)
   const professionalJourneyRef = useRef<HTMLElement>(null)
   const innovationSectorRef = useRef<HTMLElement>(null)
   const artNebulaRef = useRef<HTMLElement>(null)
@@ -328,7 +330,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative min-h-[2000vh] bg-black">
+    <div className="relative min-h-[2000vh] bg-black" ref={missionControlRef}>
       {/* Debug display */}
       <Suspense fallback={null}>
         <div className="fixed top-4 right-4 bg-black/50 text-white p-2 z-50">
@@ -371,6 +373,7 @@ export default function Home() {
 
               {/* Mission Control - Positioned at top */}
               <div 
+                ref={missionControlRef}
                 className={`
                   absolute top-32 left-1/2 -translate-x-1/2
                   w-full max-w-4xl px-4 transition-all duration-1000
@@ -386,7 +389,7 @@ export default function Home() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Mission Control Card */}
                     <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer"
-                      onClick={() => handleCardClick(SECTION_DESTINATIONS.missionControl)}
+                      onClick={() => handleCardClick(missionControlRef)}
                     >
                       <div className="h-12 w-12 mb-4 mx-auto">
                         <CommandLineIcon className="w-full h-full text-blue-500" />
@@ -501,6 +504,26 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            
+            {/* QuickNav - Centered at bottom */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+              <QuickNav 
+                variant="horizontal" 
+                size="medium"
+                currentSection="professionalJourney"
+                onNavigate={(sectionId) => {
+                  const refs = {
+                    missionControl: missionControlRef,
+                    professionalJourney: professionalJourneyRef,
+                    innovationSector: innovationSectorRef,
+                    artNebula: artNebulaRef,
+                    harmonicTransmission: harmonicTransmissionRef,
+                    communicationArray: communicationArrayRef
+                  }
+                  handleCardClick(refs[sectionId as keyof typeof refs])
+                }}
+              />
+            </div>
           </section>
 
           {/* Innovation Sector Section */}
@@ -530,6 +553,24 @@ export default function Home() {
                 forward into uncharted digital territories.
                 </p>
               </div>
+            </div>
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+              <QuickNav 
+                variant="horizontal" 
+                size="medium"
+                currentSection="innovationSector"
+                onNavigate={(sectionId) => {
+                  const refs = {
+                    missionControl: missionControlRef,
+                    professionalJourney: professionalJourneyRef,
+                    innovationSector: innovationSectorRef,
+                    artNebula: artNebulaRef,
+                    harmonicTransmission: harmonicTransmissionRef,
+                    communicationArray: communicationArrayRef
+                  }
+                  handleCardClick(refs[sectionId as keyof typeof refs])
+                }}
+              />
             </div>
           </section>
 
@@ -561,6 +602,24 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+              <QuickNav 
+                variant="horizontal" 
+                size="medium"
+                currentSection="artNebula"
+                onNavigate={(sectionId) => {
+                  const refs = {
+                    missionControl: missionControlRef,
+                    professionalJourney: professionalJourneyRef,
+                    innovationSector: innovationSectorRef,
+                    artNebula: artNebulaRef,
+                    harmonicTransmission: harmonicTransmissionRef,
+                    communicationArray: communicationArrayRef
+                  }
+                  handleCardClick(refs[sectionId as keyof typeof refs])
+                }}
+              />
+            </div>
           </section>
 
           {/* Harmonic Transmission Section */}
@@ -589,6 +648,24 @@ export default function Home() {
                 the vastness of our digital space.
                 </p>
               </div>
+            </div>
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+              <QuickNav 
+                variant="horizontal" 
+                size="medium"
+                currentSection="harmonicTransmission"
+                onNavigate={(sectionId) => {
+                  const refs = {
+                    missionControl: missionControlRef,
+                    professionalJourney: professionalJourneyRef,
+                    innovationSector: innovationSectorRef,
+                    artNebula: artNebulaRef,
+                    harmonicTransmission: harmonicTransmissionRef,
+                    communicationArray: communicationArrayRef
+                  }
+                  handleCardClick(refs[sectionId as keyof typeof refs])
+                }}
+              />
             </div>
           </section>
 
@@ -619,6 +696,24 @@ export default function Home() {
                 of our expanding universe.
                 </p>
               </div>
+            </div>
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+              <QuickNav 
+                variant="horizontal" 
+                size="medium"
+                currentSection="communicationArray"
+                onNavigate={(sectionId) => {
+                  const refs = {
+                    missionControl: missionControlRef,
+                    professionalJourney: professionalJourneyRef,
+                    innovationSector: innovationSectorRef,
+                    artNebula: artNebulaRef,
+                    harmonicTransmission: harmonicTransmissionRef,
+                    communicationArray: communicationArrayRef
+                  }
+                  handleCardClick(refs[sectionId as keyof typeof refs])
+                }}
+              />
             </div>
           </section>
 
