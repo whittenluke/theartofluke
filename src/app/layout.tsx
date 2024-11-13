@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Navigation from '@/components/layout/Navigation'
 import '@styles/globals.css'
 
 // Initialize font
@@ -54,9 +53,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`}>
       <body className="min-h-screen bg-black antialiased">
-        {/* Add Navigation component */}
-        <Navigation />
-        
         {/* Smooth scroll container */}
         <div className="relative h-full">
           {/* Skip to main content for accessibility */}
