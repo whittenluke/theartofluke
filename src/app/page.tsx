@@ -12,6 +12,9 @@ import {
   SignalIcon          // Communication Array
 } from '@heroicons/react/24/outline'
 import { QuickNav } from '@/components/navigation/QuickNav'
+import Image from 'next/image'
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
 
 // Page metadata for dynamic routes
 export const dynamic = 'force-dynamic'
@@ -311,23 +314,14 @@ export default function Home() {
     })
   }, [])
 
-  // Fade calculations for both About sections
-  const aboutOneOpacity = Math.min(
-    Math.max(0, (y - 400) / 400),
-    1
-  )
-
-  const aboutTwoOpacity = Math.min(
-    Math.max(0, (y - 1000) / 400), // Starts fading in at 1000px
-    1
-  )
-
   // Modify handleCardClick to use refs instead of hardcoded positions
   const handleCardClick = (ref: React.RefObject<HTMLElement>) => {
     if (ref.current) {
       scrollToSection(ref.current)
     }
   }
+
+  const [selectedImage, setSelectedImage] = useState<number | null>(null)
 
   return (
     <div className="relative min-h-[2000vh] bg-black" ref={missionControlRef}>
@@ -475,10 +469,6 @@ export default function Home() {
           <section 
             ref={professionalJourneyRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
-            style={{
-              opacity: aboutTwoOpacity,
-              transform: `translateY(${Math.max(0, 50 - (y - 1000) / 8)}px)`
-            }}
           >
             <div className="max-w-3xl mx-auto text-white">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
@@ -530,30 +520,125 @@ export default function Home() {
           <section 
             ref={innovationSectorRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
-            style={{
-              opacity: Math.min(Math.max(0, (y - 1600) / 400), 1),
-              transform: `translateY(${Math.max(0, 50 - (y - 1600) / 8)}px)`
-            }}
           >
-            <div className="max-w-3xl mx-auto text-white">
+            <div className="max-w-6xl mx-auto text-white">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
                 Innovation Sector
               </h2>
               
-              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
+              {/* Introduction text - keep narrower width */}
+              <div className="max-w-3xl mx-auto space-y-6 text-lg md:text-xl leading-relaxed mb-16">
                 <p>
-                At the intersection of technology and creativity, the Innovation Sector
-                serves as a laboratory for exploring cutting-edge ideas and solutions.
-                Here, we push the boundaries of what's possible in web development,
-                product design, and digital experiences.
-                </p>
-                <p>
-                From experimenting with new frameworks to crafting novel user interactions,
-                this space showcases the technical innovations that drive our cosmic journey
-                forward into uncharted digital territories.
+                  At the intersection of technology and creativity, the Innovation Sector
+                  serves as a laboratory for exploring cutting-edge ideas and solutions.
                 </p>
               </div>
+
+              {/* Projects Grid - adjust sizing and spacing */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 max-w-5xl mx-auto">
+                {/* Higher Quotes - Fixed spacing and consistent height */}
+                <div className="group relative h-full">
+                  <a 
+                    href="https://www.higherquotes.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block h-full"
+                  >
+                    <div className="
+                      relative h-full flex flex-col
+                      overflow-hidden rounded-xl
+                      bg-gradient-to-br from-blue-500/20 to-purple-500/20
+                      backdrop-blur-sm border border-white/10
+                      p-6 transition-all duration-500
+                      group-hover:border-white/20 group-hover:from-blue-500/30 group-hover:to-purple-500/30
+                    ">
+                      {/* Project Title - Moved up */}
+                      <h3 className="text-xl font-bold mb-4">Higher Quotes</h3>
+
+                      {/* Tech Stack Tags */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">HTML</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">CSS</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">JavaScript</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">Firestore</span>
+                      </div>
+
+                      {/* Project Description */}
+                      <p className="text-sm text-white/70 flex-grow">
+                        A wisdom-sharing platform featuring daily quotes, searchable by author or topic,
+                        built with modern web technologies and AI assistance.
+                      </p>
+
+                      {/* Visit Link */}
+                      <div className="
+                        mt-4 opacity-0 transform translate-y-2
+                        group-hover:opacity-100 group-hover:translate-y-0
+                        transition-all duration-300
+                      ">
+                        <span className="text-sm text-white/90 flex items-center gap-1">
+                          Visit Site →
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                {/* The Art of Luke - Consistent styling */}
+                <div className="group relative h-full">
+                  <div className="
+                    relative h-full flex flex-col
+                    overflow-hidden rounded-xl
+                    bg-gradient-to-br from-purple-500/20 to-pink-500/20
+                    backdrop-blur-sm border border-white/10
+                    p-6 transition-all duration-500
+                    group-hover:border-white/20 group-hover:from-purple-500/30 group-hover:to-pink-500/30
+                  ">
+                    <h3 className="text-xl font-bold mb-4">The Art of Luke</h3>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">Next.js</span>
+                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">TypeScript</span>
+                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">Tailwind</span>
+                    </div>
+                    <p className="text-sm text-white/70 flex-grow">
+                      A cosmic journey through technology, art, and innovation. Built with modern
+                      web technologies and AI pair programming.
+                    </p>
+                  </div>
+                </div>
+
+                {/* WisdomQuest - Consistent styling */}
+                <div className="group relative h-full">
+                  <div className="
+                    relative h-full flex flex-col
+                    overflow-hidden rounded-xl
+                    bg-gradient-to-br from-green-500/20 to-yellow-500/20
+                    backdrop-blur-sm border border-white/10
+                    p-6 transition-all duration-500
+                    group-hover:border-white/20 group-hover:from-green-500/30 group-hover:to-yellow-500/30
+                  ">
+                    {/* Project Status Badge */}
+                    <div className="absolute top-4 right-4">
+                      <span className="text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-300">
+                        In Development
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-bold mb-4">WisdomQuest</h3>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">C#</span>
+                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">Unity</span>
+                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">3D Adventure</span>
+                    </div>
+                    <p className="text-sm text-white/70 flex-grow">
+                      An immersive 3D adventure game where players embark on real-world wisdom quests,
+                      from beekeeping to bridge building. Launch expected mid-2025.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            {/* Add QuickNav */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
               <QuickNav 
                 variant="horizontal" 
@@ -578,30 +663,42 @@ export default function Home() {
           <section 
             ref={artNebulaRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
-            style={{
-              opacity: Math.min(Math.max(0, (y - 2200) / 400), 1),
-              transform: `translateY(${Math.max(0, 50 - (y - 2200) / 8)}px)`
-            }}
           >
-            <div className="max-w-3xl mx-auto text-white">
+            <div className="max-w-7xl mx-auto text-white">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
                 Art Nebula
               </h2>
               
-              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
+              {/* Introduction text - kept brief */}
+              <div className="max-w-3xl mx-auto space-y-6 text-lg md:text-xl leading-relaxed mb-16">
                 <p>
-                Within the Art Nebula, creative expression takes flight across multiple
-                mediums and dimensions. This gallery of imagination showcases various
-                artistic endeavors, from digital art to traditional mediums, each piece
-                telling its own story.
-                </p>
-                <p>
-                Like the cosmic nebulae that birth new stars, this space nurtures the
-                convergence of technology and artistry, creating experiences that
-                resonate across the digital cosmos.
+                  Within the Art Nebula, creative expression takes flight across multiple
+                  mediums and dimensions.
                 </p>
               </div>
+
+              {/* Art Gallery Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+                {[...Array(17)].map((_, i) => (
+                  <div 
+                    key={i}
+                    className="relative rounded-xl overflow-hidden bg-white/5 backdrop-blur-sm aspect-square cursor-pointer"
+                    onClick={() => setSelectedImage(i)}
+                  >
+                    <Image
+                      src={`/images/art/art${i + 1}.png`}
+                      alt={`Artwork ${i + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 to-transparent pointer-events-none" />
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {/* Keep your existing QuickNav */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
               <QuickNav 
                 variant="horizontal" 
@@ -622,14 +719,69 @@ export default function Home() {
             </div>
           </section>
 
+          {/* Image Modal */}
+          <Transition show={selectedImage !== null} as={Fragment}>
+            <Dialog 
+              open={selectedImage !== null} 
+              onClose={() => setSelectedImage(null)}
+              className="relative z-50"
+            >
+              {/* Backdrop */}
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" />
+              </Transition.Child>
+
+              {/* Modal */}
+              <div className="fixed inset-0 overflow-y-auto">
+                <div className="flex min-h-full items-center justify-center p-4">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <Dialog.Panel className="relative transform rounded-xl overflow-hidden bg-black/50 backdrop-blur-md shadow-xl transition-all max-w-4xl w-full aspect-square">
+                      {selectedImage !== null && (
+                        <Image
+                          src={`/images/art/art${selectedImage + 1}.png`}
+                          alt={`Artwork ${selectedImage + 1}`}
+                          fill
+                          sizes="(max-width: 1536px) 100vw, 1536px"
+                          className="object-contain"
+                          priority
+                        />
+                      )}
+                      {/* Close button */}
+                      <button
+                        onClick={() => setSelectedImage(null)}
+                        className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white/70 hover:text-white hover:bg-black/70 transition-colors"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </Dialog>
+          </Transition>
+
           {/* Harmonic Transmission Section */}
           <section 
             ref={harmonicTransmissionRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
-            style={{
-              opacity: Math.min(Math.max(0, (y - 2800) / 400), 1),
-              transform: `translateY(${Math.max(0, 50 - (y - 2800) / 8)}px)`
-            }}
           >
             <div className="max-w-3xl mx-auto text-white">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
@@ -673,10 +825,6 @@ export default function Home() {
           <section 
             ref={communicationArrayRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
-            style={{
-              opacity: Math.min(Math.max(0, (y - 3400) / 400), 1),
-              transform: `translateY(${Math.max(0, 50 - (y - 3400) / 8)}px)`
-            }}
           >
             <div className="max-w-3xl mx-auto text-white">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">

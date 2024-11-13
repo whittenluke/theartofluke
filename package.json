@@ -6,6 +6,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.1.5",
     "next": "latest",
     "react": "latest",
