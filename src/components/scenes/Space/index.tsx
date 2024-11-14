@@ -4,13 +4,21 @@ import { useScroll } from '@/hooks/useScroll'
 import Stars from './layers/Stars'
 import Nebula from './layers/Nebula'
 import Planets from './layers/Planets'
+import { useState, useEffect } from 'react'
 
 interface SpaceSceneProps {
   className?: string
 }
 
 const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
+  const [mounted, setMounted] = useState(false)
   const { y } = useScroll()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
 
   return (
     <div className={`relative w-full h-full overflow-hidden ${className}`}>
@@ -22,7 +30,7 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
         <div 
           className="absolute inset-0 w-full h-full"
           style={{
-            transform: `translateY(${-y * 0.1}px)`,
+            transform: mounted ? `translateY(${-y * 0.1}px)` : 'translateY(0px)',
             zIndex: 1
           }}
         >
@@ -33,7 +41,7 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
         <div 
           className="absolute inset-0 w-full h-full"
           style={{
-            transform: `translateY(${-y * 0.01}px)`,
+            transform: mounted ? `translateY(${-y * 0.01}px)` : 'translateY(0px)',
             zIndex: 2
           }}
         >
@@ -43,11 +51,9 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
         {/* Planets Layer - Top layer */}
         <div 
           className="absolute inset-0 w-full h-full"
-          style={{
-            zIndex: 3
-          }}
+          style={{ zIndex: 3 }}
         >
-          <Planets scrollY={y} />
+          <Planets scrollY={mounted ? y : 0} />
         </div>
       </div>
     </div>

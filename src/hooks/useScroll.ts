@@ -28,12 +28,12 @@ export function useScroll(options: ScrollOptions = {}) {
 
     if (!window || !document) return
 
-    const currentY = window.scrollY
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-    const progress = maxScroll ? currentY / maxScroll : 0
-
     setState(prev => {
+      const currentY = window.scrollY
       const diff = Math.abs(currentY - prev.y)
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      const progress = maxScroll ? currentY / maxScroll : 0
+
       const direction = diff >= threshold
         ? currentY > prev.y ? 'down' : 'up'
         : prev.direction
@@ -54,21 +54,19 @@ export function useScroll(options: ScrollOptions = {}) {
     // Initial call
     handleScroll()
 
-    // Add event listener with throttling
-    let ticking = false
-    const scrollListener = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll()
-          ticking = false
-        })
-        ticking = true
-      }
+    // Debounced scroll handler
+    let timeoutId: NodeJS.Timeout | null = null
+    const debouncedScroll = () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      timeoutId = setTimeout(handleScroll, delay)
     }
 
-    window.addEventListener('scroll', scrollListener, { passive: true })
-    return () => window.removeEventListener('scroll', scrollListener)
-  }, [handleScroll])
+    window.addEventListener('scroll', debouncedScroll, { passive: true })
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      window.removeEventListener('scroll', debouncedScroll)
+    }
+  }, [handleScroll, delay])
 
   return state
 }

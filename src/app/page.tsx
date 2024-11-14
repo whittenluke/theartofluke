@@ -33,255 +33,18 @@ const SECTION_DESTINATIONS = {
   communicationArray: 3400
 } as const
 
-// Add this rocket component (you can move it to a separate file later)
-const RocketShip = ({ onClick, className = "", position = "first" }: { 
-  onClick: () => void, 
-  className?: string,
-  position?: "first" | "second" | "third"
-}) => {
-  const { y, direction } = useScroll({ threshold: 10, delay: 50 })
-  const [isAnimating, setIsAnimating] = useState(false)
-  const [flightProgress, setFlightProgress] = useState(0)
-  const [isLeadingScroll, setIsLeadingScroll] = useState(false)
-
-  // Track current section
-  const getCurrentSection = useCallback(() => {
-    if (y < window.innerHeight * 0.8) return 'title'
-    if (y < window.innerHeight * 1.8) return 'about'
-    if (y < window.innerHeight * 2.8) return 'journey'
-    return 'other'
-  }, [y])
-
-  // Remove the isInLockZone function and replace with this simpler check
-  const isInDefaultState = () => {
-    return y === 0 || (y >= 750 && y <= 850) || (y >= 1820 && y <= 1920)
-  }
-
-  // Update the useEffect to properly handle both clickable zones
-  useEffect(() => {
-    if (y > 0 && !isInDefaultState()) {  
-      setIsLeadingScroll(true)
-    } else {
-      setIsLeadingScroll(false)
-    }
-  }, [y])
-
-  // Handle click animation and scroll
-  const handleClick = async () => {
-    const currentSection = getCurrentSection()
-    if (isAnimating) return
-    
-    setIsAnimating(true)
-    
-    const startTime = Date.now()
-    const duration = 2000
-    
-    const animateFlight = () => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      
-      // Smooth easing
-      const eased = -(Math.cos(Math.PI * progress) - 1) / 2
-      setFlightProgress(eased)
-      
-      if (progress < 1) {
-        requestAnimationFrame(animateFlight)
-      } else {
-        let nextY
-        if (currentSection === 'title') {
-          nextY = 750  // First click from top
-        } else if (y >= 750 && y <= 850) {
-          nextY = 1820  // Second click from About Me
-        } else if (y >= 1820 && y <= 1920) {
-          nextY = window.innerHeight * 3 + 100  // Third click from Journey
-        }
-
-        window.scrollTo({
-          top: nextY,
-          behavior: 'smooth'
-        })
-        
-        setTimeout(() => {
-          setFlightProgress(2)
-          setTimeout(() => {
-            setIsAnimating(false)
-            setFlightProgress(0)
-            setIsLeadingScroll(false)
-          }, 500)
-        }, 1000)
-      }
-    }
-    
-    requestAnimationFrame(animateFlight)
-  }
-
-  // Calculate styles based on state
-  const getFlightStyles = (): CSSProperties => {
-    if (isAnimating) {
-      // Handle both initial and return rotation
-      const rotationDegrees = flightProgress <= 1 
-        ? 180 * flightProgress  // Initial rotation down
-        : 180 * (2 - flightProgress) // Return rotation up
-      
-      return {
-        position: 'fixed',
-        left: '50%',
-        top: '80%',
-        transform: `translate(-50%, -50%) rotate(${rotationDegrees}deg)`,
-        transition: 'transform 0.5s ease-out',
-        zIndex: 100
-      }
-    }
-
-    if (isLeadingScroll) {
-      // Scroll behavior
-      const rotationProgress = Math.min(y / 100, 1)
-      
-      if (y < 1) {
-        return {
-          position: 'relative',
-          transform: 'rotate(0deg)',
-          transition: 'all 0.3s ease-out',
-          zIndex: 100
-        }
-      }
-
-      const rotationDegrees = direction === 'down'
-        ? 180 * rotationProgress
-        : 0
-
-      return {
-        position: 'fixed',
-        left: '50%',
-        top: '80%',
-        transform: `translate(-50%, -50%) rotate(${rotationDegrees}deg)`,
-        transition: 'all 0.3s ease-out',
-        zIndex: 100
-      }
-    }
-
-    // Default state (used at both y=0 and 850-1000px)
-    return {
-      position: 'fixed',
-      left: '50%',
-      top: '80%',
-      transform: 'translate(-50%, -50%) rotate(0deg)',
-      transition: 'all 0.3s ease-out',
-      zIndex: 100,
-      cursor: 'pointer'
-    }
-  }
-
-  return (
-    <div 
-      onClick={(e) => {
-        // Debug logs
-        console.log({
-          y,
-          isLeadingScroll,
-          flightProgress,
-          isInDefaultState: isInDefaultState(),
-          isUpright: !isLeadingScroll && flightProgress === 0 && (y < 100 || (y >= 750 && y <= 850) || (y >= 1820 && y <= 1920))
-        })
-        
-        const isUpright = !isLeadingScroll && flightProgress === 0 && 
-                         (y < 100 || (y >= 750 && y <= 850) || (y >= 1820 && y <= 1920))
-        
-        if (isInDefaultState() && isUpright && !isAnimating) {
-          handleClick()
-        } else {
-          e.preventDefault()
-        }
-      }}
-      className={`group ${isInDefaultState() && !isLeadingScroll && flightProgress === 0 ? 'cursor-pointer' : 'cursor-default'} ${className}`}
-      style={getFlightStyles()}
-    >
-      <div className="relative duration-700 flex flex-col items-center">
-        {/* Rocket */}
-        <div className="flex justify-center duration-1000">
-          <svg 
-            className="w-16 h-16"
-            viewBox="0 0 64 64"
-            fill="none"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            {/* Main body */}
-            <path 
-              d="M32 4L44 32L32 56L20 32L32 4Z" 
-              fill="rgba(255,255,255,0.2)"
-            />
-            
-            {/* Wings */}
-            <path 
-              d="M20 32L8 44L20 40L32 56L44 40L56 44L44 32"
-              fill="rgba(255,255,255,0.1)"
-            />
-            
-            {/* Window */}
-            <circle 
-              cx="32" 
-              cy="24" 
-              r="4" 
-              fill="rgba(135,206,250,0.6)"
-            />
-            
-            {/* Detail lines */}
-            <line x1="28" y1="16" x2="36" y2="16" />
-            <line x1="26" y1="32" x2="38" y2="32" />
-
-            {/* Rocket Boost - Animated */}
-            <g className="rocket-boost">
-              <path
-                d="M28 56L32 64L36 56"
-                className="animate-pulse"
-                fill="rgba(255,166,0,0.6)"
-              />
-              <path
-                d="M30 56L32 62L34 56"
-                className="animate-pulse"
-                fill="rgba(255,69,0,0.8)"
-              />
-            </g>
-          </svg>
-
-          {/* Engine glow */}
-          <div 
-            className={`
-              absolute bottom-0 left-1/2 transform -translate-x-1/2 
-              w-4 h-4 bg-orange-500 rounded-full blur-md
-              ${(isAnimating || isLeadingScroll) ? 'animate-pulse-fast scale-150' : 'animate-pulse'}
-            `}
-          />
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export default function Home() {
+  const [mounted, setMounted] = useState(false)
   const { y } = useScroll({
     threshold: 10,
     delay: 50
   })
 
+  // Add all the necessary state
   const [showTitle, setShowTitle] = useState(true)
-  // Add state for Mission Control visibility
   const [showMissionControl, setShowMissionControl] = useState(false)
-
-  useEffect(() => {
-    const titleTimer = setTimeout(() => {
-      setShowTitle(false)
-      // Increase delay before showing Mission Control to 2000ms (2 seconds)
-      setTimeout(() => {
-        setShowMissionControl(true)
-      }, 2000) // Increased from 1000ms to 2000ms for a clearer separation
-    }, TITLE_DISPLAY_DURATION)
-
-    return () => clearTimeout(titleTimer)
-  }, [])
+  const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  const [currentSection, setCurrentSection] = useState('missionControl')
 
   // Add refs for each section
   const missionControlRef = useRef<HTMLDivElement>(null)
@@ -291,7 +54,7 @@ export default function Home() {
   const harmonicTransmissionRef = useRef<HTMLDivElement>(null)
   const communicationArrayRef = useRef<HTMLDivElement>(null)
 
-  // Update scrollToSection to use element positions
+  // Add the scroll handler
   const scrollToSection = useCallback((target: number | HTMLElement | null) => {
     if (target === null) return
     
@@ -305,31 +68,42 @@ export default function Home() {
     })
   }, [])
 
-  // Add state to track current section
-  const [currentSection, setCurrentSection] = useState('missionControl')
-
-  // Update handleCardClick to also set current section
-  const handleCardClick = (ref: React.RefObject<HTMLElement>, sectionId: string) => {
+  // Add handleCardClick
+  const handleCardClick = useCallback((ref: React.RefObject<HTMLElement>, sectionId: string) => {
     if (ref.current) {
       scrollToSection(ref.current)
       setCurrentSection(sectionId)
     }
-  }
+  }, [scrollToSection])
 
-  const [selectedImage, setSelectedImage] = useState<number | null>(null)
-
-  // Keep only this helper function and its effect
-  const isElementInViewport = (element: HTMLElement | null) => {
-    if (!element) return false
-    const rect = element.getBoundingClientRect()
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight
-    const offset = windowHeight * 0.4 // 40% of viewport height for earlier detection
-
-    return (rect.top >= -offset && rect.top <= windowHeight - offset)
-  }
-
-  // This effect will handle scroll-based section detection
+  // Add mounted effect
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Add title timer effect
+  useEffect(() => {
+    const titleTimer = setTimeout(() => {
+      setShowTitle(false)
+      setTimeout(() => {
+        setShowMissionControl(true)
+      }, 2000)
+    }, TITLE_DISPLAY_DURATION)
+
+    return () => clearTimeout(titleTimer)
+  }, [])
+
+  // Add section detection effect
+  useEffect(() => {
+    const isElementInViewport = (element: HTMLElement | null) => {
+      if (!element) return false
+      const rect = element.getBoundingClientRect()
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight
+      const offset = windowHeight * 0.4
+
+      return (rect.top >= -offset && rect.top <= windowHeight - offset)
+    }
+
     const handleScroll = () => {
       const sections = {
         missionControl: missionControlRef.current,
@@ -352,6 +126,20 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Update the style calculation to handle initial render
+  const getTitleStyle = () => {
+    if (!mounted) return {
+      opacity: 1,
+      transform: 'translateY(0px)'
+    }
+
+    return {
+      opacity: Math.max(0, 1 - (y / 300)),
+      transform: `translateY(${Math.min(y / 10, 20)}px)`
+    }
+  }
+
+  // In your JSX, update the style prop
   return (
     <div className="relative min-h-[2000vh] bg-black" ref={missionControlRef}>
       <QuickNav 
@@ -380,15 +168,12 @@ export default function Home() {
         
         {/* Content Sections */}
         <div className="relative">
-          {/* Title Section with Spaceship */}
+          {/* Title Section - Removed Spaceship */}
           <section className="relative h-screen flex flex-col items-center z-20">
             <Suspense fallback={<div className="text-white">Loading...</div>}>
               <div 
                 className="transition-all duration-300 ease-out text-center mt-32"
-                style={{
-                  opacity: Math.max(0, 1 - (y / 300)),
-                  transform: `translateY(${Math.min(y / 10, 20)}px)`
-                }}
+                style={getTitleStyle()}
               >
                 <h1 
                   className={`
@@ -492,14 +277,6 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Spaceship */}
-              <div className="relative mt-auto mb-32">
-                <RocketShip 
-                  onClick={() => scrollToSection(750)}
-                  position="first"
-                />
               </div>
             </Suspense>
           </section>
