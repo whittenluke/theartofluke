@@ -15,6 +15,7 @@ import { QuickNav } from '@/components/navigation/QuickNav'
 import Image from 'next/image'
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import { ScrollProgress } from '@/components/navigation/ScrollProgress'
 
 // Page metadata for dynamic routes
 export const dynamic = 'force-dynamic'
@@ -353,7 +354,6 @@ export default function Home() {
 
   return (
     <div className="relative min-h-[2000vh] bg-black" ref={missionControlRef}>
-      {/* Add QuickNav at top level */}
       <QuickNav 
         currentSection={currentSection}
         onNavigate={(sectionId) => {
@@ -368,13 +368,8 @@ export default function Home() {
           handleCardClick(refs[sectionId as keyof typeof refs], sectionId)
         }}
       />
-
-      {/* Debug display */}
-      <Suspense fallback={null}>
-        <div className="fixed top-4 right-4 bg-black/50 text-white p-2 z-50">
-          Scroll: {Math.round(y)}px
-        </div>
-      </Suspense>
+      
+      <ScrollProgress currentSection={currentSection} />
 
       {/* Main Content with Space Background */}
       <div className="relative">
