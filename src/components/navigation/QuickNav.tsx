@@ -98,6 +98,7 @@ export const QuickNav = ({ currentSection, onNavigate }: QuickNavProps) => {
                           key={i}
                           className={`
                             text-[11px] leading-tight
+                            transition-colors duration-300
                             ${isActive ? 'text-white' : 'text-white/70 group-hover:text-white/90'}
                           `}
                         >

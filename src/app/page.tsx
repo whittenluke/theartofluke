@@ -283,12 +283,12 @@ export default function Home() {
   }, [])
 
   // Add refs for each section
-  const missionControlRef = useRef<HTMLElement>(null)
-  const professionalJourneyRef = useRef<HTMLElement>(null)
-  const innovationSectorRef = useRef<HTMLElement>(null)
-  const artNebulaRef = useRef<HTMLElement>(null)
-  const harmonicTransmissionRef = useRef<HTMLElement>(null)
-  const communicationArrayRef = useRef<HTMLElement>(null)
+  const missionControlRef = useRef<HTMLDivElement>(null)
+  const professionalJourneyRef = useRef<HTMLDivElement>(null)
+  const innovationSectorRef = useRef<HTMLDivElement>(null)
+  const artNebulaRef = useRef<HTMLDivElement>(null)
+  const harmonicTransmissionRef = useRef<HTMLDivElement>(null)
+  const communicationArrayRef = useRef<HTMLDivElement>(null)
 
   // Update scrollToSection to use element positions
   const scrollToSection = useCallback((target: number | HTMLElement | null) => {
@@ -316,6 +316,40 @@ export default function Home() {
   }
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
+
+  // Keep only this helper function and its effect
+  const isElementInViewport = (element: HTMLElement | null) => {
+    if (!element) return false
+    const rect = element.getBoundingClientRect()
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight
+    const offset = windowHeight * 0.4 // 40% of viewport height for earlier detection
+
+    return (rect.top >= -offset && rect.top <= windowHeight - offset)
+  }
+
+  // This effect will handle scroll-based section detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = {
+        missionControl: missionControlRef.current,
+        professionalJourney: professionalJourneyRef.current,
+        innovationSector: innovationSectorRef.current,
+        artNebula: artNebulaRef.current,
+        harmonicTransmission: harmonicTransmissionRef.current,
+        communicationArray: communicationArrayRef.current
+      }
+
+      for (const [sectionId, sectionRef] of Object.entries(sections)) {
+        if (isElementInViewport(sectionRef)) {
+          setCurrentSection(sectionId)
+          break
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <div className="relative min-h-[2000vh] bg-black" ref={missionControlRef}>
