@@ -297,27 +297,27 @@ export default function Home() {
             ref={professionalJourneyRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[100vh] lg:mt-[50vh]"
           >
-            <div className="max-w-3xl mx-auto text-white">
+            <div className="max-w-3xl mx-auto text-white w-full">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
                 Professional Journey
               </h2>
               
               <div className="space-y-6 text-lg md:text-xl leading-relaxed">
                 <p>
-                As a Product Manager working in insurtech, I get to tackle
-                fascinating challenges every day alongside a talented team
-                of product, design, and engineering pros. Together, we
-                transform complex insurance problems into elegant digital
-                solutions that make a real difference in people's lives.
+                  As a Product Manager working in insurtech, I get to tackle
+                  fascinating challenges every day alongside a talented team
+                  of product, design, and engineering pros. Together, we
+                  transform complex insurance problems into elegant digital
+                  solutions that make a real difference in people's lives.
                 </p>
                 <p>
-                My team specifically focuses on creating intuitive and
-                delightful user experiences. What does that mean? Bascially,
-                that we care about the people that are going to use our 
-                software and we design with them in mind.
+                  My team specifically focuses on creating intuitive and
+                  delightful user experiences. What does that mean? Bascially,
+                  that we care about the people that are going to use our 
+                  software and we design with them in mind.
                 </p>
                 <p>
-                But that's just one dimension of my career, my life, and my journey thus far. Continue further to learn more.
+                  But that's just one dimension of my career, my life, and my journey thus far. Continue further to learn more.
                 </p>
               </div>
             </div>
@@ -328,12 +328,12 @@ export default function Home() {
             ref={innovationSectorRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
           >
-            <div className="max-w-6xl mx-auto text-white">
+            <div className="max-w-6xl mx-auto text-white w-full">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
                 Innovation Sector
               </h2>
               
-              {/* Introduction text - keep narrower width */}
+              {/* Introduction text */}
               <div className="max-w-3xl mx-auto space-y-6 text-lg md:text-xl leading-relaxed mb-16">
                 <p>
                   At the intersection of technology and creativity, the Innovation Sector
@@ -341,9 +341,9 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Projects Grid - adjust sizing and spacing */}
+              {/* Projects Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 max-w-5xl mx-auto">
-                {/* Higher Quotes - Fixed spacing and consistent height */}
+                {/* Higher Quotes */}
                 <div className="group relative h-full">
                   <a 
                     href="https://www.higherquotes.com" 
@@ -359,7 +359,7 @@ export default function Home() {
                       p-6 transition-all duration-500
                       group-hover:border-white/20 group-hover:from-blue-500/30 group-hover:to-purple-500/30
                     ">
-                      {/* Project Title - Moved up */}
+                      {/* Project Title */}
                       <h3 className="text-xl font-bold mb-4">Higher Quotes</h3>
 
                       {/* Tech Stack Tags */}
@@ -390,7 +390,7 @@ export default function Home() {
                   </a>
                 </div>
 
-                {/* The Art of Luke - Consistent styling */}
+                {/* The Art of Luke */}
                 <div className="group relative h-full">
                   <div className="
                     relative h-full flex flex-col
@@ -413,7 +413,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* WisdomQuest - Consistent styling */}
+                {/* WisdomQuest */}
                 <div className="group relative h-full">
                   <div className="
                     relative h-full flex flex-col
