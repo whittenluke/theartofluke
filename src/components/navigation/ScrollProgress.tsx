@@ -41,6 +41,8 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
       const windowHeight = window.innerHeight
       const documentHeight = document.documentElement.scrollHeight
       const maxScroll = documentHeight - windowHeight
+      
+      // Simply use the raw scroll position percentage
       const currentProgress = (y / maxScroll) * 100
       setProgress(Math.min(Math.max(currentProgress, 0), 100))
     }

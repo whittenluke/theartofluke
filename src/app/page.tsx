@@ -70,11 +70,22 @@ export default function Home() {
 
   // Add handleCardClick
   const handleCardClick = useCallback((ref: React.RefObject<HTMLElement>, sectionId: string) => {
-    if (ref.current) {
-      scrollToSection(ref.current)
-      setCurrentSection(sectionId)
+    if (sectionId === 'missionControl') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    } else if (ref.current) {
+      const navHeight = 80
+      const position = ref.current.getBoundingClientRect().top + window.scrollY - navHeight
+
+      window.scrollTo({
+        top: position,
+        behavior: 'smooth'
+      })
     }
-  }, [scrollToSection])
+    setCurrentSection(sectionId)
+  }, [])
 
   // Add mounted effect
   useEffect(() => {
@@ -193,7 +204,7 @@ export default function Home() {
               <div 
                 ref={missionControlRef}
                 className={`
-                  absolute top-32 left-1/2 -translate-x-1/2
+                  absolute top-16 left-1/2 -translate-x-1/2
                   w-full max-w-4xl px-4 transition-all duration-1000
                   ${showMissionControl ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}
                 `}
@@ -284,7 +295,7 @@ export default function Home() {
           {/* Professional Journey Section */}
           <section 
             ref={professionalJourneyRef}
-            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
+            className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[100vh] lg:mt-[50vh]"
           >
             <div className="max-w-3xl mx-auto text-white">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
