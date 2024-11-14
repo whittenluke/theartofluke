@@ -45,6 +45,7 @@ export default function Home() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [currentSection, setCurrentSection] = useState('missionControl')
   const [spaceSceneLoaded, setSpaceSceneLoaded] = useState(false)
+  const [showContent, setShowContent] = useState(false)
 
   // Add refs for each section
   const missionControlRef = useRef<HTMLDivElement>(null)
@@ -92,9 +93,19 @@ export default function Home() {
     setMounted(true)
   }, [])
 
-  // Update title timer to wait for space scene
+  // Update space scene loading effect
   useEffect(() => {
-    if (!spaceSceneLoaded) return
+    if (spaceSceneLoaded) {
+      // Only start showing content after space scene is loaded
+      setTimeout(() => {
+        setShowContent(true)
+      }, 100) // Small delay to ensure smooth transition
+    }
+  }, [spaceSceneLoaded])
+
+  // Update title timer to wait for content to be ready
+  useEffect(() => {
+    if (!showContent) return
 
     const titleTimer = setTimeout(() => {
       setShowTitle(false)
@@ -104,7 +115,7 @@ export default function Home() {
     }, TITLE_DISPLAY_DURATION)
 
     return () => clearTimeout(titleTimer)
-  }, [spaceSceneLoaded])
+  }, [showContent])
 
   // Add section detection effect
   useEffect(() => {
@@ -179,8 +190,11 @@ export default function Home() {
           <SpaceScene onLoad={() => setSpaceSceneLoaded(true)} />
         </div>
         
-        {/* Content Sections */}
-        <div className="relative">
+        {/* Content - Only show after space scene loads */}
+        <div className={`
+          relative transition-opacity duration-1000
+          ${showContent ? 'opacity-100' : 'opacity-0'}
+        `}>
           {/* Title Section */}
           <section className="relative h-screen flex flex-col items-center z-20">
             <Suspense fallback={<div className="text-white">Loading...</div>}>
