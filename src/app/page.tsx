@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useCallback, useState, useEffect, CSSProperties, useRef } from 'react'
+import { Suspense, useCallback, useState, useEffect, useRef } from 'react'
 import { useScroll } from '@/hooks/useScroll'
 import SpaceScene from '@/components/scenes/Space'
 import { 
@@ -23,16 +23,6 @@ export const dynamic = 'force-dynamic'
 // Add this near the top of the file, after imports
 const TITLE_DISPLAY_DURATION = 3000 // Duration in ms to show title
 
-// Add this after the TITLE_DISPLAY_DURATION constant
-const SECTION_DESTINATIONS = {
-  missionControl: 750,
-  professionalJourney: 1000,
-  innovationSector: 1600,
-  artNebula: 2200,
-  harmonicTransmission: 2800,
-  communicationArray: 3400
-} as const
-
 export default function Home() {
   const [mounted, setMounted] = useState(false)
   const { y } = useScroll({
@@ -54,20 +44,6 @@ export default function Home() {
   const artNebulaRef = useRef<HTMLDivElement>(null)
   const harmonicTransmissionRef = useRef<HTMLDivElement>(null)
   const communicationArrayRef = useRef<HTMLDivElement>(null)
-
-  // Add the scroll handler
-  const scrollToSection = useCallback((target: number | HTMLElement | null) => {
-    if (target === null) return
-    
-    const position = typeof target === 'number' 
-      ? target 
-      : target.getBoundingClientRect().top + window.scrollY
-
-    window.scrollTo({
-      top: position,
-      behavior: 'smooth'
-    })
-  }, [])
 
   // Add handleCardClick
   const handleCardClick = useCallback((ref: React.RefObject<HTMLElement>, sectionId: string) => {

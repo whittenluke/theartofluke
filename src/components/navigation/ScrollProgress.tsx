@@ -10,7 +10,7 @@ interface ScrollProgressProps {
 export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
   const [mounted, setMounted] = useState(false)
   const [isLargeScreen, setIsLargeScreen] = useState(true)
-  const { y, direction, lastY, threshold } = useScroll({ threshold: 0 })
+  const { y, direction, lastY } = useScroll({ threshold: 0 })
   const [progress, setProgress] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
 

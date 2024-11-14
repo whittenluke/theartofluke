@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useEffect } from 'react'
 
 interface NebulaCloud {
   id: string
@@ -23,10 +23,7 @@ interface NebulaProps {
 }
 
 const Nebula = ({ onLoad }: NebulaProps) => {
-  const [mounted, setMounted] = useState(false)
-  
   useEffect(() => {
-    setMounted(true)
     // Notify parent when nebula is ready
     onLoad?.()
   }, [onLoad])

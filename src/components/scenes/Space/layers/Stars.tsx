@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useScroll } from '@/hooks/useScroll'
 
 interface Star {
