@@ -302,8 +302,8 @@ export default function Home() {
                 Professional Journey
               </h2>
               
-              {/* Introduction */}
-              <div className="mb-16 text-lg md:text-xl text-center leading-relaxed">
+              {/* Introduction - Remove text-center class */}
+              <div className="mb-16 text-lg md:text-xl leading-relaxed">
                 <p className="text-white/90">
                   My path to product management has been anything but conventional. It's a journey that began with 
                   entrepreneurship, creativity, and a deep passion for building experiences that matter.
