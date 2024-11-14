@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 
 interface NebulaCloud {
   id: string
@@ -18,7 +18,19 @@ const NEBULA_COLORS = [
   '#553C9A',  // space-nebula-dark
 ] as const
 
-const Nebula = () => {
+interface NebulaProps {
+  onLoad?: () => void
+}
+
+const Nebula = ({ onLoad }: NebulaProps) => {
+  const [mounted, setMounted] = useState(false)
+  
+  useEffect(() => {
+    setMounted(true)
+    // Notify parent when nebula is ready
+    onLoad?.()
+  }, [onLoad])
+
   // Diffuse background clouds
   const diffuseClouds: NebulaCloud[] = useMemo(() => {
     const cloudCount = 15

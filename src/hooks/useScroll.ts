@@ -9,11 +9,10 @@ interface ScrollState {
 
 interface ScrollOptions {
   threshold?: number    
-  delay?: number       
 }
 
 export function useScroll(options: ScrollOptions = {}) {
-  const { threshold = 10, delay = 50 } = options
+  const { threshold = 0 } = options
 
   const [state, setState] = useState<ScrollState>({
     y: typeof window !== 'undefined' ? window.scrollY : 0,
@@ -51,22 +50,10 @@ export function useScroll(options: ScrollOptions = {}) {
     const window = globalThis.window
     if (!window) return
 
-    // Initial call
-    handleScroll()
-
-    // Debounced scroll handler
-    let timeoutId: NodeJS.Timeout | null = null
-    const debouncedScroll = () => {
-      if (timeoutId) clearTimeout(timeoutId)
-      timeoutId = setTimeout(handleScroll, delay)
-    }
-
-    window.addEventListener('scroll', debouncedScroll, { passive: true })
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId)
-      window.removeEventListener('scroll', debouncedScroll)
-    }
-  }, [handleScroll, delay])
+    // Use passive event listener for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
 
   return state
 }

@@ -12,7 +12,11 @@ interface Star {
   shouldTwinkle: boolean
 }
 
-const Stars = () => {
+interface StarsProps {
+  onLoad?: () => void
+}
+
+const Stars = ({ onLoad }: StarsProps) => {
   const [mounted, setMounted] = useState(false)
   const [stars, setStars] = useState<Star[]>([])
   const [twinklingStars, setTwinklingStars] = useState<Set<number>>(new Set())
@@ -37,7 +41,9 @@ const Stars = () => {
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+    // Notify parent when stars are ready
+    onLoad?.()
+  }, [onLoad])
 
   useEffect(() => {
     if (!mounted) return

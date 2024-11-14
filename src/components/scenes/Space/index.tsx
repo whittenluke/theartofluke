@@ -8,15 +8,25 @@ import { useState, useEffect } from 'react'
 
 interface SpaceSceneProps {
   className?: string
+  onLoad?: () => void
 }
 
-const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
+const SpaceScene = ({ className = '', onLoad }: SpaceSceneProps) => {
   const [mounted, setMounted] = useState(false)
+  const [starsReady, setStarsReady] = useState(false)
+  const [nebulaReady, setNebulaReady] = useState(false)
   const { y } = useScroll()
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // Only notify parent when both stars and nebula are ready
+  useEffect(() => {
+    if (starsReady && nebulaReady) {
+      onLoad?.()
+    }
+  }, [starsReady, nebulaReady, onLoad])
 
   if (!mounted) return null
 
@@ -28,24 +38,33 @@ const SpaceScene = ({ className = '' }: SpaceSceneProps) => {
         
         {/* Stars Layer - Base layer */}
         <div 
-          className="absolute inset-0 w-full h-full"
+          className={`
+            absolute inset-0 w-full h-full
+            transition-opacity duration-500
+            ${starsReady ? 'opacity-100' : 'opacity-0'}
+          `}
           style={{
             transform: mounted ? `translateY(${-y * 0.1}px)` : 'translateY(0px)',
             zIndex: 1
           }}
+          onLoad={() => setStarsReady(true)}
         >
-          <Stars />
+          <Stars onLoad={() => setStarsReady(true)} />
         </div>
 
         {/* Nebula Layer - Middle layer */}
         <div 
-          className="absolute inset-0 w-full h-full"
+          className={`
+            absolute inset-0 w-full h-full
+            transition-opacity duration-500
+            ${nebulaReady ? 'opacity-100' : 'opacity-0'}
+          `}
           style={{
             transform: mounted ? `translateY(${-y * 0.01}px)` : 'translateY(0px)',
             zIndex: 2
           }}
         >
-          <Nebula />
+          <Nebula onLoad={() => setNebulaReady(true)} />
         </div>
 
         {/* Planets Layer - Top layer */}

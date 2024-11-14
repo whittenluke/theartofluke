@@ -10,20 +10,16 @@ interface ScrollProgressProps {
 export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
   const [mounted, setMounted] = useState(false)
   const [isLargeScreen, setIsLargeScreen] = useState(true)
-  const { y, direction, lastY } = useScroll({ threshold: 10 })
+  const { y, direction, lastY } = useScroll({ threshold: 0 })
   const [progress, setProgress] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
 
   // Handle screen size changes
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsLargeScreen(window.innerWidth >= 1024) // lg breakpoint
+      setIsLargeScreen(window.innerWidth >= 1024)
     }
-
-    // Initial check
     checkScreenSize()
-
-    // Add resize listener
     window.addEventListener('resize', checkScreenSize)
     return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
@@ -33,21 +29,27 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
     setMounted(true)
   }, [])
 
-  // Calculate progress after mount
+  // Optimized progress calculation
   useEffect(() => {
     if (!mounted) return
 
-    const calculateProgress = () => {
+    let rafId: number
+
+    const updateProgress = () => {
       const windowHeight = window.innerHeight
       const documentHeight = document.documentElement.scrollHeight
       const maxScroll = documentHeight - windowHeight
-      
-      // Simply use the raw scroll position percentage
       const currentProgress = (y / maxScroll) * 100
+      
       setProgress(Math.min(Math.max(currentProgress, 0), 100))
+      rafId = requestAnimationFrame(updateProgress)
     }
 
-    calculateProgress()
+    rafId = requestAnimationFrame(updateProgress)
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId)
+    }
   }, [y, mounted])
 
   if (!mounted || !isLargeScreen) return null

@@ -36,8 +36,7 @@ const SECTION_DESTINATIONS = {
 export default function Home() {
   const [mounted, setMounted] = useState(false)
   const { y } = useScroll({
-    threshold: 10,
-    delay: 50
+    threshold: 10
   })
 
   // Add all the necessary state
@@ -45,6 +44,7 @@ export default function Home() {
   const [showMissionControl, setShowMissionControl] = useState(false)
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [currentSection, setCurrentSection] = useState('missionControl')
+  const [spaceSceneLoaded, setSpaceSceneLoaded] = useState(false)
 
   // Add refs for each section
   const missionControlRef = useRef<HTMLDivElement>(null)
@@ -92,8 +92,10 @@ export default function Home() {
     setMounted(true)
   }, [])
 
-  // Add title timer effect
+  // Update title timer to wait for space scene
   useEffect(() => {
+    if (!spaceSceneLoaded) return
+
     const titleTimer = setTimeout(() => {
       setShowTitle(false)
       setTimeout(() => {
@@ -102,7 +104,7 @@ export default function Home() {
     }, TITLE_DISPLAY_DURATION)
 
     return () => clearTimeout(titleTimer)
-  }, [])
+  }, [spaceSceneLoaded])
 
   // Add section detection effect
   useEffect(() => {
@@ -152,7 +154,7 @@ export default function Home() {
 
   // In your JSX, update the style prop
   return (
-    <div className="relative min-h-[2000vh] bg-black" ref={missionControlRef}>
+    <div className="relative min-h-[400vh] bg-black" ref={missionControlRef}>
       <QuickNav 
         currentSection={currentSection}
         onNavigate={(sectionId) => {
@@ -173,17 +175,20 @@ export default function Home() {
       {/* Main Content with Space Background */}
       <div className="relative">
         {/* Space Scene as fixed background */}
-        <div className="fixed top-0 left-0 w-full h-[200vh] z-0">
-          <SpaceScene />
+        <div className="fixed top-0 left-0 w-full h-[100vh] z-0">
+          <SpaceScene onLoad={() => setSpaceSceneLoaded(true)} />
         </div>
         
         {/* Content Sections */}
         <div className="relative">
-          {/* Title Section - Removed Spaceship */}
+          {/* Title Section */}
           <section className="relative h-screen flex flex-col items-center z-20">
             <Suspense fallback={<div className="text-white">Loading...</div>}>
               <div 
-                className="transition-all duration-300 ease-out text-center mt-32"
+                className={`
+                  transition-all duration-1000 ease-out text-center mt-32
+                  ${spaceSceneLoaded ? 'opacity-100' : 'opacity-0'}
+                `}
                 style={getTitleStyle()}
               >
                 <h1 
@@ -191,8 +196,9 @@ export default function Home() {
                     flex flex-col items-center gap-4
                     text-6xl md:text-8xl text-white font-bold 
                     opacity-0 animate-fade-in [animation-duration:2s] 
-                    [animation-fill-mode:forwards] mb-16
+                    [animation-fill-mode:forwards]
                     ${!showTitle ? 'animate-fade-out' : ''}
+                    ${!spaceSceneLoaded ? 'animation-play-state: paused' : ''}
                   `}
                 >
                   <span className="text-4xl md:text-6xl">Welcome to</span>
@@ -200,13 +206,17 @@ export default function Home() {
                 </h1>
               </div>
 
-              {/* Mission Control - Positioned at top */}
+              {/* Mission Control - wait for space scene and title */}
               <div 
                 ref={missionControlRef}
                 className={`
                   absolute top-16 left-1/2 -translate-x-1/2
-                  w-full max-w-4xl px-4 transition-all duration-1000
-                  ${showMissionControl ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}
+                  w-full max-w-4xl px-4 
+                  transition-all duration-1000
+                  ${showMissionControl && spaceSceneLoaded 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 -translate-y-8'
+                  }
                 `}
               >
                 <div className="text-white w-full">
@@ -846,32 +856,18 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Rest of content with adjusted z-index */}
-          <div className="relative z-10">
-            {/* Initial cosmic journey section */}
-            <section className="h-[800vh]" aria-hidden="true" />
-
-            {/* Content sections with more space between them */}
-            <section className="min-h-[200vh] flex items-center justify-center p-8">
-              <div className="max-w-4xl mx-auto">
-                {/* About content */}
-              </div>
-            </section>
-
-            {/* Gallery Section with extended space */}
-            <section className="min-h-[300vh] flex items-center justify-center p-8">
-              <div className="max-w-4xl mx-auto">
-                {/* Gallery content */}
-              </div>
-            </section>
-
-            {/* Contact Section */}
-            <section className="min-h-[200vh] flex items-center justify-center p-8">
-              <div className="max-w-4xl mx-auto">
-                {/* Contact content */}
-              </div>
-            </section>
-          </div>
+          {/* Footer */}
+          <footer className="
+            relative z-20 py-8 px-4 mt-16
+            text-center text-white/60
+            border-t border-white/10
+            backdrop-blur-sm
+          ">
+            <div className="max-w-4xl mx-auto space-y-2">
+              <p className="text-sm">Created by Luke Whitten</p>
+              <p className="text-xs">© 2024 The Art of Luke. All rights reserved.</p>
+            </div>
+          </footer>
         </div>
       </div>
     </div>
