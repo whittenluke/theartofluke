@@ -11,6 +11,12 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
   const { y, direction } = useScroll({ threshold: 10 })
   const [progress, setProgress] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
+  const [lastY, setLastY] = useState(0)
+
+  // Track last scroll position
+  useEffect(() => {
+    setLastY(y)
+  }, [y])
 
   // Calculate total scroll progress
   useEffect(() => {
@@ -122,24 +128,78 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
             stroke="white"
             strokeWidth="2"
           >
+            {/* Main rocket body */}
             <path 
-              d="M32 4L44 32L32 56L20 32L32 4Z" 
-              fill="rgba(255,255,255,0.2)"
+              d="M32 4L38 32L32 56L26 32L32 4Z" 
+              fill="rgba(255,255,255,0.4)"
+              className="transition-all duration-300"
             />
-            <path 
-              d="M20 32L8 44L20 40L32 56L44 40L56 44L44 32"
-              fill="rgba(255,255,255,0.1)"
+            
+            {/* Side boosters */}
+            <path
+              d="M26 32L20 40L26 38L32 56L38 38L44 40L38 32"
+              fill="url(#wingGradient)"
+              className="transition-all duration-300"
             />
-            <circle cx="32" cy="24" r="4" fill="rgba(135,206,250,0.6)" />
+            
+            {/* Nose cone detail */}
+            <path
+              d="M30 8L32 4L34 8"
+              stroke="rgba(255,255,255,0.6)"
+              strokeWidth="1"
+              fill="none"
+            />
+            
+            {/* Window */}
+            <circle 
+              cx="32" 
+              cy="20" 
+              r="3" 
+              fill="rgba(135,206,250,0.8)"
+              className="animate-pulse"
+            />
+
+            {/* Define gradients */}
+            <defs>
+              <linearGradient id="wingGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0.2)" />
+              </linearGradient>
+            </defs>
           </svg>
 
-          {/* Engine glow - adjusted for larger ship */}
-          <circle
-            cx="0"
-            cy="16"
-            r="8"
-            className="fill-orange-500 blur-sm animate-pulse opacity-75"
-          />
+          {/* Enhanced engine glow effect */}
+          <g>
+            {/* Base glow - always visible but subtle */}
+            <circle
+              cx="0"
+              cy="16"
+              r="8"
+              className="fill-orange-500/30 blur-md"
+            />
+            {/* Active glow - only visible during scroll */}
+            <circle
+              cx="0"
+              cy="16"
+              r="8"
+              className={`
+                fill-orange-500/50 blur-md
+                transition-all duration-300
+                ${Math.abs(y - window.lastY) > 0 ? 'opacity-100 scale-125' : 'opacity-0 scale-75'}
+              `}
+            />
+            {/* Inner bright core - pulses during scroll */}
+            <circle
+              cx="0"
+              cy="16"
+              r="4"
+              className={`
+                fill-orange-300 blur-sm
+                transition-all duration-300
+                ${Math.abs(y - window.lastY) > 0 ? 'opacity-100 scale-110' : 'opacity-50 scale-90'}
+              `}
+            />
+          </g>
         </g>
       </svg>
 
