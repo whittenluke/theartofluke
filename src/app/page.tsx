@@ -311,7 +311,7 @@ export default function Home() {
               </div>
 
               {/* Timeline/Journey Points */}
-              <div className="space-y-24">
+              <div className="space-y-16">
                 {/* Creative Foundation */}
                 <div className="group relative flex items-center gap-8">
                   <div className="hidden md:block w-24 shrink-0">
@@ -659,21 +659,83 @@ export default function Home() {
             ref={harmonicTransmissionRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[50vh]"
           >
-            <div className="max-w-3xl mx-auto text-white">
+            <div className="max-w-4xl mx-auto text-white w-full">
               <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
                 Harmonic Transmission
               </h2>
               
-              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
-                <p>
-                The Harmonic Transmission sector resonates with the rhythms and melodies
-                of musical exploration. Here, sound waves ripple through the digital void,
-                creating patterns of harmony and creative expression.
+              {/* Musical Dimensions Card */}
+              <div className="
+                backdrop-blur-sm bg-white/5 rounded-2xl p-8
+                border border-white/10 hover:border-white/20
+                transition-all duration-300 mb-12
+              ">
+                <h3 className="text-2xl font-semibold mb-6 text-red-400 text-center">Musical Dimensions</h3>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white/80">
+                  <li className="flex items-start gap-3">
+                    <MusicalNoteIcon className="text-red-400 w-6 h-6" />
+                    <span>Self-taught musician</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <MusicalNoteIcon className="text-red-400 w-6 h-6" />
+                    <span>Plays by ear and reads notation</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <MusicalNoteIcon className="text-red-400 w-6 h-6" />
+                    <span>Multi-instrumentalist: Guitar, Piano, Saxophone</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <MusicalNoteIcon className="text-red-400 w-6 h-6" />
+                    <span>Vocal performance and harmony</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <MusicalNoteIcon className="text-red-400 w-6 h-6" />
+                    <span>Preferred genres: Soul, Latin, Blues, Jazz</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Current Frequencies */}
+              <div className="
+                backdrop-blur-sm bg-white/5 rounded-2xl p-8
+                border border-white/10 hover:border-white/20
+                transition-all duration-300 mb-12
+              ">
+                <h3 className="text-2xl font-semibold mb-4 text-red-400 text-center">Current Frequencies</h3>
+                <p className="text-white/80 leading-relaxed">
+                  While my public performances are mostly on pause, music remains a daily part of my life. 
+                  These days, my most important audience is my daughter, as we create melodies together and 
+                  explore the joy of musical expression. Our living room sessions range from improvised silly 
+                  songs to classic favorites, cultivating her discovery and love for music.
                 </p>
-                <p>
-                This audio observatory captures the fusion of traditional musicianship
-                with modern digital production, broadcasting sonic experiments across
-                the vastness of our digital space.
+              </div>
+
+              {/* Future Broadcasts */}
+              <div className="
+                backdrop-blur-sm bg-white/5 rounded-2xl p-8
+                border border-white/10 hover:border-white/20
+                transition-all duration-300
+              ">
+                <h3 className="text-2xl font-semibold mb-6 text-red-400 text-center">Future Broadcasts</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {['Upcoming recordings', 'Collaborative projects', 'Musical experiments', 'Teaching moments'].map((item, index) => (
+                    <div 
+                      key={index}
+                      className="
+                        p-4 rounded-lg bg-white/5
+                        border border-white/10
+                        text-center text-white/70
+                        hover:text-white/90 hover:border-white/20
+                        transition-all duration-300
+                      "
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-white/60 mt-8 italic text-center">
+                  Note: This section will evolve as new content becomes available, but for now serves as a 
+                  window into this vital part of my creative identity.
                 </p>
               </div>
             </div>
