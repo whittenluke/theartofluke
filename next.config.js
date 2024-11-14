@@ -20,6 +20,11 @@ const nextConfig = {
     scrollRestoration: true,
   },
 
+  // Add this section for critters
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+
   // Webpack configuration for optimizations
   webpack: (config, { dev, isServer }) => {
     // Optimize SVG handling

@@ -8,6 +8,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.1.5",
+    "critters": "^0.0.25",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
