@@ -10,7 +10,7 @@ interface ScrollProgressProps {
 export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
   const [mounted, setMounted] = useState(false)
   const [isLargeScreen, setIsLargeScreen] = useState(true)
-  const { y, direction, lastY } = useScroll({ threshold: 0 })
+  const { y, direction, lastY, threshold } = useScroll({ threshold: 0 })
   const [progress, setProgress] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -94,12 +94,18 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
 
   const getRotationAngle = (progress: number) => {
     const currentPoint = getPointOnCurve(progress)
-    const nextPoint = getPointOnCurve(Math.min(progress + 0.5, 100))
+    const nextPoint = getPointOnCurve(Math.min(progress + 0.1, 100))
     
     const dx = nextPoint.x - currentPoint.x
     const dy = nextPoint.y - currentPoint.y
     const angle = Math.atan2(dy, dx) * (180 / Math.PI)
     
+    // If we're at the very top (y === 0), force upward orientation
+    if (y === 0) {
+      return 0
+    }
+    
+    // Use the last known direction
     return angle + (direction === 'up' ? -90 : 90)
   }
 

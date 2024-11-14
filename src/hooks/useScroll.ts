@@ -30,12 +30,13 @@ export function useScroll(options: ScrollOptions = {}) {
     setState(prev => {
       const currentY = window.scrollY
       const diff = Math.abs(currentY - prev.y)
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-      const progress = maxScroll ? currentY / maxScroll : 0
 
       const direction = diff >= threshold
         ? currentY > prev.y ? 'down' : 'up'
-        : prev.direction
+        : prev.direction || 'up'
+
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      const progress = maxScroll ? currentY / maxScroll : 0
 
       return {
         y: currentY,
