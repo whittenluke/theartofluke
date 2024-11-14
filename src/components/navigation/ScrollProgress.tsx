@@ -12,6 +12,14 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
   const [isLargeScreen, setIsLargeScreen] = useState(true)
   const { y, direction, lastY } = useScroll({ threshold: 0 })
   const [isHovered, setIsHovered] = useState(false)
+  const [lastDirection, setLastDirection] = useState<'up' | 'down'>('up')
+
+  // Update last direction only on meaningful scroll changes
+  useEffect(() => {
+    if (Math.abs(y - lastY) > 5) { // Only update on significant scroll
+      setLastDirection(y > lastY ? 'down' : 'up')
+    }
+  }, [y, lastY])
 
   // Handle screen size changes
   useEffect(() => {
@@ -75,19 +83,13 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
 
   const getRotationAngle = (progress: number) => {
     const currentPoint = getPointOnCurve(progress)
-    const nextPoint = getPointOnCurve(Math.min(progress + 0.1, 100))
+    const nextPoint = getPointOnCurve(Math.min(progress + 1, 100))
     
     const dx = nextPoint.x - currentPoint.x
     const dy = nextPoint.y - currentPoint.y
     const angle = Math.atan2(dy, dx) * (180 / Math.PI)
     
-    // If we're at the very top (y === 0), force upward orientation
-    if (y === 0) {
-      return 0
-    }
-    
-    // Use the last known direction
-    return angle + (direction === 'up' ? -90 : 90)
+    return angle + (lastDirection === 'up' ? -90 : 90)
   }
 
   return (
