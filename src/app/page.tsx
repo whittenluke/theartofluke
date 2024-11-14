@@ -297,29 +297,138 @@ export default function Home() {
             ref={professionalJourneyRef}
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[100vh] lg:mt-[50vh]"
           >
-            <div className="max-w-3xl mx-auto text-white w-full">
-              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
+            <div className="max-w-4xl mx-auto text-white w-full">
+              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
                 Professional Journey
               </h2>
               
-              <div className="space-y-6 text-lg md:text-xl leading-relaxed">
-                <p>
-                  As a Product Manager working in insurtech, I get to tackle
-                  fascinating challenges every day alongside a talented team
-                  of product, design, and engineering pros. Together, we
-                  transform complex insurance problems into elegant digital
-                  solutions that make a real difference in people's lives.
-                </p>
-                <p>
-                  My team specifically focuses on creating intuitive and
-                  delightful user experiences. What does that mean? Bascially,
-                  that we care about the people that are going to use our 
-                  software and we design with them in mind.
-                </p>
-                <p>
-                  But that's just one dimension of my career, my life, and my journey thus far. Continue further to learn more.
+              {/* Introduction */}
+              <div className="mb-16 text-lg md:text-xl text-center leading-relaxed">
+                <p className="text-white/90">
+                  My path to product management has been anything but conventional. It's a journey that began with 
+                  entrepreneurship, creativity, and a deep passion for building experiences that matter.
                 </p>
               </div>
+
+              {/* Timeline/Journey Points */}
+              <div className="space-y-24">
+                {/* Creative Foundation */}
+                <div className="group relative flex items-center gap-8">
+                  <div className="hidden md:block w-24 shrink-0">
+                    <span className="text-indigo-400 opacity-60">2004+</span>
+                  </div>
+                  <div className="
+                    flex-grow backdrop-blur-sm bg-white/5 rounded-2xl p-6 md:p-8
+                    border border-white/10 hover:border-white/20
+                    transition-all duration-300
+                  ">
+                    <h3 className="text-2xl font-semibold mb-4 text-indigo-400">Creative Foundations</h3>
+                    <p className="text-white/80 leading-relaxed">
+                      Built a diverse creative practice through commissioned artwork and live music performance. 
+                      From portraits and landscapes to pet illustrations and custom signage, developed a 
+                      keen eye for client needs and artistic execution. This foundation in creative 
+                      problem-solving would later influence my approach to product development.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Early Entrepreneurship */}
+                <div className="group relative flex items-center gap-8">
+                  <div className="hidden md:block w-24 shrink-0">
+                    <span className="text-blue-400 opacity-60">2010s</span>
+                  </div>
+                  <div className="
+                    flex-grow backdrop-blur-sm bg-white/5 rounded-2xl p-6 md:p-8
+                    border border-white/10 hover:border-white/20
+                    transition-all duration-300
+                  ">
+                    <h3 className="text-2xl font-semibold mb-4 text-blue-400">The First Venture</h3>
+                    <p className="text-white/80 leading-relaxed">
+                      Founded a coffeehouse in my early twenties with a $30,000 investment, 
+                      building the operation from ground up—managing everything from equipment 
+                      procurement to staffing.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Coffee Industry */}
+                <div className="group relative flex items-center gap-8">
+                  <div className="hidden md:block w-24 shrink-0">
+                    <span className="text-green-400 opacity-60">Mid 2010s</span>
+                  </div>
+                  <div className="
+                    flex-grow backdrop-blur-sm bg-white/5 rounded-2xl p-6 md:p-8
+                    border border-white/10 hover:border-white/20
+                    transition-all duration-300
+                  ">
+                    <h3 className="text-2xl font-semibold mb-4 text-green-400">Coffee Craftsmanship</h3>
+                    <p className="text-white/80 leading-relaxed">
+                      Apprenticed as a coffee roaster, mastering beans from over 20 single-origin producers. 
+                      Later became General Manager for a growing coffeehouse and bakery, leading expansion 
+                      into new territories.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Tech Transition */}
+                <div className="group relative flex items-center gap-8">
+                  <div className="hidden md:block w-24 shrink-0">
+                    <span className="text-purple-400 opacity-60">2018</span>
+                  </div>
+                  <div className="
+                    flex-grow backdrop-blur-sm bg-white/5 rounded-2xl p-6 md:p-8
+                    border border-white/10 hover:border-white/20
+                    transition-all duration-300
+                  ">
+                    <h3 className="text-2xl font-semibold mb-4 text-purple-400">The Tech Leap</h3>
+                    <p className="text-white/80 leading-relaxed">
+                      Joined an early-stage GPS tracking startup, where my experience in customer service 
+                      and business operations positioned me to bridge the gap between users and technology.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Product Evolution */}
+                <div className="group relative flex items-center gap-8">
+                  <div className="hidden md:block w-24 shrink-0">
+                    <span className="text-rose-400 opacity-60">2021</span>
+                  </div>
+                  <div className="
+                    flex-grow backdrop-blur-sm bg-white/5 rounded-2xl p-6 md:p-8
+                    border border-white/10 hover:border-white/20
+                    transition-all duration-300
+                  ">
+                    <h3 className="text-2xl font-semibold mb-4 text-rose-400">Product Evolution</h3>
+                    <p className="text-white/80 leading-relaxed">
+                      This marked a pivotal shift in my career, becoming fully immersed in product 
+                      management—translating user needs into technical solutions, and driving business 
+                      outcomes through data-driven decisions.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Current Role */}
+                <div className="group relative flex items-center gap-8">
+                  <div className="hidden md:block w-24 shrink-0">
+                    <span className="text-cyan-400 opacity-60">Present</span>
+                  </div>
+                  <div className="
+                    flex-grow backdrop-blur-sm bg-white/5 rounded-2xl p-6 md:p-8
+                    border border-white/10 hover:border-white/20
+                    transition-all duration-300
+                  ">
+                    <h3 className="text-2xl font-semibold mb-4 text-cyan-400">Product Leadership</h3>
+                    <p className="text-white/80 leading-relaxed">
+                      As a Product Manager at SageSure, I leverage my unique blend of 
+                      creative, entrepreneurial, and technical experience to build innovative solutions. 
+                      My journey from artist to entrepreneur to product leader has equipped me with a 
+                      holistic approach to product development—combining user empathy, business acumen, 
+                      and technical understanding.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </section>
 
