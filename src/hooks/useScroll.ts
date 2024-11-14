@@ -9,7 +9,8 @@ interface ScrollState {
 
 interface ScrollOptions {
   threshold?: number
-  throttleMs?: number    
+  throttleMs?: number
+  delay?: number
 }
 
 export function useScroll(options: ScrollOptions = {}) {

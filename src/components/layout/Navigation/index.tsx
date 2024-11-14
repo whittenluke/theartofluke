@@ -7,7 +7,7 @@ import { useScroll } from '@/hooks/useScroll'
 const Navigation = () => {
   const { y, direction } = useScroll({
     threshold: 50,
-    delay: 50
+    throttleMs: 50
   })
 
   // Simplified visibility logic
