@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 interface ScrollState {
   y: number
@@ -8,11 +8,13 @@ interface ScrollState {
 }
 
 interface ScrollOptions {
-  threshold?: number    
+  threshold?: number
+  throttleMs?: number    
 }
 
 export function useScroll(options: ScrollOptions = {}) {
-  const { threshold = 0 } = options
+  const { threshold = 0, throttleMs = 16 } = options
+  const lastRun = useRef(0)
 
   const [state, setState] = useState<ScrollState>({
     y: typeof window !== 'undefined' ? window.scrollY : 0,
@@ -24,8 +26,12 @@ export function useScroll(options: ScrollOptions = {}) {
   const handleScroll = useCallback(() => {
     const window = globalThis.window
     const document = globalThis.document
+    const now = Date.now()
 
     if (!window || !document) return
+    if (now - lastRun.current < throttleMs) return
+
+    lastRun.current = now
 
     setState(prev => {
       const currentY = window.scrollY
@@ -45,13 +51,12 @@ export function useScroll(options: ScrollOptions = {}) {
         progress,
       }
     })
-  }, [threshold])
+  }, [threshold, throttleMs])
 
   useEffect(() => {
     const window = globalThis.window
     if (!window) return
 
-    // Use passive event listener for better performance
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [handleScroll])

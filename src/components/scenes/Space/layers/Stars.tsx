@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useScroll } from '@/hooks/useScroll'
 
 interface Star {
   x: number
@@ -20,7 +19,6 @@ const Stars = ({ onLoad }: StarsProps) => {
   const [mounted, setMounted] = useState(false)
   const [stars, setStars] = useState<Star[]>([])
   const [twinklingStars, setTwinklingStars] = useState<Set<number>>(new Set())
-  const { y } = useScroll()
 
   // Generate stars only after component mounts (client-side)
   useEffect(() => {
@@ -69,11 +67,9 @@ const Stars = ({ onLoad }: StarsProps) => {
   // Calculate viewport height and required repetitions
   const viewportHeight = 6400
   const patternHeight = 2000
-  const scrollOffset = y * 0.1
-  const visibleRange = viewportHeight + scrollOffset + patternHeight
 
   // Calculate how many repetitions we need
-  const repetitions = Math.ceil(visibleRange / patternHeight) + 1
+  const repetitions = Math.ceil(viewportHeight / patternHeight) + 1
 
   return (
     <svg
@@ -85,15 +81,14 @@ const Stars = ({ onLoad }: StarsProps) => {
       style={{ mixBlendMode: 'screen' }}
     >
       {Array.from({ length: repetitions }, (_, i) => {
-        // Calculate the y position for this group of stars
+        // Remove scroll offset, just use base position
         const basePosition = i * patternHeight
-        const adjustedPosition = basePosition - (scrollOffset % patternHeight)
 
         return (
           <g 
             key={i} 
             className="star-field" 
-            transform={`translate(0, ${adjustedPosition})`}
+            transform={`translate(0, ${basePosition})`}
           >
             {stars.map((star, index) => (
               <circle

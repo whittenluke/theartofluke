@@ -11,7 +11,6 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
   const [mounted, setMounted] = useState(false)
   const [isLargeScreen, setIsLargeScreen] = useState(true)
   const { y, direction, lastY } = useScroll({ threshold: 0 })
-  const [progress, setProgress] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
 
   // Handle screen size changes
@@ -24,35 +23,17 @@ export const ScrollProgress = ({ currentSection }: ScrollProgressProps) => {
     return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
 
-  // Only render after mount
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Optimized progress calculation
-  useEffect(() => {
-    if (!mounted) return
-
-    let rafId: number
-
-    const updateProgress = () => {
-      const windowHeight = window.innerHeight
-      const documentHeight = document.documentElement.scrollHeight
-      const maxScroll = documentHeight - windowHeight
-      const currentProgress = (y / maxScroll) * 100
-      
-      setProgress(Math.min(Math.max(currentProgress, 0), 100))
-      rafId = requestAnimationFrame(updateProgress)
-    }
-
-    rafId = requestAnimationFrame(updateProgress)
-
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId)
-    }
-  }, [y, mounted])
-
   if (!mounted || !isLargeScreen) return null
+
+  // Calculate progress directly from scroll position
+  const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0
+  const documentHeight = typeof document !== 'undefined' ? document.documentElement.scrollHeight : 0
+  const maxScroll = documentHeight - windowHeight
+  const progress = Math.min(Math.max((y / maxScroll) * 100, 0), 100)
 
   // Get color based on current section
   const getColor = () => {

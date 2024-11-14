@@ -44,7 +44,6 @@ const SpaceScene = ({ className = '', onLoad }: SpaceSceneProps) => {
             ${starsReady ? 'opacity-100' : 'opacity-0'}
           `}
           style={{
-            transform: mounted ? `translateY(${-y * 0.1}px)` : 'translateY(0px)',
             zIndex: 1
           }}
           onLoad={() => setStarsReady(true)}
