@@ -417,11 +417,11 @@ export default function Home() {
                     border border-white/10 hover:border-white/20
                     transition-all duration-300
                   ">
-                    <h3 className="text-2xl font-semibold mb-4 text-cyan-400">Product Leadership</h3>
+                    <h3 className="text-2xl font-semibold mb-4 text-cyan-400">Product Management</h3>
                     <p className="text-white/80 leading-relaxed">
                       As a Product Manager at SageSure, I leverage my unique blend of 
                       creative, entrepreneurial, and technical experience to build innovative solutions. 
-                      My journey from artist to entrepreneur to product leader has equipped me with a 
+                      My journey from artist to entrepreneur to product manager has equipped me with a 
                       holistic approach to product development—combining user empathy, business acumen, 
                       and technical understanding.
                     </p>
