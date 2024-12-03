@@ -30,3 +30,5 @@ yarn-error.log*
 
 # Project specific
 SiteDesignDoc.md 
+# Local Netlify folder
+.netlify
