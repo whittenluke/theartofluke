@@ -16,6 +16,25 @@ export const metadata: Metadata = {
   keywords: ['Luke Whitten', 'Art', 'Technology', 'Product Management', 'Creative'],
   authors: [{ name: 'Luke Whitten' }],
   creator: 'Luke Whitten',
+  icons: {
+    icon: [
+      {
+        url: '/favicon.svg',
+        type: 'image/svg+xml',
+      },
+      {
+        url: '/favicon.png',
+        type: 'image/png',
+      }
+    ],
+    shortcut: ['/favicon.svg'],
+    apple: [
+      {
+        url: '/favicon.svg',
+        type: 'image/svg+xml',
+      }
+    ],
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
