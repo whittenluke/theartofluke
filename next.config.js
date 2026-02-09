@@ -20,6 +20,9 @@ const nextConfig = {
     scrollRestoration: true,
   },
 
+  // Explicit Turbopack config to satisfy Next 16+ when a webpack config is present
+  turbopack: {},
+
   // Add this section for critters
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
