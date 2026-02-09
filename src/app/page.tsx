@@ -522,10 +522,10 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* PMTools */}
+                {/* Sparkling Authority */}
                 <div className="group relative h-full">
                   <a 
-                    href="https://www.pmtools.pro" 
+                    href="https://www.sparklingauthority.com" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="block h-full"
@@ -539,7 +539,7 @@ export default function Home() {
                       group-hover:border-white/20 group-hover:from-blue-600/30 group-hover:to-cyan-500/30
                     ">
                       {/* Project Title */}
-                      <h3 className="text-xl font-bold mb-4">PMTools</h3>
+                      <h3 className="text-xl font-bold mb-4">Sparkling Authority</h3>
 
                       {/* Tech Stack Tags */}
                       <div className="flex flex-wrap gap-2 mb-4">
@@ -550,9 +550,8 @@ export default function Home() {
 
                       {/* Project Description */}
                       <p className="text-sm text-white/70 flex-grow">
-                        A comprehensive toolkit featuring calculators, 
-                        pomodoro timer, kanban board, notes, and more. Built with modern web 
-                        technologies and AI pair programming.
+                        A curated database and review site dedicated to helping people discover, compare,
+                        and understand sparkling waters across brands, flavors, and carbonation levels.
                       </p>
 
                       {/* Visit Link */}
@@ -567,36 +566,6 @@ export default function Home() {
                       </div>
                     </div>
                   </a>
-                </div>
-
-                {/* WisdomQuest */}
-                <div className="group relative h-full">
-                  <div className="
-                    relative h-full flex flex-col
-                    overflow-hidden rounded-xl
-                    bg-gradient-to-br from-green-500/20 to-yellow-500/20
-                    backdrop-blur-sm border border-white/10
-                    p-6 transition-all duration-500
-                    group-hover:border-white/20 group-hover:from-green-500/30 group-hover:to-yellow-500/30
-                  ">
-                    {/* Project Status Badge */}
-                    <div className="absolute top-4 right-4">
-                      <span className="text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-300">
-                        In Development
-                      </span>
-                    </div>
-
-                    <h3 className="text-xl font-bold mb-4">WisdomQuest</h3>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">C#</span>
-                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">Unity</span>
-                      <span className="text-xs px-2 py-1 rounded-full bg-white/10">3D Adventure</span>
-                    </div>
-                    <p className="text-sm text-white/70 flex-grow">
-                      An immersive 3D adventure game where players embark on real-world wisdom quests,
-                      from beekeeping to bridge building. Launch expected mid-2025.
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
