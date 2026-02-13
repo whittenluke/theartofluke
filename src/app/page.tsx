@@ -452,6 +452,98 @@ export default function Home() {
 
               {/* Projects Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 max-w-5xl mx-auto">
+                {/* Sparkling Authority */}
+                <div className="group relative h-full">
+                  <a 
+                    href="https://www.sparklingauthority.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block h-full"
+                  >
+                    <div className="
+                      relative h-full flex flex-col
+                      overflow-hidden rounded-xl
+                      bg-gradient-to-br from-blue-600/20 to-cyan-500/20
+                      backdrop-blur-sm border border-white/10
+                      p-6 transition-all duration-500
+                      group-hover:border-white/20 group-hover:from-blue-600/30 group-hover:to-cyan-500/30
+                    ">
+                      {/* Project Title */}
+                      <h3 className="text-xl font-bold mb-4">Sparkling Authority</h3>
+
+                      {/* Tech Stack Tags */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">Next.js</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">React</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">TypeScript</span>
+                      </div>
+
+                      {/* Project Description */}
+                      <p className="text-sm text-white/70 flex-grow">
+                        A curated database and review site dedicated to helping people discover, compare,
+                        and understand sparkling waters across brands, flavors, and carbonation levels.
+                      </p>
+
+                      {/* Visit Link */}
+                      <div className="
+                        mt-4 opacity-0 transform translate-y-2
+                        group-hover:opacity-100 group-hover:translate-y-0
+                        transition-all duration-300
+                      ">
+                        <span className="text-sm text-white/90 flex items-center gap-1">
+                          Visit Site →
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                {/* Cozy Arcade */}
+                <div className="group relative h-full">
+                  <a 
+                    href="https://www.cozyarcade.games" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block h-full"
+                  >
+                    <div className="
+                      relative h-full flex flex-col
+                      overflow-hidden rounded-xl
+                      bg-gradient-to-br from-indigo-500/20 to-blue-500/20
+                      backdrop-blur-sm border border-white/10
+                      p-6 transition-all duration-500
+                      group-hover:border-white/20 group-hover:from-indigo-500/30 group-hover:to-blue-500/30
+                    ">
+                      {/* Project Title */}
+                      <h3 className="text-xl font-bold mb-4">Cozy Arcade</h3>
+
+                      {/* Tech Stack Tags */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">HTML</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">CSS</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">JavaScript</span>
+                      </div>
+
+                      {/* Project Description */}
+                      <p className="text-sm text-white/70 flex-grow">
+                        An independent web game project focused on thoughtful design, clean interfaces,
+                        and challenging browser-based experiences.
+                      </p>
+
+                      {/* Visit Link */}
+                      <div className="
+                        mt-4 opacity-0 transform translate-y-2
+                        group-hover:opacity-100 group-hover:translate-y-0
+                        transition-all duration-300
+                      ">
+                        <span className="text-sm text-white/90 flex items-center gap-1">
+                          Visit Site →
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
                 {/* Higher Quotes */}
                 <div className="group relative h-full">
                   <a 
@@ -520,52 +612,6 @@ export default function Home() {
                       web technologies and AI pair programming.
                     </p>
                   </div>
-                </div>
-
-                {/* Sparkling Authority */}
-                <div className="group relative h-full">
-                  <a 
-                    href="https://www.sparklingauthority.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="block h-full"
-                  >
-                    <div className="
-                      relative h-full flex flex-col
-                      overflow-hidden rounded-xl
-                      bg-gradient-to-br from-blue-600/20 to-cyan-500/20
-                      backdrop-blur-sm border border-white/10
-                      p-6 transition-all duration-500
-                      group-hover:border-white/20 group-hover:from-blue-600/30 group-hover:to-cyan-500/30
-                    ">
-                      {/* Project Title */}
-                      <h3 className="text-xl font-bold mb-4">Sparkling Authority</h3>
-
-                      {/* Tech Stack Tags */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">Next.js</span>
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">React</span>
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">TypeScript</span>
-                      </div>
-
-                      {/* Project Description */}
-                      <p className="text-sm text-white/70 flex-grow">
-                        A curated database and review site dedicated to helping people discover, compare,
-                        and understand sparkling waters across brands, flavors, and carbonation levels.
-                      </p>
-
-                      {/* Visit Link */}
-                      <div className="
-                        mt-4 opacity-0 transform translate-y-2
-                        group-hover:opacity-100 group-hover:translate-y-0
-                        transition-all duration-300
-                      ">
-                        <span className="text-sm text-white/90 flex items-center gap-1">
-                          Visit Site →
-                        </span>
-                      </div>
-                    </div>
-                  </a>
                 </div>
               </div>
             </div>
