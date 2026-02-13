@@ -32,12 +32,6 @@ export const QuickNav = ({ currentSection, onNavigate }: QuickNavProps) => {
       color: 'text-blue-500' 
     },
     { 
-      id: 'professionalJourney', 
-      icon: RocketLaunchIcon, 
-      label: ['Professional', 'Journey'],
-      color: 'text-green-500' 
-    },
-    { 
       id: 'innovationSector', 
       icon: LightBulbIcon, 
       label: ['Innovation', 'Sector'],
@@ -54,6 +48,12 @@ export const QuickNav = ({ currentSection, onNavigate }: QuickNavProps) => {
       icon: MusicalNoteIcon, 
       label: ['Harmonic', 'Transmission'],
       color: 'text-red-500' 
+    },
+    { 
+      id: 'professionalJourney', 
+      icon: RocketLaunchIcon, 
+      label: ['Professional', 'Journey'],
+      color: 'text-green-500' 
     },
     { 
       id: 'communicationArray', 
