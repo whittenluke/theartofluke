@@ -1,9 +1,19 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function CanvassCaseStudyPage() {
   return (
     <main className="min-h-screen bg-black text-white px-6 py-24 md:py-28">
       <div className="mx-auto max-w-4xl">
+        <div className="mb-8">
+          <Link
+            href="/#projects"
+            className="inline-flex items-center text-sm md:text-base text-cyan-300 hover:text-cyan-200 transition-colors"
+          >
+            Back to Projects
+          </Link>
+        </div>
+
         <section className="mb-14 space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold">Canvass</h1>
           <p className="text-lg md:text-xl text-white/85 leading-relaxed">

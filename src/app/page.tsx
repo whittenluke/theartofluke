@@ -296,6 +296,7 @@ export default function Home() {
           {/* Innovation Sector Section */}
           <section 
             ref={innovationSectorRef}
+            id="projects"
             className="relative min-h-screen flex flex-col items-center justify-center z-20 px-4 md:px-8 mt-[100vh] lg:mt-[50vh]"
           >
             <div className="max-w-6xl mx-auto text-white w-full">
