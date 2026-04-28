@@ -41,7 +41,7 @@ export default function CanvassCaseStudyPage() {
             </p>
             <p>
               <span className="font-semibold text-white">Core features:</span> Geofences, shared map, grouped address
-              list, magic link sign-in
+              list
             </p>
           </div>
         </section>
@@ -51,7 +51,7 @@ export default function CanvassCaseStudyPage() {
           <div className="space-y-4 text-white/80 leading-relaxed">
             <p>
               Local canvassing gets complicated fast. Addresses often live in
-              spreadsheets, area assignments happen in conversation, and it becomes hard to tell which neighborhoods
+              spreadsheets. Area assignments happen in conversation, and it becomes hard for organizers to tell which neighborhoods
               have been worked and which have not.
             </p>
             <p>

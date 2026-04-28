@@ -225,7 +225,7 @@ export default function Home() {
                         <CommandLineIcon className="w-full h-full text-blue-500" />
                       </div>
                       <h3 className="text-xl font-semibold text-center mb-2">Mission Control</h3>
-                      <p className="text-sm text-center text-gray-300">Navigation Hub</p>
+                      <p className="text-sm text-center text-gray-300">You Are Here</p>
                     </div>
 
                     {/* Innovation Sector Card */}
@@ -237,7 +237,7 @@ export default function Home() {
                         <LightBulbIcon className="w-full h-full text-yellow-500" />
                       </div>
                       <h3 className="text-xl font-semibold text-center mb-2">Innovation Sector</h3>
-                      <p className="text-sm text-center text-gray-300">Tech & Ideas</p>
+                      <p className="text-sm text-center text-gray-300">Projects & Ideas</p>
                     </div>
 
                     {/* Art Nebula Card */}
@@ -304,14 +304,49 @@ export default function Home() {
               </h2>
               
               {/* Introduction text */}
-              <div className="max-w-3xl mx-auto space-y-6 text-lg md:text-xl leading-relaxed mb-16">
+              <div className="max-w-3xl mx-auto space-y-6 text-lg md:text-xl leading-relaxed mb-16 text-center">
                 <p>
-                  A portfolio of independent web projects spanning games, data tools, and creative platforms, built from concept to production.
+                  My portfolio of web projects
                 </p>
               </div>
 
               {/* Projects Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 max-w-5xl mx-auto">
+                {/* Canvass */}
+                <div className="group relative h-full">
+                  <Link href="/projects/canvass" className="block h-full">
+                    <div className="
+                      relative h-full flex flex-col
+                      overflow-hidden rounded-xl
+                      bg-gradient-to-br from-emerald-500/20 to-teal-500/20
+                      backdrop-blur-sm border border-white/10
+                      p-6 transition-all duration-500
+                      group-hover:border-white/20 group-hover:from-emerald-500/30 group-hover:to-teal-500/30
+                    ">
+                      <h3 className="text-xl font-bold mb-4">Canvass</h3>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">React</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">Supabase</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">Leaflet</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">PWA</span>
+                      </div>
+                      <p className="text-sm text-white/70 flex-grow">
+                        A mobile canvassing app for small community groups. Allows groups to divide outreach areas,
+                        assign canvassers, and track address-level progress on a shared map.
+                      </p>
+                      <div className="
+                        mt-4 opacity-0 transform translate-y-2
+                        group-hover:opacity-100 group-hover:translate-y-0
+                        transition-all duration-300
+                      ">
+                        <span className="text-sm text-white/90 flex items-center gap-1">
+                          View Case Study →
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+
                 {/* Sparkling Authority */}
                 <div className="group relative h-full">
                   <a 
@@ -342,52 +377,6 @@ export default function Home() {
                       <p className="text-sm text-white/70 flex-grow">
                         A curated database and review site dedicated to helping people discover, compare,
                         and understand sparkling waters across brands, flavors, and carbonation levels.
-                      </p>
-
-                      {/* Visit Link */}
-                      <div className="
-                        mt-4 opacity-0 transform translate-y-2
-                        group-hover:opacity-100 group-hover:translate-y-0
-                        transition-all duration-300
-                      ">
-                        <span className="text-sm text-white/90 flex items-center gap-1">
-                          Visit Site →
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-
-                {/* Cozy Arcade */}
-                <div className="group relative h-full">
-                  <a 
-                    href="https://www.cozyarcade.games" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="block h-full"
-                  >
-                    <div className="
-                      relative h-full flex flex-col
-                      overflow-hidden rounded-xl
-                      bg-gradient-to-br from-indigo-500/20 to-blue-500/20
-                      backdrop-blur-sm border border-white/10
-                      p-6 transition-all duration-500
-                      group-hover:border-white/20 group-hover:from-indigo-500/30 group-hover:to-blue-500/30
-                    ">
-                      {/* Project Title */}
-                      <h3 className="text-xl font-bold mb-4">Cozy Arcade</h3>
-
-                      {/* Tech Stack Tags */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">HTML</span>
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">CSS</span>
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">JavaScript</span>
-                      </div>
-
-                      {/* Project Description */}
-                      <p className="text-sm text-white/70 flex-grow">
-                        An independent web game project focused on thoughtful design, clean interfaces,
-                        and challenging browser-based experiences.
                       </p>
 
                       {/* Visit Link */}
@@ -451,6 +440,52 @@ export default function Home() {
                   </a>
                 </div>
 
+                {/* Cozy Arcade */}
+                <div className="group relative h-full">
+                  <a 
+                    href="https://www.cozyarcade.games" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block h-full"
+                  >
+                    <div className="
+                      relative h-full flex flex-col
+                      overflow-hidden rounded-xl
+                      bg-gradient-to-br from-indigo-500/20 to-blue-500/20
+                      backdrop-blur-sm border border-white/10
+                      p-6 transition-all duration-500
+                      group-hover:border-white/20 group-hover:from-indigo-500/30 group-hover:to-blue-500/30
+                    ">
+                      {/* Project Title */}
+                      <h3 className="text-xl font-bold mb-4">Cozy Arcade</h3>
+
+                      {/* Tech Stack Tags */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">HTML</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">CSS</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">JavaScript</span>
+                      </div>
+
+                      {/* Project Description */}
+                      <p className="text-sm text-white/70 flex-grow">
+                        An independent web game project focused on thoughtful design, clean interfaces,
+                        and challenging browser-based experiences.
+                      </p>
+
+                      {/* Visit Link */}
+                      <div className="
+                        mt-4 opacity-0 transform translate-y-2
+                        group-hover:opacity-100 group-hover:translate-y-0
+                        transition-all duration-300
+                      ">
+                        <span className="text-sm text-white/90 flex items-center gap-1">
+                          Visit Site →
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
                 {/* The Art of Luke */}
                 <div className="group relative h-full">
                   <div className="
@@ -474,40 +509,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Canvass */}
-                <div className="group relative h-full">
-                  <Link href="/projects/canvass" className="block h-full">
-                    <div className="
-                      relative h-full flex flex-col
-                      overflow-hidden rounded-xl
-                      bg-gradient-to-br from-emerald-500/20 to-teal-500/20
-                      backdrop-blur-sm border border-white/10
-                      p-6 transition-all duration-500
-                      group-hover:border-white/20 group-hover:from-emerald-500/30 group-hover:to-teal-500/30
-                    ">
-                      <h3 className="text-xl font-bold mb-4">Canvass</h3>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">React</span>
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">Supabase</span>
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">Leaflet</span>
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10">PWA</span>
-                      </div>
-                      <p className="text-sm text-white/70 flex-grow">
-                        A mobile-friendly canvassing app for small community groups that need to divide outreach areas,
-                        assign canvassers, and track address-level progress on a shared map.
-                      </p>
-                      <div className="
-                        mt-4 opacity-0 transform translate-y-2
-                        group-hover:opacity-100 group-hover:translate-y-0
-                        transition-all duration-300
-                      ">
-                        <span className="text-sm text-white/90 flex items-center gap-1">
-                          View Case Study →
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
               </div>
             </div>
           </section>
