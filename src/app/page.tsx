@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { QuickNav } from '@/components/navigation/QuickNav'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { ScrollProgress } from '@/components/navigation/ScrollProgress'
@@ -475,7 +476,7 @@ export default function Home() {
 
                 {/* Canvass */}
                 <div className="group relative h-full">
-                  <a href="/projects/canvass" className="block h-full">
+                  <Link href="/projects/canvass" className="block h-full">
                     <div className="
                       relative h-full flex flex-col
                       overflow-hidden rounded-xl
@@ -505,7 +506,7 @@ export default function Home() {
                         </span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

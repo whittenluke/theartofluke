@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function CanvassCaseStudyPage() {
   return (
     <main className="min-h-screen bg-black text-white px-6 py-24 md:py-28">
@@ -8,6 +10,16 @@ export default function CanvassCaseStudyPage() {
             A lightweight canvassing app for assigning neighborhoods, tracking visited addresses, and giving field
             volunteers a simple map and address list to work from.
           </p>
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+            <Image
+              src="/images/canvass/new-user-canvasser.png"
+              alt="Canvasser map view showing assigned zone progress and address markers"
+              width={1024}
+              height={576}
+              className="h-auto w-full"
+              priority
+            />
+          </div>
           <p className="text-white/80 leading-relaxed">
             Canvass was built to make local canvassing more organized and visible. Admins can draw geofenced areas on
             a shared map, assign them to users, and track progress. Canvassers can sign in, see only the areas
@@ -55,15 +67,42 @@ export default function CanvassCaseStudyPage() {
           <div className="space-y-8">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
               <h3 className="text-xl font-semibold mb-3 text-emerald-300">Admin Tools</h3>
+              <div className="mb-5 overflow-hidden rounded-xl border border-white/10 bg-white/5">
+                <Image
+                  src="/images/canvass/drawing-geofence.webp"
+                  alt="Admin drawing a geofence on the shared canvassing map"
+                  width={1200}
+                  height={675}
+                  className="h-auto w-full"
+                />
+              </div>
               <p className="text-white/80 leading-relaxed">
                 Admins use the map to create and manage work areas. A geofence can be drawn around a neighborhood or
                 subdivision, named, and assigned to a user by email. From there, the admin can see that area&apos;s
                 progress and manage access without relying on separate spreadsheets or messages.
               </p>
+              <div className="mt-5 overflow-hidden rounded-xl border border-white/10 bg-white/5">
+                <Image
+                  src="/images/canvass/single-geofence-focus.webp"
+                  alt="Map view focused on a single assigned geofence"
+                  width={1200}
+                  height={675}
+                  className="h-auto w-full"
+                />
+              </div>
             </div>
 
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
               <h3 className="text-xl font-semibold mb-3 text-emerald-300">Canvasser Map</h3>
+              <div className="mb-5 overflow-hidden rounded-xl border border-white/10 bg-white/5">
+                <Image
+                  src="/images/canvass/first-login.webp"
+                  alt="Canvasser map view after magic link sign-in"
+                  width={1200}
+                  height={675}
+                  className="h-auto w-full"
+                />
+              </div>
               <p className="text-white/80 leading-relaxed">
                 Canvassers sign in through a magic link and see a full map with their assigned areas clearly
                 highlighted. Address points inside those areas can be marked as canvassed. Outside areas stay visible
@@ -73,6 +112,15 @@ export default function CanvassCaseStudyPage() {
 
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
               <h3 className="text-xl font-semibold mb-3 text-emerald-300">Address List View</h3>
+              <div className="mb-5 overflow-hidden rounded-xl border border-white/10 bg-white/5">
+                <Image
+                  src="/images/canvass/canvasser-address-list-opened.webp"
+                  alt="Grouped canvasser address list with expandable street sections"
+                  width={1200}
+                  height={675}
+                  className="h-auto w-full"
+                />
+              </div>
               <p className="text-white/80 leading-relaxed">
                 The app also includes a grouped address list so canvassers are not forced to rely only on tapping map
                 points. Addresses are grouped by street, progress is shown at the top, and a user can expand a section
@@ -124,8 +172,7 @@ export default function CanvassCaseStudyPage() {
           <h2 className="text-2xl font-semibold mb-4 text-cyan-300">What Makes It Interesting</h2>
           <div className="space-y-4 text-white/80 leading-relaxed">
             <p>
-              This project sits in a space I like a lot: operational software that has to be useful in the real world,
-              not just technically correct.
+              This is the kind of project I enjoy most: operational software that has to be useful in the real world.
             </p>
             <p>
               It combines GIS data, role-based permissions, map interaction, mobile-first thinking, and a real local
@@ -134,14 +181,6 @@ export default function CanvassCaseStudyPage() {
               who are not technical.
             </p>
           </div>
-        </section>
-
-        <section className="mb-14">
-          <h2 className="text-2xl font-semibold mb-4 text-cyan-300">Screen Gallery</h2>
-          <p className="text-white/80 leading-relaxed">
-            Below are a few screens from the current build, showing the admin map, geofence assignment flow, grouped
-            map markers, and the canvasser-facing address list.
-          </p>
         </section>
 
         <section>
