@@ -7,7 +7,7 @@ export default function CanvassCaseStudyPage() {
         <section className="mb-14 space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold">Canvass</h1>
           <p className="text-lg md:text-xl text-white/85 leading-relaxed">
-            A lightweight canvassing app for assigning neighborhoods, tracking visited addresses, and giving field
+            A lightweight canvassing app for grouping neighborhoods, tracking canvassed addresses, and giving field
             volunteers a simple map and address list to work from.
           </p>
           <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
@@ -50,7 +50,7 @@ export default function CanvassCaseStudyPage() {
           <h2 className="text-2xl font-semibold mb-4 text-cyan-300">The Problem</h2>
           <div className="space-y-4 text-white/80 leading-relaxed">
             <p>
-              Local canvassing gets messy fast when there is no shared system behind it. Addresses live in
+              Local canvassing gets complicated fast. Addresses often live in
               spreadsheets, area assignments happen in conversation, and it becomes hard to tell which neighborhoods
               have been worked and which have not.
             </p>
@@ -104,7 +104,7 @@ export default function CanvassCaseStudyPage() {
                 />
               </div>
               <p className="text-white/80 leading-relaxed">
-                Canvassers sign in through a magic link and see a full map with their assigned areas clearly
+                Canvassers sign in and see a full map with their assigned areas clearly
                 highlighted. Address points inside those areas can be marked as canvassed. Outside areas stay visible
                 for context, but the working area is what stands out.
               </p>
@@ -168,10 +168,10 @@ export default function CanvassCaseStudyPage() {
           </p>
         </section>
 
-        <section className="mb-14">
-          <h2 className="text-2xl font-semibold mb-4 text-cyan-300">What Makes It Interesting</h2>
+        <section>
+          <h2 className="text-2xl font-semibold mb-4 text-cyan-300">Reflection</h2>
           <div className="space-y-4 text-white/80 leading-relaxed">
-            <p>
+          <p>
               This is the kind of project I enjoy most: operational software that has to be useful in the real world.
             </p>
             <p>
@@ -180,12 +180,6 @@ export default function CanvassCaseStudyPage() {
               this needs multiple ways to work, clear assignment boundaries, and an interface simple enough for people
               who are not technical.
             </p>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4 text-cyan-300">Reflection</h2>
-          <div className="space-y-4 text-white/80 leading-relaxed">
             <p>
               Canvass pushed me to think through the gap between raw data and usable software. Importing thousands of
               addresses is one problem. Turning that into something a real person can use while out in the field is a
